@@ -1,0 +1,36 @@
+[
+  {
+    "tag": "main",
+    "meta_csv": "data/processed/dataset_meta.csv",
+    "splits_dir": "data/splits",
+    "n_meta_rows": 270336,
+    "split_sizes": {
+      "train": 216268,
+      "val": 27034,
+      "test": 27034,
+      "cluster_train": 210149,
+      "cluster_val": 29789,
+      "cluster_test": 30398,
+      "new392": 389,
+      "price149": 145
+    },
+    "train_unique_l4": 4981,
+    "train_rare_l4_classes_le25": 4020
+  },
+  {
+    "tag": "ecbench",
+    "meta_csv": "outputs/audit/_ecbench_combined_meta.csv",
+    "splits_dir": "data/ecbench/splits",
+    "n_meta_rows": 224531,
+    "split_sizes": {
+      "train": 201865,
+      "val": 22429,
+      "val_easy": 16658,
+      "val_hard": 6247,
+      "test": 101,
+      "price149": 136
+    },
+    "train_unique_l4": 4521,
+    "train_rare_l4_classes_le25": 3567
+  }
+]

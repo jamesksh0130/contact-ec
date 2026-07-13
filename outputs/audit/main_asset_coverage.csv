@@ -1,0 +1,9 @@
+split,n,embedding_found,embedding_missing,embedding_found_rate,contact_map_found,contact_map_missing,contact_map_found_rate
+train,216268,216268,0,1.0,213506,2762,0.987229
+val,27034,27034,0,1.0,26693,341,0.987386
+test,27034,27034,0,1.0,26669,365,0.986498
+cluster_train,210149,210149,0,1.0,207379,2770,0.986819
+cluster_val,29789,29789,0,1.0,29338,451,0.98486
+cluster_test,30398,30398,0,1.0,30151,247,0.991874
+new392,389,389,0,1.0,384,5,0.987147
+price149,145,145,0,1.0,0,145,0.0

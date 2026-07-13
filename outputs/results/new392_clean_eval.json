@@ -1,0 +1,35 @@
+{
+  "n_clean": 337,
+  "contaminated": [
+    "Q96T68",
+    "Q6K431",
+    "G5EEU2",
+    "Q06ZW3",
+    "P9WNP2",
+    "Q8C267",
+    "Q9C5P1",
+    "Q6YI93",
+    "O82175",
+    "Q9C5P4",
+    "Q8W595",
+    "Q8GZB6",
+    "Q9C5P0",
+    "Q5QD03",
+    "Q7U2S5",
+    "Q9FNE9"
+  ],
+  "results": {
+    "B1 (ESM-2)": {
+      "micro_f1": 0.2477,
+      "per_protein_f1": 0.1711
+    },
+    "B3 (Contact)": {
+      "micro_f1": 0.2288,
+      "per_protein_f1": 0.1548
+    },
+    "Contact-EC": {
+      "micro_f1": 0.4375,
+      "per_protein_f1": 0.3601
+    }
+  }
+}

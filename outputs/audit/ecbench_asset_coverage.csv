@@ -1,0 +1,7 @@
+split,n,embedding_found,embedding_missing,embedding_found_rate,contact_map_found,contact_map_missing,contact_map_found_rate
+train,201865,201865,0,1.0,191561,10304,0.948956
+val,22429,22429,0,1.0,21302,1127,0.949753
+val_easy,16658,16658,0,1.0,15953,705,0.957678
+val_hard,6247,6247,0,1.0,5683,564,0.909717
+test,101,101,0,1.0,93,8,0.920792
+price149,136,136,0,1.0,0,136,0.0

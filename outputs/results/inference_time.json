@@ -1,0 +1,13 @@
+{
+  "cached_mean_ms": 6.85,
+  "cached_std_ms": 1.21,
+  "cached_p95_ms": 8.89,
+  "seqonly_mean_ms": 6.57,
+  "full_mean_ms": 116.2,
+  "full_std_ms": 52.87,
+  "full_p95_ms": 222.36,
+  "n_proteins": 100,
+  "device": "cuda:0",
+  "hitec_ms": 38,
+  "clean_ms": 3915
+}

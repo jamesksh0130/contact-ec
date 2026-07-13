@@ -1,0 +1,112 @@
+{
+  "reference": {
+    "new392": {
+      "CLEAN-Contact": 0.566,
+      "CLEAN (P-value)": 0.504,
+      "ProteInfer": 0.309,
+      "DeepEC": 0.23
+    },
+    "price149": {
+      "CLEAN-Contact": 0.525,
+      "CLEAN (P-value)": 0.452
+    }
+  },
+  "results": {
+    "B1 (ESM-2)": {
+      "new392": {
+        "split": "new392",
+        "n": 339,
+        "micro_f1": 0.2468,
+        "weighted_f1": 0.1743,
+        "precision": 0.6018,
+        "recall": 0.1553,
+        "per_protein_f1_05": 0.1701,
+        "per_protein_f1_01": 0.2331,
+        "top1_accuracy": 0.2891
+      },
+      "price149": {
+        "split": "price149",
+        "n": 139,
+        "micro_f1": 0.049,
+        "weighted_f1": 0.038,
+        "precision": 0.0806,
+        "recall": 0.0352,
+        "per_protein_f1_05": 0.0264,
+        "per_protein_f1_01": 0.0602,
+        "top1_accuracy": 0.0216
+      }
+    },
+    "B2 (Hier. FC)": {
+      "new392": {
+        "split": "new392",
+        "n": 339,
+        "micro_f1": 0.0089,
+        "weighted_f1": 0.0061,
+        "precision": 0.1538,
+        "recall": 0.0046,
+        "per_protein_f1_05": 0.0059,
+        "per_protein_f1_01": 0.0747,
+        "top1_accuracy": 0.0914
+      },
+      "price149": {
+        "split": "price149",
+        "n": 139,
+        "micro_f1": 0.0,
+        "weighted_f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "per_protein_f1_05": 0.0,
+        "per_protein_f1_01": 0.0113,
+        "top1_accuracy": 0.0144
+      }
+    },
+    "B3 (Contact)": {
+      "new392": {
+        "split": "new392",
+        "n": 339,
+        "micro_f1": 0.2279,
+        "weighted_f1": 0.1462,
+        "precision": 0.8169,
+        "recall": 0.1324,
+        "per_protein_f1_05": 0.1539,
+        "per_protein_f1_01": 0.2099,
+        "top1_accuracy": 0.2979
+      },
+      "price149": {
+        "split": "price149",
+        "n": 139,
+        "micro_f1": 0.0,
+        "weighted_f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "per_protein_f1_05": 0.0,
+        "per_protein_f1_01": 0.0588,
+        "top1_accuracy": 0.0504
+      }
+    },
+    "Contact-EC": {
+      "new392": {
+        "split": "new392",
+        "n": 339,
+        "micro_f1": 0.4348,
+        "weighted_f1": 0.3396,
+        "precision": 0.6796,
+        "recall": 0.3196,
+        "per_protein_f1_05": 0.358,
+        "per_protein_f1_01": 0.4009,
+        "top1_accuracy": 0.4631
+      },
+      "price149": {
+        "split": "price149",
+        "n": 139,
+        "micro_f1": 0.1218,
+        "weighted_f1": 0.108,
+        "precision": 0.2182,
+        "recall": 0.0845,
+        "per_protein_f1_05": 0.0791,
+        "per_protein_f1_01": 0.1415,
+        "top1_accuracy": 0.1439
+      }
+    }
+  }
+}

@@ -1,0 +1,16 @@
+split_a,split_b,n_a,n_b,overlap_n,overlap_examples
+price149,test,136,101,0,
+price149,train,136,201865,0,
+price149,val,136,22429,0,
+price149,val_easy,136,16658,0,
+price149,val_hard,136,5771,0,
+test,train,101,201865,0,
+test,val,101,22429,0,
+test,val_easy,101,16658,0,
+test,val_hard,101,5771,0,
+train,val,201865,22429,0,
+train,val_easy,201865,16658,0,
+train,val_hard,201865,5771,0,
+val,val_easy,22429,16658,16658,A0A023W421;A0A0G2K344;A0A0H3MAB5;A0A335;A0AHX9;A0AI70;A0AIB8;A0AIQ8;A0AIX9;A0AJB3
+val,val_hard,22429,5771,5771,A0A067YBQ3;A0A077EWA5;A0A0A1GNF2;A0A0A1H8I4;A0A0U1RGY0;A0A1D3PCI9;A0A1D8PNZ7;A0AUJ5;A0B5J1;A0B5K9
+val_easy,val_hard,16658,5771,0,

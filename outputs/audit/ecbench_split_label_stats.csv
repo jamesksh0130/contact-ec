@@ -1,0 +1,7 @@
+split,n_rows,valid_l4_rows,unique_l1,unique_l2,unique_l3,unique_l4,avg_l4_labels_per_protein,max_l4_labels_per_protein,multi_l4_protein_n,multi_l4_protein_rate,partial_l1_rows,partial_l2_rows,partial_l3_rows,partial_l4_rows,rare_l4_sample_n_train_le25,seen_l4_classes_vs_train,unseen_l4_classes_vs_train
+train,201865,201865,6,64,239,4521,1.062869,8,10188,0.050469,0,0,0,0,17269,4521,0
+val,22429,22429,6,62,208,2229,1.065451,8,1145,0.05105,0,0,0,0,1802,2103,126
+val_easy,16658,16658,6,60,186,1722,1.066034,8,841,0.050486,0,0,0,0,1093,1712,10
+val_hard,6247,6247,6,59,189,1467,1.064671,6,333,0.053306,0,0,0,0,805,1350,117
+test,101,101,5,21,26,53,1.0,1,0,0.0,0,0,0,0,41,52,1
+price149,136,136,6,18,25,48,1.0,1,0,0.0,0,0,0,0,109,48,0

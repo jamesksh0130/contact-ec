@@ -1,0 +1,47 @@
+paths:
+  root:            "/home/user/Desktop/unlv"
+  raw_tsv:         "data/ecbench/raw/swissprot_2018_02.tsv"
+  pdb_dir:         "data/raw/pdb"
+  cmap_dir:        "data/processed/contact_maps"
+  embed_dir:       "data/processed/embeddings_3b"
+  meta_csv:        "data/ecbench/processed/train_meta.csv"
+  label_enc:       "data/ecbench/label_encoders.pkl"
+  splits_dir:      "data/ecbench/splits"
+  ckpt_dir:        "outputs/checkpoints"
+  result_dir:      "outputs/results"
+
+data:
+  max_seq_len:     1024
+  contact_thresh:  8.0
+  cmap_size:       256
+  train_ratio:     0.9         # EC-Bench는 공식 test 제공 → train을 9:1로 분할
+  val_ratio:       0.1
+  test_ratio:      0.0
+  seed:            42
+  min_seq_len:     30
+  ec_completeness: "full"
+
+model:
+  esm2_model:      "facebook/esm2_t36_3B_UR50D"
+  esm2_dim:        2560
+  esm2_dim_3b:     2560
+  resnet_out_dim:  512
+  fusion_dim:      1024
+  dropout:         0.3
+  n_classes:       [6, 65, 242, 4647]    # EC-Bench 2018-02 실측값
+
+train:
+  batch_size:      64
+  lr_phase1:       1.0e-3
+  lr_phase2:       1.0e-4
+  epochs_phase1:   30
+  epochs_phase2:   20
+  optimizer:       "AdamW"
+  weight_decay:    5.0e-4
+  scheduler:       "CosineAnnealingLR"
+  loss_weights:    [0.1, 0.1, 0.2, 0.6]
+
+download:
+  pdb_workers:     20
+  pdb_timeout:     30
+  alphafold_ver:   4

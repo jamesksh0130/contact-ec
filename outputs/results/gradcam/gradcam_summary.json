@@ -1,0 +1,38 @@
+[
+  {
+    "uid": "C0HLB7",
+    "true_ec": "3.2.1.17",
+    "correct": true,
+    "file": "gradcam_C0HLB7_3_2_1_17.png"
+  },
+  {
+    "uid": "C0HLB8",
+    "true_ec": "3.1.1.4",
+    "correct": true,
+    "file": "gradcam_C0HLB8_3_1_1_4.png"
+  },
+  {
+    "uid": "P0DPK1",
+    "true_ec": "3.4.24.69",
+    "correct": true,
+    "file": "gradcam_P0DPK1_3_4_24_69.png"
+  },
+  {
+    "uid": "P0DPR2",
+    "true_ec": "2.3.2.27",
+    "correct": true,
+    "file": "gradcam_P0DPR2_2_3_2_27.png"
+  },
+  {
+    "uid": "P0DPS1",
+    "true_ec": "2.7.7.7",
+    "correct": true,
+    "file": "gradcam_P0DPS1_2_7_7_7.png"
+  },
+  {
+    "uid": "P0DPT0",
+    "true_ec": "3.1.1.32",
+    "correct": true,
+    "file": "gradcam_P0DPT0_3_1_1_32.png"
+  }
+]

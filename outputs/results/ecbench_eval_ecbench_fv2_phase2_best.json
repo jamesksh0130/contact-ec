@@ -1,0 +1,42 @@
+{
+  "checkpoint": "outputs/checkpoints/ecbench_fv2_phase2_best.pt",
+  "model": "fusion_v2",
+  "results": {
+    "val_hard": {
+      "split": "val_hard (≤30% id)",
+      "n_samples": 6247,
+      "micro_f1": 0.8698,
+      "weighted_f1": 0.8345,
+      "macro_f1": 0.2141,
+      "precision": 0.9341,
+      "recall": 0.8139,
+      "rare_ec_f1": 0.8703,
+      "rare_class_count": 3922,
+      "threshold": 0.5
+    },
+    "swissprot_2023": {
+      "split": "Swiss-Prot 2023-01",
+      "n_samples": 101,
+      "micro_f1": 0.5949,
+      "weighted_f1": 0.486,
+      "macro_f1": 0.0044,
+      "precision": 0.8246,
+      "recall": 0.4653,
+      "rare_ec_f1": 0.5495,
+      "rare_class_count": 3922,
+      "threshold": 0.5
+    },
+    "price149": {
+      "split": "Price-149 (OOD)",
+      "n_samples": 136,
+      "micro_f1": 0.1263,
+      "weighted_f1": 0.1128,
+      "macro_f1": 0.0013,
+      "precision": 0.2222,
+      "recall": 0.0882,
+      "rare_ec_f1": 0.1455,
+      "rare_class_count": 3922,
+      "threshold": 0.5
+    }
+  }
+}

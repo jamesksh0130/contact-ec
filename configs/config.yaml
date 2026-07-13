@@ -1,0 +1,51 @@
+paths:
+  root:            "/home/user/Desktop/unlv"
+  raw_tsv:         "data/raw/swissprot_ec.tsv"
+  pdb_dir:         "data/raw/pdb"
+  cmap_dir:        "data/processed/contact_maps"
+  embed_dir:       "data/processed/embeddings"
+  meta_csv:        "data/processed/dataset_meta.csv"
+  label_enc:       "data/label_encoders.pkl"
+  splits_dir:      "data/splits"
+  ckpt_dir:        "outputs/checkpoints"
+  result_dir:      "outputs/results"
+
+data:
+  max_seq_len:     1024
+  contact_thresh:  8.0         # Angstrom
+  cmap_size:       256
+  train_ratio:     0.8
+  val_ratio:       0.1
+  test_ratio:      0.1
+  seed:            42
+  min_seq_len:     30          # 너무 짧은 서열 제외
+  # EC 완전성: 'full' (L4까지 있는 것만) | 'any' (부분 포함)
+  ec_completeness: "any"
+  # Level4 최소 샘플 수 (HIT-EC 비교용 필터)
+  # min=10 → 1,693 클래스 (HIT-EC 1,938에 근접, Swiss-Prot 버전 차이)
+  # min=1  → 5,307 클래스 (전체)
+  min_class_size: 10
+
+model:
+  esm2_model:      "facebook/esm2_t33_650M_UR50D"
+  esm2_dim:        1280
+  resnet_out_dim:  512
+  fusion_dim:      1024
+  dropout:         0.4
+  n_classes:       [7, 70, 300, 1938]
+
+train:
+  batch_size:      64
+  lr_phase1:       1.0e-3
+  lr_phase2:       1.0e-4
+  epochs_phase1:   30
+  epochs_phase2:   20
+  optimizer:       "AdamW"
+  weight_decay:    5.0e-4
+  scheduler:       "CosineAnnealingLR"
+  loss_weights:    [0.1, 0.1, 0.2, 0.6]   # Level 1~4
+
+download:
+  pdb_workers:     20
+  pdb_timeout:     30          # seconds per request
+  alphafold_ver:   4           # model_v4

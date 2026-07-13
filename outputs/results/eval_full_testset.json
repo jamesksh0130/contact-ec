@@ -1,0 +1,177 @@
+{
+  "b1_esm2_fc": [
+    {
+      "model": "b1_esm2_fc",
+      "split": "Swiss-Prot 2023-01 (full N=124)",
+      "n": 124,
+      "micro_f1": 0.4216,
+      "weighted_f1": 0.3178,
+      "macro_f1": 0.0031,
+      "precision": 0.8431,
+      "recall": 0.281,
+      "rare_ec_f1": 0.2308
+    },
+    {
+      "model": "b1_esm2_fc",
+      "split": "Swiss-Prot 2023-01 (prev N=101)",
+      "n": 101,
+      "micro_f1": 0.438,
+      "weighted_f1": 0.3294,
+      "macro_f1": 0.0022,
+      "precision": 0.8333,
+      "recall": 0.297,
+      "rare_ec_f1": 0.1852
+    },
+    {
+      "model": "b1_esm2_fc",
+      "split": "Price-149",
+      "n": 136,
+      "micro_f1": 0.0324,
+      "weighted_f1": 0.0196,
+      "macro_f1": 0.0006,
+      "precision": 0.0612,
+      "recall": 0.0221,
+      "rare_ec_f1": 0.0348
+    }
+  ],
+  "b2_esm2_hier": [
+    {
+      "model": "b2_esm2_hier",
+      "split": "Swiss-Prot 2023-01 (full N=124)",
+      "n": 124,
+      "micro_f1": 0.1111,
+      "weighted_f1": 0.0835,
+      "macro_f1": 0.0001,
+      "precision": 1.0,
+      "recall": 0.0588,
+      "rare_ec_f1": 0.0
+    },
+    {
+      "model": "b2_esm2_hier",
+      "split": "Swiss-Prot 2023-01 (prev N=101)",
+      "n": 101,
+      "micro_f1": 0.1636,
+      "weighted_f1": 0.1248,
+      "macro_f1": 0.0001,
+      "precision": 1.0,
+      "recall": 0.0891,
+      "rare_ec_f1": 0.0
+    },
+    {
+      "model": "b2_esm2_hier",
+      "split": "Price-149",
+      "n": 136,
+      "micro_f1": 0.0,
+      "weighted_f1": 0.0,
+      "macro_f1": 0.0,
+      "precision": 0.0,
+      "recall": 0.0,
+      "rare_ec_f1": 0.0
+    }
+  ],
+  "b3_contact": [
+    {
+      "model": "b3_contact",
+      "split": "Swiss-Prot 2023-01 (full N=124)",
+      "n": 124,
+      "micro_f1": 0.3646,
+      "weighted_f1": 0.2734,
+      "macro_f1": 0.0021,
+      "precision": 0.8974,
+      "recall": 0.2288,
+      "rare_ec_f1": 0.2424
+    },
+    {
+      "model": "b3_contact",
+      "split": "Swiss-Prot 2023-01 (prev N=101)",
+      "n": 101,
+      "micro_f1": 0.3089,
+      "weighted_f1": 0.2398,
+      "macro_f1": 0.0014,
+      "precision": 0.8636,
+      "recall": 0.1881,
+      "rare_ec_f1": 0.125
+    },
+    {
+      "model": "b3_contact",
+      "split": "Price-149",
+      "n": 136,
+      "micro_f1": 0.0,
+      "weighted_f1": 0.0,
+      "macro_f1": 0.0,
+      "precision": 0.0,
+      "recall": 0.0,
+      "rare_ec_f1": 0.0
+    }
+  ],
+  "fusion_v2": [
+    {
+      "model": "fusion_v2",
+      "split": "Swiss-Prot 2023-01 (full N=124)",
+      "n": 124,
+      "micro_f1": 0.569,
+      "weighted_f1": 0.4528,
+      "macro_f1": 0.0057,
+      "precision": 0.8354,
+      "recall": 0.4314,
+      "rare_ec_f1": 0.3621
+    },
+    {
+      "model": "fusion_v2",
+      "split": "Swiss-Prot 2023-01 (prev N=101)",
+      "n": 101,
+      "micro_f1": 0.5949,
+      "weighted_f1": 0.486,
+      "macro_f1": 0.0044,
+      "precision": 0.8246,
+      "recall": 0.4653,
+      "rare_ec_f1": 0.3279
+    },
+    {
+      "model": "fusion_v2",
+      "split": "Price-149",
+      "n": 136,
+      "micro_f1": 0.1263,
+      "weighted_f1": 0.1128,
+      "macro_f1": 0.0013,
+      "precision": 0.2222,
+      "recall": 0.0882,
+      "rare_ec_f1": 0.1575
+    }
+  ],
+  "fusion_v2_flatfc": [
+    {
+      "model": "fusion_v2_flatfc",
+      "split": "Swiss-Prot 2023-01 (full N=124)",
+      "n": 124,
+      "micro_f1": 0.6032,
+      "weighted_f1": 0.5026,
+      "macro_f1": 0.0065,
+      "precision": 0.7677,
+      "recall": 0.4967,
+      "rare_ec_f1": 0.4219
+    },
+    {
+      "model": "fusion_v2_flatfc",
+      "split": "Swiss-Prot 2023-01 (prev N=101)",
+      "n": 101,
+      "micro_f1": 0.6322,
+      "weighted_f1": 0.5583,
+      "macro_f1": 0.0054,
+      "precision": 0.7534,
+      "recall": 0.5446,
+      "rare_ec_f1": 0.4286
+    },
+    {
+      "model": "fusion_v2_flatfc",
+      "split": "Price-149",
+      "n": 136,
+      "micro_f1": 0.25,
+      "weighted_f1": 0.2304,
+      "macro_f1": 0.0023,
+      "precision": 0.3182,
+      "recall": 0.2059,
+      "rare_ec_f1": 0.3067
+    }
+  ]
+}

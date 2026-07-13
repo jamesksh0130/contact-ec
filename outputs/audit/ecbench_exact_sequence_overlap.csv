@@ -1,0 +1,16 @@
+split_a,split_b,exact_sequence_overlap_n
+price149,test,0
+price149,train,0
+price149,val,1
+price149,val_easy,1
+price149,val_hard,0
+test,train,0
+test,val,0
+test,val_easy,0
+test,val_hard,0
+train,val,4230
+train,val_easy,4229
+train,val_hard,1
+val,val_easy,15813
+val,val_hard,5759
+val_easy,val_hard,0

@@ -1,0 +1,23 @@
+{
+  "n": 139,
+  "results": {
+    "B1 (ESM-2)": {
+      "micro_f1": 0.049,
+      "weighted_f1": 0.038,
+      "prev_micro_f1": 0.0505,
+      "delta": -0.0015
+    },
+    "B3 (Contact)": {
+      "micro_f1": 0.0,
+      "weighted_f1": 0.0,
+      "prev_micro_f1": 0.0,
+      "delta": 0.0
+    },
+    "Contact-EC": {
+      "micro_f1": 0.1218,
+      "weighted_f1": 0.108,
+      "prev_micro_f1": 0.1497,
+      "delta": -0.0279
+    }
+  }
+}

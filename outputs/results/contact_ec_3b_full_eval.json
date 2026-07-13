@@ -1,0 +1,16 @@
+{
+  "model": "Contact-EC-3B (flat FC)",
+  "checkpoint": "/home/user/Desktop/unlv/outputs/checkpoints/ecbench_3b_flatfc_best.pt",
+  "test_set": "EC-Bench temporal (N=124)",
+  "n_samples": 124,
+  "threshold": 0.5,
+  "micro_f1": 0.6316,
+  "weighted_f1": 0.5477,
+  "rare_ec_f1": 0.4786,
+  "bootstrap_ci": {
+    "ci_lower": 0.5469,
+    "ci_upper": 0.7109,
+    "n_boot": 1000,
+    "seed": 42
+  }
+}

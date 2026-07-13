@@ -1,0 +1,50 @@
+# Experiment A: full Swiss-Prot 270K (HIT-EC equivalent data)
+# 목적: HIT-EC와 동일한 데이터 조건에서 Contact-EC 성능 측정
+# Train: 243,198 / Val: 27,023 / Test: EC-Bench temporal 124
+
+paths:
+  root:            "/home/user/Desktop/unlv"
+  raw_tsv:         "data/processed/dataset_meta.csv"
+  pdb_dir:         "data/raw/pdb"
+  cmap_dir:        "data/processed/contact_maps"
+  embed_dir:       "data/processed/embeddings"
+  meta_csv:        "data/expa/dataset_meta_reenc.csv"
+  label_enc:       "data/expa/label_encoders.pkl"
+  splits_dir:      "data/expa/splits"
+  ckpt_dir:        "outputs/checkpoints"
+  result_dir:      "outputs/results"
+
+data:
+  max_seq_len:     1024
+  contact_thresh:  8.0
+  cmap_size:       256
+  train_ratio:     0.9
+  val_ratio:       0.1
+  test_ratio:      0.0
+  seed:            42
+  min_seq_len:     30
+  ec_completeness: "full"
+
+model:
+  esm2_model:      "facebook/esm2_t33_650M_UR50D"
+  esm2_dim:        1280
+  resnet_out_dim:  512
+  fusion_dim:      1024
+  dropout:         0.3
+  n_classes:       [7, 71, 273, 5306]
+
+train:
+  batch_size:      64
+  lr_phase1:       1.0e-3
+  lr_phase2:       1.0e-4
+  epochs_phase1:   30
+  epochs_phase2:   20
+  optimizer:       "AdamW"
+  weight_decay:    5.0e-4
+  scheduler:       "CosineAnnealingLR"
+  loss_weights:    [0.1, 0.1, 0.2, 0.6]
+
+download:
+  pdb_workers:     20
+  pdb_timeout:     30
+  alphafold_ver:   4

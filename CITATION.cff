@@ -1,0 +1,17 @@
+cff-version: 1.2.0
+title: "Dissecting Sequence, Structure, and Data Recency Effects in Enzyme Commission Prediction under Temporal Distribution Shift"
+message: "If you use this code or results, please cite the associated manuscript."
+type: software
+authors:
+  - family-names: "Kim"
+    given-names: "Seunghyon"
+    orcid: "https://orcid.org/0009-0002-0708-748X"
+repository-code: "https://github.com/jamesksh0130/contact-ec"
+date-released: "2026-07-14"
+license: "MIT"
+keywords:
+  - enzyme commission prediction
+  - protein language models
+  - contact maps
+  - temporal evaluation
+  - multi-label classification

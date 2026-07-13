@@ -1,0 +1,94 @@
+# Contact-EC
+
+Code and reproducibility artifacts for:
+
+**Dissecting Sequence, Structure, and Data Recency Effects in Enzyme Commission Prediction under Temporal Distribution Shift**
+
+Contact-EC is a sequence-structure fusion framework for hierarchical, multi-label Enzyme Commission (EC) prediction. The repository contains training/evaluation code, model definitions, configuration files, paper figures, audit reports, and the current Bioinformatics-style manuscript draft.
+
+## What is included
+
+- `models/`: PyTorch model components for ESM-2 baselines, contact-map encoders, and fusion models.
+- `scripts/`: data preparation, embedding extraction, training, evaluation, ablation, statistics, and figure-generation scripts.
+- `configs/`: experiment configurations for the main split, EC-Bench, 3B ESM-2, and ExpA experiments.
+- `outputs/results/`: selected JSON result files used in the manuscript.
+- `outputs/results/casewise_hitec_contactec.*`: per-protein comparison between HIT-EC and Contact-EC on the 124 known-label temporal proteins.
+- `outputs/results/contactec_threshold_sensitivity.*`: fixed-threshold, global-threshold, and top-1 fallback calibration analysis on the same temporal subset.
+- `outputs/audit/`: overlap, asset-coverage, label-statistics, and reliability audit outputs.
+- `outputs/figures/`: manuscript figures.
+- `paper/pdf/`: current main manuscript and supplementary PDF.
+- `paper/source/`: LaTeX source for the current manuscript draft.
+
+Large raw datasets, ESM-2 embedding caches, AlphaFold/PDB structures, contact-map arrays, and trained checkpoints are intentionally not included.
+
+## Main reported results
+
+Selected Level-4 micro F1 values from the current manuscript:
+
+| Setting | Model | Micro F1 |
+|---|---:|---:|
+| Temporal Swiss-Prot 2023-01 holdout | ESM-2 650M only | 0.4216 |
+| Temporal Swiss-Prot 2023-01 holdout | Contact map only | 0.3646 |
+| Temporal Swiss-Prot 2023-01 holdout | Contact-EC fusion | 0.6032 |
+| Temporal Swiss-Prot 2023-01 holdout | Contact-EC 3B | 0.6316 |
+| Temporal Swiss-Prot 2023-01 holdout | HIT-EC baseline | 0.8471 |
+| Sequence-disjoint EC-Bench hard validation | ESM-2 650M only | 0.7655 |
+| Sequence-disjoint EC-Bench hard validation | Contact map only | 0.7650 |
+| Sequence-disjoint EC-Bench hard validation | Contact-EC fusion | 0.8879 |
+
+See `outputs/audit/reliability_report.md` and `outputs/audit/paper_consistency_audit.md` before making new claims from these results.
+
+The case-wise HIT-EC comparison shows that both HIT-EC and Contact-EC recover at
+least one correct EC label for 63/124 temporal proteins, HIT-EC alone recovers 45,
+Contact-EC alone recovers 2, and both miss 14. This is used in the manuscript to
+frame Contact-EC as a decomposition model rather than a replacement for HIT-EC.
+
+The threshold sensitivity analysis shows that Contact-EC reaches micro F1 0.6032
+with the fixed 0.5 cutoff and 0.6167 with the best global cutoff of 0.65. The
+small gain supports the manuscript's interpretation that the temporal gap is not
+explained by a single threshold choice alone.
+
+## Installation
+
+Create a Python environment, then install the core dependencies:
+
+```bash
+pip install -r requirements.txt
+```
+
+External tools and resources used by some scripts:
+
+- CUDA-capable PyTorch environment for training and embedding extraction.
+- ESM-2 weights from Hugging Face or FAIR ESM.
+- AlphaFold/PDB structure files for contact-map construction.
+- MMseqs2 for sequence-disjoint split checks where applicable.
+
+## Typical workflow
+
+The end-to-end workflow used for the paper is:
+
+1. Download and preprocess UniProt/Swiss-Prot EC annotations.
+2. Build temporal, random, and sequence-disjoint splits.
+3. Download or map available protein structures.
+4. Build 3-channel contact maps.
+5. Extract ESM-2 embeddings.
+6. Train ESM-only, contact-only, and fusion models.
+7. Evaluate on temporal and EC-Bench-style splits.
+8. Run reliability audits, statistical tests, and figure-generation scripts.
+
+Representative commands are documented in `docs/REPRODUCIBILITY.md`.
+
+## Current caveats
+
+- This release is a clean upload package, not the full local training workspace.
+- Checkpoints are not included because they are large. Add download links in `docs/DATA_AND_CHECKPOINTS.md` after hosting them.
+- Raw data and derived embedding/contact-map caches are not included. Recreate them from scripts or provide external archive links.
+- The paper source contains the current author metadata and repository URL.
+
+## Citation
+
+If this repository is useful, cite the manuscript after publication. `CITATION.cff` includes the current author metadata and repository URL, and should be updated with the final DOI after publication.
+
+## License
+
+This repository is released under the MIT License. See `LICENSE`.

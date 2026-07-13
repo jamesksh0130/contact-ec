@@ -1,0 +1,30 @@
+{
+  "checkpoint": "outputs/checkpoints/ecbench_b2_hard_val_best.pt",
+  "model": "b2_esm2_hier",
+  "results": {
+    "swissprot_2023": {
+      "split": "Swiss-Prot 2023-01",
+      "n_samples": 101,
+      "micro_f1": 0.1636,
+      "weighted_f1": 0.1248,
+      "macro_f1": 0.0001,
+      "precision": 1.0,
+      "recall": 0.0891,
+      "rare_ec_f1": 0.0,
+      "rare_class_count": 3922,
+      "threshold": 0.5
+    },
+    "price149": {
+      "split": "Price-149 (OOD)",
+      "n_samples": 136,
+      "micro_f1": 0.0,
+      "weighted_f1": 0.0,
+      "macro_f1": 0.0,
+      "precision": 0.0,
+      "recall": 0.0,
+      "rare_ec_f1": 0.0,
+      "rare_class_count": 3922,
+      "threshold": 0.5
+    }
+  }
+}

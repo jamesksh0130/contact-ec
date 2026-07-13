@@ -1,0 +1,16 @@
+torch
+torchvision
+transformers
+fair-esm
+numpy
+pandas
+scikit-learn
+scipy
+biopython
+matplotlib
+seaborn
+tqdm
+PyYAML
+requests
+captum
+pytorch-lightning

@@ -1,0 +1,5 @@
+{
+  "checkpoint": "outputs/checkpoints/expa_flatfc_phase2_best.pt",
+  "model": "fusion_v2_flatfc",
+  "results": {}
+}
