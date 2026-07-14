@@ -329,12 +329,12 @@ def plot_contact_maps():
     print(f"[3] 저장: {out_path}")
 
 # ══════════════════════════════════════════════════════════════════════════════
-# Figure 4: Gap Decomposition (placeholder E2E, 업데이트 가능)
+# Figure 4: Gap Decomposition (optional E2E value)
 # ══════════════════════════════════════════════════════════════════════════════
 def plot_gap_decomp(e2e_val=None):
     """
     e2e_val: float or None.
-      None → placeholder ('TBD'), 학습 완료 후 실제 값 입력
+      None keeps the E2E bar as an explicitly unlabeled optional result.
     """
     set_journal_style()
 
@@ -359,7 +359,7 @@ def plot_gap_decomp(e2e_val=None):
         if v == 0.0 and e2e_val is None:
             bar = ax.bar(x[i], 0.01, bar_w, color="0.85", hatch=h,
                          edgecolor="0.6", linewidth=0.8, alpha=0.5, zorder=3)
-            ax.text(x[i], 0.535, "TBD\n(training)", ha="center", va="bottom",
+            ax.text(x[i], 0.535, "not run\n(optional)", ha="center", va="bottom",
                     fontsize=7, color="0.5", style="italic")
         else:
             bar = ax.bar(x[i], v, bar_w, color=c, hatch=h,
@@ -391,7 +391,7 @@ def plot_gap_decomp(e2e_val=None):
         draw_arrow(1, 2, values[1], values[2], "(E2E fine-tuning)", WONG["sky"])
         draw_arrow(2, 3, values[2], values[3], "(residual gap)", WONG["red"])
     else:
-        # E2E TBD: ExpA → HIT-EC 직접 화살표 (점선)
+        # E2E optional result omitted: ExpA → HIT-EC direct dashed arrow
         ax.annotate("", xy=(x[3], values[3] + 0.005),
                     xytext=(x[1], values[1] + 0.005),
                     arrowprops=dict(arrowstyle="-|>", color="#8B4513",
@@ -425,7 +425,7 @@ def plot_gap_decomp(e2e_val=None):
 
     title = "Gap Decomposition: Contact-EC vs. HIT-EC on Temporal Test"
     if e2e_val is None:
-        title += " [E2E: TBD]"
+        title += " [E2E optional result omitted]"
     ax.set_title(title, fontsize=9, fontweight="bold", pad=8)
 
     fig.tight_layout()

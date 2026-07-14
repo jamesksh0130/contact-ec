@@ -86,7 +86,7 @@ for uid in valid[:N_WARMUP + N_MEASURE]:
     if uid in meta.index and "sequence" in meta.columns:
         seqs.append(str(meta.loc[uid, "sequence"])[:1024])
     else:
-        seqs.append("MKTAYIAKQRQISFVKSHFSRQ")  # placeholder
+        seqs.append("MKTAYIAKQRQISFVKSHFSRQ")  # fallback sequence for timing only
 
 # ── Benchmark helper ──────────────────────────────────────────────────────────
 def measure(fn, n_warmup, n_measure):

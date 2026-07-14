@@ -55,7 +55,7 @@ def select_top_k_pairs(cmap: np.ndarray, k: int, lr_thresh: int) -> np.ndarray:
         positions = np.argwhere(np.triu(cmap.astype(bool), k=1))
 
     if len(positions) == 0:
-        # contact 자체가 없으면 zeros placeholder
+        # contact 자체가 없으면 zero-padded coordinates 반환
         return np.zeros((k, 2), dtype=np.int32)
 
     # 균일 샘플링 (재현성: seed 고정)

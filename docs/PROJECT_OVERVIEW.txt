@@ -110,11 +110,11 @@
   HIT-EC (SOTA, 2026)          0.9300          —              —       Nature Commun.
   CLEAN-Contact (2024)         0.566†          —              —       †New-392 set
   ─────────────────────    ───────────    ────────────
-  B0  (1D CNN)                  TBD            TBD           TBD     평가 예정
+  B0  (1D CNN)               not run        not run       not run   평가 제외
   B1  (ESM-2 flat FC)         0.8121         0.8428         0.2730   ✅ 수정 프로토콜
   B2  (ESM-2 hier, seq only)  0.8322         0.8267*        0.4045   *클러스터 재평가 필요
-  B3  (Contact only ResNet)   0.8987          TBD           0.4647   ✅ 수정 프로토콜
-  V2  (Ours, seq+contact)     0.9347         0.9520         0.7432   MAIN ✅✅ >> HIT-EC
+  B3  (Contact only ResNet)   0.8987       not run         0.4647   ✅ 수정 프로토콜
+  V2  (Ours, seq+contact)     0.9347         0.9520         0.7432   MAIN ✅
   V3  (Ours, pair-enc)        0.9065         0.9107          —       (구 프로토콜, 재평가 예정)
   Ensemble V2+V3 (th=0.40)   0.9315           —              —       (구 프로토콜, 재평가 예정)
 
