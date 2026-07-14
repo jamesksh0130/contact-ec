@@ -179,12 +179,16 @@ Contact-EC-Hier             & 0.8698 & 0.2141 & 20 (Phase~2) \\
 
 Table~S\ref{tab:full468} reports results on all 468 EC-Bench test proteins,
 including 309 with partial annotations and 35 with novel EC classes outside
-the training vocabulary (both contribute zero true positives).
+the training vocabulary. The all-468 score is reported as an operational
+closed-set coverage audit, not as a fully defined Level-4 evaluation for partial
+annotations.
 
 \begin{table}[htbp]
 \centering
 \caption{Full EC-Bench temporal test: all 468 proteins vs.\ evaluable 124.
-  Partial-EC (309) and novel-EC (35) proteins contribute zero true positives.}
+  The all-468 columns quantify closed-set coverage under label shift; partial-EC
+  proteins are not fully Level-4 scorable, and novel-EC proteins are outside the
+  SP-2018 vocabulary.}
 \label{tab:full468}
 \setlength{\tabcolsep}{5pt}
 \begin{tabular}{lcccc}
@@ -429,6 +433,24 @@ are labeled separately to avoid mixing evaluation protocols.
 
 \begin{table}[htbp]
 \centering
+\caption{Final temporal leakage audit for the 124 fully evaluable Swiss-Prot
+2023-01 proteins. Accession and exact-sequence overlap are necessary checks but
+do not establish homolog- or fold-disjointness.}
+\label{tab:leakage_audit}
+\small
+\setlength{\tabcolsep}{3pt}
+\begin{tabular}{lrrrrr}
+\toprule
+Training corpus & Train $N$ & Test $N$ & Acc.\ overlap & Seq.\ overlap & Train L4 \\
+\midrule
+SP-2018 EC-Bench train & 201{,}865 & 124 & 0 & 0 & 4{,}284 \\
+ExpA recent Swiss-Prot train & 243{,}198 & 124 & 0 & 0 & 5{,}145 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[htbp]
+\centering
 \caption{Interpretation of each evaluation protocol. The same numerical metric can
 answer different scientific questions depending on split construction and label
 coverage.}
@@ -455,7 +477,8 @@ Closed-set recognition of temporally new proteins whose labels are in vocabulary
 Only 124/468 proteins are fully evaluable at Level 4. \\
 Swiss-Prot 2023-01 full set &
 Sensitivity to temporal label shift and incomplete annotations &
-Closed-set models receive zero credit for novel or partial EC labels. \\
+Operational coverage audit only; partial labels are not fully Level-4 scorable,
+and novel labels are outside the closed-set vocabulary. \\
 New-392 / Price-149 &
 External stress tests from CLEAN-Contact &
 New-392 overlaps with current Swiss-Prot; Price-149 lacks contact-map coverage in

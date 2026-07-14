@@ -1,0 +1,30 @@
+[
+  {
+    "training_corpus": "SP-2018 EC-Bench train",
+    "train_rows": 201865,
+    "test_rows": 124,
+    "train_unique_accessions": 201865,
+    "test_unique_accessions": 124,
+    "accession_overlap_n": 0,
+    "accession_overlap_examples": [],
+    "exact_sequence_overlap_n": 0,
+    "train_unique_l4_labels": 4284,
+    "test_unique_l4_labels": 60,
+    "max_recorded_train_similarity": 1.0,
+    "n_test_with_similarity_ge_0_30": 69,
+    "n_test_with_similarity_ge_0_90": 6,
+    "similarity_note": "Values are from the available EC-Bench test_vs_train_sim.json audit file."
+  },
+  {
+    "training_corpus": "ExpA recent Swiss-Prot train",
+    "train_rows": 243198,
+    "test_rows": 124,
+    "train_unique_accessions": 243198,
+    "test_unique_accessions": 124,
+    "accession_overlap_n": 0,
+    "accession_overlap_examples": [],
+    "exact_sequence_overlap_n": 0,
+    "train_unique_l4_labels": 5145,
+    "test_unique_l4_labels": 60
+  }
+]
