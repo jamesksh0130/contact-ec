@@ -211,6 +211,42 @@ Stacked ensemble$^\dagger$ & -- & 0.524 & -- & -- \\
 {\small $^\dagger$ EC-Bench leaderboard; weighted F1 on all 468 proteins.}
 \end{table}
 
+To avoid treating partial EC annotations as Level-4 failures, we additionally
+evaluate each partial label only up to its deepest annotated hierarchy prefix.
+For example, EC\,3.4.24.- is evaluated through Level~3, whereas EC\,1.-.-.- is
+evaluated only at Level~1. This prefix-level audit is not directly comparable to
+complete Level-4 F1, but it quantifies whether the model recovers the known
+functional hierarchy for incompletely curated proteins.
+
+\begin{table}[htbp]
+\centering
+\caption{Hierarchical prefix evaluation on the 309 partial-EC temporal proteins.
+Partial annotations are scored only at levels where ground truth prefixes are
+available. Level-4 is omitted because no complete Level-4 ground truth exists for
+these rows.}
+\label{tab:partial_prefix}
+\setlength{\tabcolsep}{6pt}
+\begin{tabular}{lccc}
+\toprule
+\textbf{Model} & L1 Micro F1 & L2 Micro F1 & L3 Micro F1 \\
+\midrule
+B1 (ESM-2, flat FC)        & 0.8311 & 0.5805 & 0.4656 \\
+B3 (Contact map only)      & 0.7930 & 0.6615 & 0.5933 \\
+Contact-EC (flat FC, ours) & 0.8259 & 0.7322 & 0.6629 \\
+Contact-EC-Hier            & \textbf{0.8409} & \textbf{0.7685} & \textbf{0.6975} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.82\linewidth]{partial_ec_hierarchical_f1.png}
+\caption{Hierarchical prefix micro F1 on partial-EC temporal proteins. The
+result shows that partial annotations should be handled as prefix-level
+supervision rather than assigned Level-4 failures.}
+\label{fig:partial_prefix}
+\end{figure}
+
 Contact-EC (weighted F1\,=\,0.4763) exceeds EnzBert-learnt (+1.3\,pp) despite
 training on an earlier corpus with a 4.5$\times$ smaller backbone.
 Contact-EC-Hier (0.4325) falls 3.8\,pp below EnzBert-learnt; the gap to

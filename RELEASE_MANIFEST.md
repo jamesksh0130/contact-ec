@@ -6,8 +6,8 @@ Package:
 
 - Folder: `github_release/contact-ec/`
 - Zip: `github_release/contact-ec-github-upload.zip`
-- Approximate folder size before compression: 16 MB
-- Files in package: 209
+- Approximate folder size before compression: 18 MB
+- Files in package: 216
 
 Contents:
 
@@ -27,6 +27,9 @@ Contents:
 - Contact-pair nearest-neighbor audit: `scripts/audit_contact_pair_neighbors.py`,
   `outputs/audit/contact_pair_neighbor_*`, and
   `outputs/figures/contact_pair_neighbor_hist.png`
+- Partial-EC hierarchical prefix audit: `scripts/audit_partial_ec_hierarchical.py`,
+  `outputs/audit/partial_ec_hierarchical_*`, and
+  `outputs/figures/partial_ec_hierarchical_f1.png`
 - Manuscript figures: `outputs/figures/`
 - GitHub documentation: `README.md`, `docs/`, `CITATION.cff`, `requirements.txt`, `.gitignore`
 

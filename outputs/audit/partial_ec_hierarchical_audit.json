@@ -1,0 +1,43 @@
+{
+  "n_total": 468,
+  "group_counts": {
+    "known_complete": 124,
+    "novel_complete": 35,
+    "partial": 309
+  },
+  "max_depth_counts": {
+    "0": 2,
+    "1": 79,
+    "2": 28,
+    "3": 235,
+    "4": 124
+  },
+  "contact_ec_summary": [
+    {
+      "subset": "all_prefix_scorable",
+      "L1_micro_f1": 0.8387799564270153,
+      "L2_micro_f1": 0.7694483734087695,
+      "L3_micro_f1": 0.7239263803680982,
+      "L4_micro_f1": 0.6031746031746031
+    },
+    {
+      "subset": "novel_complete",
+      "L1_micro_f1": 0.84375,
+      "L2_micro_f1": 0.75,
+      "L3_micro_f1": 0.5483870967741935,
+      "L4_micro_f1": NaN
+    },
+    {
+      "subset": "partial",
+      "L1_micro_f1": 0.8258706467661692,
+      "L2_micro_f1": 0.7321867321867321,
+      "L3_micro_f1": 0.6628895184135978,
+      "L4_micro_f1": NaN
+    }
+  ],
+  "interpretation": [
+    "Partial EC annotations are evaluated only up to the deepest available annotated prefix.",
+    "These prefix-level scores are not directly comparable to complete Level-4 closed-set F1.",
+    "Novel complete EC labels can still be evaluated at lower known EC hierarchy levels when their prefixes exist in the SP-2018 vocabulary."
+  ]
+}
