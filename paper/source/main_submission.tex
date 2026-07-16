@@ -358,7 +358,10 @@ performance can degrade when external structures or predicted contact maps come
 from a shifted distribution. On Price-149, supplementary audit results show that
 input coverage is available but exact Level-4 specificity collapses despite
 stronger coarse-level EC recovery, indicating an OOD calibration and specificity
-failure rather than a simple missing-input problem. A supplementary contact-pair
+failure rather than a simple missing-input problem. A calibration audit supports
+this interpretation: on Price-149, Contact-EC emits nonempty predictions for
+51.5\% of encoded proteins with median top-1 probability 0.5527, but top-1
+hit rate is only 27.9\%. A supplementary contact-pair
 nearest-neighbor audit further shows that all evaluable temporal proteins have
 high nearest training-set similarity in the contact-pair representation, so the
 temporal results should not be interpreted as fold-disjoint structural

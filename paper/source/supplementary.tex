@@ -453,6 +453,52 @@ coarse EC levels remain predictable while exact Level-4 specificity collapses.}
 \label{fig:price149_failure}
 \end{figure}
 
+\paragraph{Contact-EC calibration and prediction-cardinality audit.}
+We further audited whether the Price-149 failure is explained by empty
+predictions at the fixed 0.5 threshold. Table~\ref{tab:contactec_calibration}
+and Figure~\ref{fig:contactec_calibration} show that this is not the only
+explanation. On Price-149, Contact-EC emits nonempty predictions for 51.5\% of
+encoded proteins, with median top-1 probability 0.5527, but the top-1 hit rate
+is only 27.9\% and Level-4 micro F1 is 0.2500. Thus the external failure
+reflects exact-subclass specificity and calibration under distribution shift,
+not simply missing structures, absent embeddings, or universally empty
+prediction sets. For partial and novel temporal proteins, Level-4 F1 and top-1
+hit rate are undefined because the closed-set target is incomplete or outside
+the training vocabulary; for those groups we report only prediction burden and
+confidence diagnostics. The flattened multilabel calibration errors are
+therefore used only as diagnostics because they are dominated by the many
+negative Level-4 labels.
+
+\begin{table}[htbp]
+\centering
+\caption{Contact-EC prediction-cardinality and confidence audit at threshold
+0.5. Partial and novel temporal proteins are not fully Level-4 scorable, so
+their exact-hit and micro-F1 fields are reported as N/A.}
+\label{tab:contactec_calibration}
+\small
+\setlength{\tabcolsep}{3pt}
+\begin{tabular}{lrrrrrr}
+\toprule
+Dataset & $N$ & Avg.\ L4 preds & Empty rate & Mean top-1 $p$ & Top-1 hit & L4 micro F1 \\
+\midrule
+Temporal known EC & 124 & 0.7984 & 36.3\% & 0.6657 & 57.3\% & 0.6032 \\
+Temporal partial EC & 309 & 0.4595 & 64.4\% & 0.3862 & N/A & N/A \\
+Temporal novel EC & 35 & 0.4286 & 74.3\% & 0.3404 & N/A & N/A \\
+Price-149 & 136 & 0.6471 & 48.5\% & 0.5187 & 27.9\% & 0.2500 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.82\linewidth]{contactec_calibration_diagnostics.png}
+\caption{Contact-EC calibration and prediction-cardinality diagnostics. The
+audit separates empty prediction rate, average predicted-label cardinality,
+top-1 confidence, and top-1 correctness for temporal known, temporal partial,
+temporal novel, and Price-149 proteins.}
+\label{fig:contactec_calibration}
+\end{figure}
+
 \paragraph{Late probability fusion baselines.}
 To test whether Contact-EC's gain could be reproduced by simple post-hoc
 combination of independently trained sequence-only and contact-only models, we

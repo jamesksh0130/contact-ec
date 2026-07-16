@@ -1,0 +1,75 @@
+{
+  "threshold": 0.5,
+  "checkpoint": "outputs/checkpoints/ecbench_b4_flatfc_best.pt",
+  "metrics": [
+    {
+      "dataset": "temporal_known_complete",
+      "n": 124,
+      "avg_pred_labels": 0.7983870967741935,
+      "median_pred_labels": 1.0,
+      "empty_prediction_rate": 0.3629032258064516,
+      "top1_prob_mean": 0.6657176613807678,
+      "top1_prob_median": 0.8996697664260864,
+      "mean_probability": 0.00024816920631565154,
+      "micro_f1": 0.6031746031746031,
+      "precision": 0.7676767676767676,
+      "recall": 0.49673202614379086,
+      "top1_hit_rate": 0.5725806451612904,
+      "brier": 0.00015715353984566003,
+      "ece": 0.0001254349620073335
+    },
+    {
+      "dataset": "temporal_partial",
+      "n": 309,
+      "avg_pred_labels": 0.459546925566343,
+      "median_pred_labels": 0.0,
+      "empty_prediction_rate": 0.6440129449838188,
+      "top1_prob_mean": 0.3861742615699768,
+      "top1_prob_median": 0.26992908120155334,
+      "mean_probability": 0.0001702362351352349,
+      "micro_f1": NaN,
+      "precision": NaN,
+      "recall": NaN,
+      "top1_hit_rate": NaN,
+      "brier": NaN,
+      "ece": NaN
+    },
+    {
+      "dataset": "temporal_novel_complete",
+      "n": 35,
+      "avg_pred_labels": 0.42857142857142855,
+      "median_pred_labels": 0.0,
+      "empty_prediction_rate": 0.7428571428571429,
+      "top1_prob_mean": 0.34036824107170105,
+      "top1_prob_median": 0.2199278175830841,
+      "mean_probability": 0.00021149415988475084,
+      "micro_f1": NaN,
+      "precision": NaN,
+      "recall": NaN,
+      "top1_hit_rate": NaN,
+      "brier": NaN,
+      "ece": NaN
+    },
+    {
+      "dataset": "Price-149",
+      "n": 136,
+      "avg_pred_labels": 0.6470588235294118,
+      "median_pred_labels": 1.0,
+      "empty_prediction_rate": 0.4852941176470588,
+      "top1_prob_mean": 0.5187414884567261,
+      "top1_prob_median": 0.5527303218841553,
+      "mean_probability": 0.0001799415476853028,
+      "micro_f1": 0.25,
+      "precision": 0.3181818181818182,
+      "recall": 0.20588235294117646,
+      "top1_hit_rate": 0.27941176470588236,
+      "brier": 0.00023145022007754596,
+      "ece": 0.00021082918534737875
+    }
+  ],
+  "interpretation": [
+    "Temporal partial and novel rows are not Level-4 scorable, but their closed-set prediction burden can still be audited.",
+    "Price-149 has lower exact Level-4 F1 despite non-empty confident predictions, supporting an OOD specificity/calibration failure.",
+    "The flattened multilabel ECE is dominated by the many negative labels and should be interpreted as a diagnostic rather than a full calibration study."
+  ]
+}

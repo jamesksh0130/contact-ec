@@ -6,8 +6,8 @@ Package:
 
 - Folder: `github_release/contact-ec/`
 - Zip: `github_release/contact-ec-github-upload.zip`
-- Approximate folder size before compression: 18 MB
-- Files in package: 216
+- Approximate folder size before compression: 20 MB
+- Files in package: 222
 
 Contents:
 
@@ -30,6 +30,10 @@ Contents:
 - Partial-EC hierarchical prefix audit: `scripts/audit_partial_ec_hierarchical.py`,
   `outputs/audit/partial_ec_hierarchical_*`, and
   `outputs/figures/partial_ec_hierarchical_f1.png`
+- Contact-EC calibration and prediction-cardinality audit:
+  `scripts/audit_contactec_calibration.py`,
+  `outputs/audit/contactec_calibration_audit.*`, and
+  `outputs/figures/contactec_calibration_diagnostics.png`
 - Manuscript figures: `outputs/figures/`
 - GitHub documentation: `README.md`, `docs/`, `CITATION.cff`, `requirements.txt`, `.gitignore`
 
