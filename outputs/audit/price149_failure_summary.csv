@@ -1,0 +1,14 @@
+category,measure,value
+raw_price149,proteins,149.0
+encoded_subset,proteins,136.0
+raw_price149,encoded_in_sp2018_l4_vocab_all_ec,139.0
+raw_price149,encoded_in_sp2018_l4_vocab_any_ec,139.0
+assets,embedding_exists,149.0
+assets,contact_map_exists,149.0
+assets,contact_map_nonzero,149.0
+sequence_length,median_raw,389.0
+sequence_length,max_raw,700.0
+sequence_length,raw_len_gt_1024,0.0
+label_space,unique_l4_raw,56.0
+label_space,unique_l4_in_sp2018_vocab,51.0
+label_space,unique_l4_out_of_sp2018_vocab,5.0

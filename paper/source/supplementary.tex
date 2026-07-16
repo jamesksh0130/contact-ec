@@ -361,10 +361,61 @@ since New-392 proteins pre-date 2026 and likely appear in the training corpus.
 
 \paragraph{Price-149.}
 Contact-EC (0.2500 micro F1) achieves the highest score among SP-2018 models,
-routing through the ESM-2 branch of the fused model (zero contact maps for bacterial NCBI RefSeq
-proteins). ESMFold-predicted contact maps for all 149 proteins did not improve performance
-(Contact-EC-Hier: 0.1218 vs.\ 0.1263), revealing a distribution shift between ESMFold-predicted
-and AlphaFold-derived contact maps that requires retraining to bridge.
+but the external Price-149 benchmark remains a major failure mode relative to
+CLEAN-Contact (0.525). To determine whether this gap is caused by missing inputs,
+we audited the raw 149 proteins, encoded SP-2018 evaluation subset, label
+vocabulary, and structure assets. Table~\ref{tab:price149_audit} shows that
+input coverage is not the primary explanation: ESM-2 embeddings and nonzero
+contact maps are available for all 149 raw proteins, and 139 proteins have
+complete Level-4 EC labels contained in the SP-2018 vocabulary. Instead, the
+failure is concentrated at exact Level-4 specificity. In the hierarchical
+diagnostic, Contact-EC retains high coarse EC performance on Price-149
+(Level~1 micro F1\,=\,0.9379; Level~2\,=\,0.7862; Level~3\,=\,0.7655), but
+Level~4 micro F1 falls to 0.0508 (Figure~\ref{fig:price149_failure}). The
+contact-only B3 model scores 0.0000 on the canonical Price-149 evaluation, and
+ESMFold-derived contact maps do not recover the gap (Contact-EC ESMFold-map
+micro F1\,=\,0.1218). We therefore interpret Price-149 as an external
+bacterial RefSeq distribution-shift stress test: the model can often identify
+the broad enzyme family, but its current SP-2018 contact-fusion calibration does
+not transfer reliably to exact EC subclasses.
+
+\begin{table}[htbp]
+\centering
+\caption{Price-149 failure audit. Coverage is computed on the raw Price-149
+file ($N=149$); canonical Level-4 model metrics use the encoded SP-2018
+evaluation subset ($N=136$).}
+\label{tab:price149_audit}
+\small
+\setlength{\tabcolsep}{3pt}
+\begin{tabular}{p{0.43\linewidth}rp{0.34\linewidth}}
+\toprule
+Audit item & Count/value & Interpretation \\
+\midrule
+Raw Price-149 proteins & 149 & external bacterial RefSeq benchmark \\
+Encoded SP-2018 subset & 136 & canonical flat Level-4 evaluation subset \\
+Proteins with embeddings & 149 & no missing ESM-2 input bottleneck \\
+Proteins with nonzero contact maps & 149 & no missing contact-map bottleneck \\
+Raw proteins with all EC labels in SP-2018 L4 vocabulary & 139 & moderate label-vocabulary coverage \\
+Unique raw Level-4 EC classes & 56 & external label diversity \\
+Unique raw Level-4 EC classes outside SP-2018 vocabulary & 5 & limited closed-set mismatch \\
+\midrule
+B1 ESM-2 Level-4 micro F1 & 0.0324 & sequence-only transfer collapses \\
+B3 contact-only Level-4 micro F1 & 0.0000 & contact-only transfer collapses \\
+Contact-EC flat Level-4 micro F1 & 0.2500 & fusion improves but remains below CLEAN-Contact \\
+Contact-EC hierarchical Level-1 micro F1 & 0.9379 & broad enzyme family often recovered \\
+Contact-EC hierarchical Level-4 micro F1 & 0.0508 & exact subclass specificity fails \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.92\linewidth]{price149_failure_breakdown.png}
+\caption{Price-149 failure analysis. Left: canonical Level-4 micro F1 for
+SP-2018 models. Right: hierarchical diagnostic for Contact-EC, showing that
+coarse EC levels remain predictable while exact Level-4 specificity collapses.}
+\label{fig:price149_failure}
+\end{figure}
 
 % ─────────────────────────────────────────────────────────────────────────────
 \section*{S6\quad Contact Map Channel Ablation}
@@ -437,8 +488,8 @@ and full Swiss-Prot training data. On New-392, Contact-EC (0.3717, SP-2018)
 trails CLEAN-Contact (0.566) due to backbone scale (3B vs.\ 650M) and training
 recency. Contact-EC-ExpA (SP-2026, 0.7680) surpasses CLEAN-Contact but with
 potential train/test overlap. The gap on Price-149 reflects the OOD nature of
-bacterial sequences and absent AlphaFold coverage rather than the contact-map
-component specifically.
+bacterial RefSeq sequences and exact Level-4 calibration under structure-source
+shift rather than a simple missing-input problem.
 
 \paragraph{Paper significance and scope.}
 The current results demonstrate that structural contact maps provide complementary
@@ -569,8 +620,8 @@ Operational coverage audit only; partial labels are not fully Level-4 scorable,
 and novel labels are outside the closed-set vocabulary. \\
 New-392 / Price-149 &
 External stress tests from CLEAN-Contact &
-New-392 overlaps with current Swiss-Prot; Price-149 lacks contact-map coverage in
-the current pipeline. \\
+New-392 overlaps with current Swiss-Prot; Price-149 is an external bacterial
+RefSeq stress test with strong Level-4 specificity loss despite available inputs. \\
 \bottomrule
 \end{tabular}
 \end{table}

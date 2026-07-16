@@ -1,0 +1,9 @@
+model,setting,n,level,micro_f1,weighted_f1,precision,recall
+"B1 (ESM-2, SP-2018)",canonical flat Level-4,136,L4,0.0324,0.0196,0.0612,0.0221
+"B3 (Contact, SP-2018)",canonical flat Level-4,136,L4,0.0,0.0,0.0,0.0
+Contact-EC flat (SP-2018),canonical flat Level-4,136,L4,0.25,0.2304,0.3182,0.2059
+Contact-EC ESMFold-map,ESMFold contact maps,139,L4,0.1218,0.108,,
+Contact-EC hierarchical,hierarchical diagnostic,145,L1,0.9379,0.9371,,
+Contact-EC hierarchical,hierarchical diagnostic,145,L2,0.7862,0.794,,
+Contact-EC hierarchical,hierarchical diagnostic,145,L3,0.7655,0.7775,,
+Contact-EC hierarchical,hierarchical diagnostic,145,L4,0.0508,,0.102,0.0338

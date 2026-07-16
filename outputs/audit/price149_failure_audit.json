@@ -1,0 +1,195 @@
+{
+  "summary": [
+    {
+      "category": "raw_price149",
+      "measure": "proteins",
+      "value": 149
+    },
+    {
+      "category": "encoded_subset",
+      "measure": "proteins",
+      "value": 136
+    },
+    {
+      "category": "raw_price149",
+      "measure": "encoded_in_sp2018_l4_vocab_all_ec",
+      "value": 139
+    },
+    {
+      "category": "raw_price149",
+      "measure": "encoded_in_sp2018_l4_vocab_any_ec",
+      "value": 139
+    },
+    {
+      "category": "assets",
+      "measure": "embedding_exists",
+      "value": 149
+    },
+    {
+      "category": "assets",
+      "measure": "contact_map_exists",
+      "value": 149
+    },
+    {
+      "category": "assets",
+      "measure": "contact_map_nonzero",
+      "value": 149
+    },
+    {
+      "category": "sequence_length",
+      "measure": "median_raw",
+      "value": 389.0
+    },
+    {
+      "category": "sequence_length",
+      "measure": "max_raw",
+      "value": 700
+    },
+    {
+      "category": "sequence_length",
+      "measure": "raw_len_gt_1024",
+      "value": 0
+    },
+    {
+      "category": "label_space",
+      "measure": "unique_l4_raw",
+      "value": 56
+    },
+    {
+      "category": "label_space",
+      "measure": "unique_l4_in_sp2018_vocab",
+      "value": 51
+    },
+    {
+      "category": "label_space",
+      "measure": "unique_l4_out_of_sp2018_vocab",
+      "value": 5
+    }
+  ],
+  "metrics": [
+    {
+      "model": "B1 (ESM-2, SP-2018)",
+      "setting": "canonical flat Level-4",
+      "n": 136,
+      "level": "L4",
+      "micro_f1": 0.0324,
+      "weighted_f1": 0.0196,
+      "precision": 0.0612,
+      "recall": 0.0221
+    },
+    {
+      "model": "B3 (Contact, SP-2018)",
+      "setting": "canonical flat Level-4",
+      "n": 136,
+      "level": "L4",
+      "micro_f1": 0.0,
+      "weighted_f1": 0.0,
+      "precision": 0.0,
+      "recall": 0.0
+    },
+    {
+      "model": "Contact-EC flat (SP-2018)",
+      "setting": "canonical flat Level-4",
+      "n": 136,
+      "level": "L4",
+      "micro_f1": 0.25,
+      "weighted_f1": 0.2304,
+      "precision": 0.3182,
+      "recall": 0.2059
+    },
+    {
+      "model": "Contact-EC ESMFold-map",
+      "setting": "ESMFold contact maps",
+      "n": 139,
+      "level": "L4",
+      "micro_f1": 0.1218,
+      "weighted_f1": 0.108,
+      "precision": NaN,
+      "recall": NaN
+    },
+    {
+      "model": "Contact-EC hierarchical",
+      "setting": "hierarchical diagnostic",
+      "n": 145,
+      "level": "L1",
+      "micro_f1": 0.9379,
+      "weighted_f1": 0.9371,
+      "precision": NaN,
+      "recall": NaN
+    },
+    {
+      "model": "Contact-EC hierarchical",
+      "setting": "hierarchical diagnostic",
+      "n": 145,
+      "level": "L2",
+      "micro_f1": 0.7862,
+      "weighted_f1": 0.794,
+      "precision": NaN,
+      "recall": NaN
+    },
+    {
+      "model": "Contact-EC hierarchical",
+      "setting": "hierarchical diagnostic",
+      "n": 145,
+      "level": "L3",
+      "micro_f1": 0.7655,
+      "weighted_f1": 0.7775,
+      "precision": NaN,
+      "recall": NaN
+    },
+    {
+      "model": "Contact-EC hierarchical",
+      "setting": "hierarchical diagnostic",
+      "n": 145,
+      "level": "L4",
+      "micro_f1": 0.0508,
+      "weighted_f1": NaN,
+      "precision": 0.102,
+      "recall": 0.0338
+    }
+  ],
+  "l1_distribution": [
+    {
+      "l1": "1",
+      "n": 54,
+      "median_len": 383.0,
+      "mean_len": 412.9259259259259
+    },
+    {
+      "l1": "2",
+      "n": 28,
+      "median_len": 397.0,
+      "mean_len": 376.92857142857144
+    },
+    {
+      "l1": "3",
+      "n": 20,
+      "median_len": 310.0,
+      "mean_len": 326.5
+    },
+    {
+      "l1": "4",
+      "n": 22,
+      "median_len": 405.0,
+      "mean_len": 441.90909090909093
+    },
+    {
+      "l1": "5",
+      "n": 4,
+      "median_len": 254.5,
+      "mean_len": 262.0
+    },
+    {
+      "l1": "6",
+      "n": 8,
+      "median_len": 458.0,
+      "mean_len": 460.25
+    }
+  ],
+  "interpretation": [
+    "The canonical SP-2018 fusion model improves over ESM-2 alone on Price-149 but remains far below CLEAN-Contact.",
+    "Contact-only transfer collapses on Price-149, indicating that the current contact-map branch does not generalize robustly to this external bacterial RefSeq set.",
+    "The hierarchical diagnostic shows high Level-1 to Level-3 scores but very low Level-4 micro F1, consistent with a specificity/calibration failure rather than complete functional-family failure.",
+    "ESMFold contact maps do not close the gap, suggesting structure-source and preprocessing shift rather than simply missing structure inputs."
+  ]
+}

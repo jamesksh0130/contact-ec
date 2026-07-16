@@ -348,9 +348,11 @@ label-shift set, because these answer different questions: recognition of known 
 classes versus robustness to newly curated or incomplete annotations.
 
 There are limitations. Contact-EC relies on AlphaFold or predicted structures, so
-performance can degrade when structure coverage is absent or when predicted
-structures come from a shifted distribution, as observed on Price-149, which we
-interpret as an OOD and coverage failure mode. Macro F1 remains low due to the
+performance can degrade when external structures or predicted contact maps come
+from a shifted distribution. On Price-149, supplementary audit results show that
+input coverage is available but exact Level-4 specificity collapses despite
+stronger coarse-level EC recovery, indicating an OOD calibration and specificity
+failure rather than a simple missing-input problem. Macro F1 remains low due to the
 long-tailed Level-4 label space. The temporal test is small and results are from
 single trained checkpoints, so bootstrap and paired tests quantify sample-level
 uncertainty rather than definitive rankings. Finally, closed-set models cannot
