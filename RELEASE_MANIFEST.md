@@ -6,8 +6,8 @@ Package:
 
 - Folder: `github_release/contact-ec/`
 - Zip: `github_release/contact-ec-github-upload.zip`
-- Approximate folder size before compression: 13 MB
-- Files in package: 196
+- Approximate folder size before compression: 15 MB
+- Files in package: 202
 
 Contents:
 
@@ -21,6 +21,9 @@ Contents:
 - Price-149 failure-mode audit: `scripts/audit_price149_failure_analysis.py`,
   `outputs/audit/price149_failure_*`, and
   `outputs/figures/price149_failure_breakdown.png`
+- Late-fusion baseline audit: `scripts/audit_late_fusion_baselines.py`,
+  `outputs/audit/late_fusion_baseline_*`, and
+  `outputs/figures/late_fusion_baselines.png`
 - Manuscript figures: `outputs/figures/`
 - GitHub documentation: `README.md`, `docs/`, `CITATION.cff`, `requirements.txt`, `.gitignore`
 

@@ -417,6 +417,52 @@ coarse EC levels remain predictable while exact Level-4 specificity collapses.}
 \label{fig:price149_failure}
 \end{figure}
 
+\paragraph{Late probability fusion baselines.}
+To test whether Contact-EC's gain could be reproduced by simple post-hoc
+combination of independently trained sequence-only and contact-only models, we
+evaluated probability-level fusion baselines using B1 and B3 predictions:
+mean posterior averaging, element-wise posterior maximum, and two fixed
+weighted averages. These baselines require no retraining and therefore provide a
+conservative diagnostic rather than a full architectural ablation. As shown in
+Table~\ref{tab:late_fusion} and Figure~\ref{fig:late_fusion}, learned Contact-EC
+substantially outperforms all late-fusion variants on the 124 complete temporal
+proteins (0.6032 vs.\ 0.4673 for the best late-fusion baseline). The same pattern
+holds on Price-149, where late fusion remains near the weak ESM-only baseline
+while Contact-EC reaches 0.2500. Thus the observed sequence--structure gain is
+not explained by naive posterior averaging or maximum pooling.
+
+\begin{table}[htbp]
+\centering
+\caption{Late probability-fusion baselines using independently trained B1
+(ESM-2) and B3 (contact-only) models. Values are Level-4 micro F1 at threshold
+0.5.}
+\label{tab:late_fusion}
+\small
+\setlength{\tabcolsep}{5pt}
+\begin{tabular}{lcc}
+\toprule
+Model & Swiss-Prot 2023 known EC ($N=124$) & Price-149 ($N=136$) \\
+\midrule
+B1 (ESM-2) & 0.4216 & 0.0324 \\
+B3 (Contact) & 0.3646 & 0.0000 \\
+Late mean B1+B3 & 0.3770 & 0.0118 \\
+Late max B1+B3 & 0.4673 & 0.0312 \\
+Late weighted 0.7B1+0.3B3 & 0.4322 & 0.0231 \\
+Late weighted 0.3B1+0.7B3 & 0.3598 & 0.0000 \\
+Contact-EC learned fusion & \textbf{0.6032} & \textbf{0.2500} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.95\linewidth]{late_fusion_baselines.png}
+\caption{Late probability-fusion baselines. Learned Contact-EC exceeds simple
+B1/B3 posterior averaging, posterior maximum, and fixed weighted averages on
+both the temporal known-EC subset and Price-149.}
+\label{fig:late_fusion}
+\end{figure}
+
 % ─────────────────────────────────────────────────────────────────────────────
 \section*{S6\quad Contact Map Channel Ablation}
 \addcontentsline{toc}{section}{S6\quad Contact Map Channel Ablation}

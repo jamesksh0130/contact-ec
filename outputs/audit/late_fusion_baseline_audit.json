@@ -1,0 +1,150 @@
+{
+  "device": "cpu",
+  "interpretation": [
+    "Trained Contact-EC outperforms post-hoc mean/max/weighted probability fusion on the temporal known-EC subset.",
+    "On Price-149, late max improves recall but remains far below CLEAN-Contact and does not solve exact Level-4 specificity.",
+    "These baselines support the claim that learned sequence-structure fusion is stronger than naive posterior averaging, while external OOD calibration remains unresolved."
+  ],
+  "metrics": [
+    {
+      "dataset": "Swiss-Prot 2023 known EC",
+      "model": "B1 (ESM-2)",
+      "n": 124,
+      "micro_f1": 0.4216,
+      "weighted_f1": 0.3178,
+      "macro_f1": 0.0031,
+      "precision": 0.8431,
+      "recall": 0.281
+    },
+    {
+      "dataset": "Swiss-Prot 2023 known EC",
+      "model": "B3 (Contact)",
+      "n": 124,
+      "micro_f1": 0.3646,
+      "weighted_f1": 0.2734,
+      "macro_f1": 0.0021,
+      "precision": 0.8974,
+      "recall": 0.2288
+    },
+    {
+      "dataset": "Swiss-Prot 2023 known EC",
+      "model": "Contact-EC",
+      "n": 124,
+      "micro_f1": 0.6032,
+      "weighted_f1": 0.5026,
+      "macro_f1": 0.0065,
+      "precision": 0.7677,
+      "recall": 0.4967
+    },
+    {
+      "dataset": "Swiss-Prot 2023 known EC",
+      "model": "Late mean B1+B3",
+      "n": 124,
+      "micro_f1": 0.377,
+      "weighted_f1": 0.2769,
+      "macro_f1": 0.0022,
+      "precision": 0.9474,
+      "recall": 0.2353
+    },
+    {
+      "dataset": "Swiss-Prot 2023 known EC",
+      "model": "Late max B1+B3",
+      "n": 124,
+      "micro_f1": 0.4673,
+      "weighted_f1": 0.3606,
+      "macro_f1": 0.0035,
+      "precision": 0.8197,
+      "recall": 0.3268
+    },
+    {
+      "dataset": "Swiss-Prot 2023 known EC",
+      "model": "Late weighted 0.7B1+0.3B3",
+      "n": 124,
+      "micro_f1": 0.4322,
+      "weighted_f1": 0.3207,
+      "macro_f1": 0.003,
+      "precision": 0.9348,
+      "recall": 0.281
+    },
+    {
+      "dataset": "Swiss-Prot 2023 known EC",
+      "model": "Late weighted 0.3B1+0.7B3",
+      "n": 124,
+      "micro_f1": 0.3598,
+      "weighted_f1": 0.2674,
+      "macro_f1": 0.0021,
+      "precision": 0.9444,
+      "recall": 0.2222
+    },
+    {
+      "dataset": "Price-149",
+      "model": "B1 (ESM-2)",
+      "n": 136,
+      "micro_f1": 0.0324,
+      "weighted_f1": 0.0196,
+      "macro_f1": 0.0006,
+      "precision": 0.0612,
+      "recall": 0.0221
+    },
+    {
+      "dataset": "Price-149",
+      "model": "B3 (Contact)",
+      "n": 136,
+      "micro_f1": 0.0,
+      "weighted_f1": 0.0,
+      "macro_f1": 0.0,
+      "precision": 0.0,
+      "recall": 0.0
+    },
+    {
+      "dataset": "Price-149",
+      "model": "Contact-EC",
+      "n": 136,
+      "micro_f1": 0.25,
+      "weighted_f1": 0.2304,
+      "macro_f1": 0.0023,
+      "precision": 0.3182,
+      "recall": 0.2059
+    },
+    {
+      "dataset": "Price-149",
+      "model": "Late mean B1+B3",
+      "n": 136,
+      "micro_f1": 0.0118,
+      "weighted_f1": 0.0074,
+      "macro_f1": 0.0002,
+      "precision": 0.0294,
+      "recall": 0.0074
+    },
+    {
+      "dataset": "Price-149",
+      "model": "Late max B1+B3",
+      "n": 136,
+      "micro_f1": 0.0312,
+      "weighted_f1": 0.0196,
+      "macro_f1": 0.0006,
+      "precision": 0.0536,
+      "recall": 0.0221
+    },
+    {
+      "dataset": "Price-149",
+      "model": "Late weighted 0.7B1+0.3B3",
+      "n": 136,
+      "micro_f1": 0.0231,
+      "weighted_f1": 0.0147,
+      "macro_f1": 0.0004,
+      "precision": 0.0541,
+      "recall": 0.0147
+    },
+    {
+      "dataset": "Price-149",
+      "model": "Late weighted 0.3B1+0.7B3",
+      "n": 136,
+      "micro_f1": 0.0,
+      "weighted_f1": 0.0,
+      "macro_f1": 0.0,
+      "precision": 0.0,
+      "recall": 0.0
+    }
+  ]
+}
