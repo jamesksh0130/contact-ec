@@ -770,6 +770,63 @@ evaluation should not be treated as fold-disjoint structural generalization.}
 \label{fig:contact_pair_nn}
 \end{figure}
 
+\paragraph{Raw contact-map topology nearest-neighbor audit.}
+To make the structural-relatedness audit less dependent on the learned
+contact-pair ESM representation, we repeated the nearest-neighbor analysis using
+hand-crafted fingerprints derived directly from the 256$\times$256 contact maps.
+Each fingerprint concatenates a 32$\times$32 coarse contact grid,
+sequence-separation contact densities, and node-degree distribution statistics
+($d=1041$). This is still not a Foldseek/TM-align or CATH/SCOP fold-disjoint
+benchmark, but it uses the raw structural input rather than a model-internal
+representation. Table~\ref{tab:contact_topology_nn} and
+Figure~\ref{fig:contact_topology_nn} show that 114/115 temporal proteins with
+available contact maps have a nearest SP-2018 training protein with topology
+cosine similarity $>$0.90, and 63/115 exceed 0.98. The nearest topology
+neighbour shares the same Level-4 EC label in 40.9\% of cases, rising to 57.1\%
+among proteins with cosine similarity $>$0.98. This independent audit reinforces
+the conservative interpretation: the temporal split measures annotation-time
+shift and label-vocabulary shift, but it should not be presented as
+fold-disjoint structural generalization.
+
+\begin{table}[htbp]
+\centering
+\caption{Raw contact-map topology nearest-neighbor audit for temporal known-EC
+proteins. Similarity is computed on hand-crafted fingerprints from the
+256$\times$256 contact maps, independent of the learned contact-pair ESM
+representation.}
+\label{tab:contact_topology_nn}
+\small
+\setlength{\tabcolsep}{5pt}
+\begin{tabular}{lr}
+\toprule
+Quantity & Value \\
+\midrule
+Temporal known-EC proteins with contact maps & 115/124 \\
+SP-2018 training proteins with contact maps & 212{,}863/224{,}294 \\
+Fingerprint dimension & 1{,}041 \\
+Median nearest-neighbour cosine & 0.9822 \\
+Mean nearest-neighbour cosine & 0.9733 \\
+Temporal proteins with nearest cosine $>$0.90 & 114/115 \\
+Temporal proteins with nearest cosine $>$0.95 & 93/115 \\
+Temporal proteins with nearest cosine $>$0.98 & 63/115 \\
+Nearest neighbour same Level-1 EC & 75.7\% \\
+Nearest neighbour same Level-2 EC & 69.0\% \\
+Nearest neighbour same Level-3 EC & 69.0\% \\
+Nearest neighbour same Level-4 EC & 40.9\% \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.86\linewidth]{contact_topology_neighbor_audit.png}
+\caption{Raw contact-map topology nearest-neighbor audit. Left: nearest
+SP-2018 training-set cosine similarity for temporal known-EC proteins with
+available contact maps. Right: EC hierarchy overlap with the nearest topology
+neighbour.}
+\label{fig:contact_topology_nn}
+\end{figure}
+
 \begin{table}[htbp]
 \centering
 \caption{Interpretation of each evaluation protocol. The same numerical metric can
@@ -795,7 +852,8 @@ Still a validation protocol; temporal deployment claims require held-out future
 annotations. \\
 Swiss-Prot 2023-01 known-EC subset &
 Closed-set recognition of temporally new proteins whose labels are in vocabulary &
-Only 124/468 proteins are fully evaluable at Level 4. \\
+Only 124/468 proteins are fully evaluable at Level 4; contact-pair and raw
+contact-map audits show high nearest-neighbour structural relatedness. \\
 Swiss-Prot 2023-01 full set &
 Sensitivity to temporal label shift and incomplete annotations &
 Operational coverage audit only; partial labels are not fully Level-4 scorable,

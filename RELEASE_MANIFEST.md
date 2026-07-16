@@ -1,13 +1,13 @@
 # GitHub Upload Manifest
 
-Prepared on: 2026-07-16
+Prepared on: 2026-07-17
 
 Package:
 
 - Folder: `github_release/contact-ec/`
 - Zip: `github_release/contact-ec-github-upload.zip`
-- Approximate folder size before compression: 20 MB
-- Files in package: 222
+- Approximate folder size before compression: 21 MB
+- Files in package: 229
 
 Contents:
 
@@ -27,6 +27,10 @@ Contents:
 - Contact-pair nearest-neighbor audit: `scripts/audit_contact_pair_neighbors.py`,
   `outputs/audit/contact_pair_neighbor_*`, and
   `outputs/figures/contact_pair_neighbor_hist.png`
+- Raw contact-map topology nearest-neighbor audit:
+  `scripts/audit_contact_topology_neighbors.py`,
+  `outputs/audit/contact_topology_neighbor_*`, and
+  `outputs/figures/contact_topology_neighbor_audit.png`
 - Partial-EC hierarchical prefix audit: `scripts/audit_partial_ec_hierarchical.py`,
   `outputs/audit/partial_ec_hierarchical_*`, and
   `outputs/figures/partial_ec_hierarchical_f1.png`

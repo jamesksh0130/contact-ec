@@ -361,11 +361,11 @@ stronger coarse-level EC recovery, indicating an OOD calibration and specificity
 failure rather than a simple missing-input problem. A calibration audit supports
 this interpretation: on Price-149, Contact-EC emits nonempty predictions for
 51.5\% of encoded proteins with median top-1 probability 0.5527, but top-1
-hit rate is only 27.9\%. A supplementary contact-pair
-nearest-neighbor audit further shows that all evaluable temporal proteins have
-high nearest training-set similarity in the contact-pair representation, so the
-temporal results should not be interpreted as fold-disjoint structural
-generalization. Macro F1 remains low due to the long-tailed Level-4 label space.
+hit rate is only 27.9\%. Supplementary contact-pair and raw contact-map topology
+nearest-neighbor audits further show high nearest training-set similarity for
+nearly all evaluable temporal proteins, so the temporal results should not be
+interpreted as fold-disjoint structural generalization. Macro F1 remains low due
+to the long-tailed Level-4 label space.
 The temporal test is small and results are from single trained checkpoints, so
 bootstrap and paired tests quantify sample-level uncertainty rather than
 definitive rankings. Finally, closed-set models cannot solve novel EC discovery

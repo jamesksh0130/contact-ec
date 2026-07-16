@@ -1,0 +1,64 @@
+{
+  "overall": {
+    "temporal_known_with_contact_maps": 115,
+    "train_processed": 224294,
+    "train_with_contact_maps": 212863,
+    "feature_dimension": 1041,
+    "median_nearest_cosine": 0.982188,
+    "mean_nearest_cosine": 0.9732513913043479,
+    "n_cosine_gt_0_90": 114,
+    "n_cosine_gt_0_95": 93,
+    "n_cosine_gt_0_98": 63,
+    "same_l1_rate": 0.7565217391304347,
+    "same_l2_rate": 0.6869565217391305,
+    "same_l3_rate": 0.6869565217391305,
+    "same_l4_rate": 0.40869565217391307
+  },
+  "bins": [
+    {
+      "cosine_bin": "<=0.80",
+      "n": 0,
+      "mean_cosine": NaN,
+      "same_l1_rate": NaN,
+      "same_l2_rate": NaN,
+      "same_l3_rate": NaN,
+      "same_l4_rate": NaN
+    },
+    {
+      "cosine_bin": "0.80-0.90",
+      "n": 1,
+      "mean_cosine": 0.888666,
+      "same_l1_rate": 1.0,
+      "same_l2_rate": 0.0,
+      "same_l3_rate": 0.0,
+      "same_l4_rate": 0.0
+    },
+    {
+      "cosine_bin": "0.90-0.95",
+      "n": 21,
+      "mean_cosine": 0.9335884285714287,
+      "same_l1_rate": 0.42857142857142855,
+      "same_l2_rate": 0.23809523809523808,
+      "same_l3_rate": 0.23809523809523808,
+      "same_l4_rate": 0.14285714285714285
+    },
+    {
+      "cosine_bin": "0.95-0.98",
+      "n": 30,
+      "mean_cosine": 0.9688313,
+      "same_l1_rate": 0.5666666666666667,
+      "same_l2_rate": 0.4666666666666667,
+      "same_l3_rate": 0.4666666666666667,
+      "same_l4_rate": 0.26666666666666666
+    },
+    {
+      "cosine_bin": ">0.98",
+      "n": 63,
+      "mean_cosine": 0.9899198095238095,
+      "same_l1_rate": 0.9523809523809523,
+      "same_l2_rate": 0.9523809523809523,
+      "same_l3_rate": 0.9523809523809523,
+      "same_l4_rate": 0.5714285714285714
+    }
+  ]
+}
