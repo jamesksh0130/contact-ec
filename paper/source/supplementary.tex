@@ -250,6 +250,50 @@ support the main text's interpretation that Contact-EC is useful for decomposing
 structure and calibration effects, whereas HIT-EC remains the stronger
 closed-set temporal classifier.
 
+\paragraph{EC Level-1 family analysis.}
+To add biological granularity, we recomputed temporal predictions for the
+ESM-2-only B1 model, the contact-only B3 model, and Contact-EC on the 124
+fully evaluable temporal proteins, then stratified Level-4 micro F1 by true
+EC Level~1 family. Table~\ref{tab:l1_family} and
+Figure~\ref{fig:l1_family} show that Contact-EC yields the largest gains over
+ESM-2 in oxidoreductases (EC~1; +0.6270 micro F1) and hydrolases (EC~3;
++0.2753), whereas lyases (EC~4) remain difficult for all Contact-EC variants
+despite HIT-EC's stronger performance. These results suggest that the utility of
+contact-map fusion is enzyme-family dependent rather than uniform across EC
+space. Because several families contain few temporal examples, the analysis
+should be interpreted as hypothesis-generating rather than mechanistic evidence
+about active-site geometry.
+
+\begin{table}[htbp]
+\centering
+\caption{Level-1 family analysis on the 124 complete known-EC Swiss-Prot
+2023-01 temporal proteins. Values are Level-4 micro F1 within each true
+Level-1 family. EC~6 and EC~7 are absent from this evaluable subset.}
+\label{tab:l1_family}
+\small
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{llrrrrr}
+\toprule
+EC & Family & $N$ & ESM-2 & Contact & Contact-EC & HIT-EC \\
+\midrule
+1 & Oxidoreductases & 18 & 0.0909 & 0.2222 & 0.7179 & 0.9231 \\
+2 & Transferases    & 25 & 0.6667 & 0.6154 & 0.7059 & 0.8649 \\
+3 & Hydrolases      & 42 & 0.5085 & 0.4561 & 0.7838 & 0.9545 \\
+4 & Lyases          & 32 & 0.1923 & 0.0833 & 0.1695 & 0.6667 \\
+5 & Isomerases      &  7 & 0.3636 & 0.2500 & 0.6667 & 0.7143 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.88\linewidth]{l1_family_micro_f1.png}
+\caption{Temporal Level-4 micro F1 stratified by true EC Level-1 family. The
+largest Contact-EC gains occur in oxidoreductases and hydrolases, while lyases
+remain a failure mode for the current contact-fusion model.}
+\label{fig:l1_family}
+\end{figure}
+
 \begin{table}[htbp]
 \centering
 \caption{Contact-EC threshold sensitivity on the 124 complete known-EC

@@ -1,0 +1,92 @@
+{
+  "n": 124,
+  "device": "cpu",
+  "checkpoints": {
+    "b1_esm2_fc": "outputs/checkpoints/ecbench_b1_best.pt",
+    "b3_contact": "outputs/checkpoints/ecbench_b3_phase1_best.pt",
+    "contact_ec": "outputs/checkpoints/ecbench_b4_flatfc_best.pt"
+  },
+  "summary": [
+    {
+      "true_l1": "1",
+      "family": "Oxidoreductases",
+      "n": 18,
+      "mean_seq_len": 436.8,
+      "ESM2_micro_f1": 0.0909,
+      "ESM2_hit_rate": 0.0556,
+      "ContactOnly_micro_f1": 0.2222,
+      "ContactOnly_hit_rate": 0.1667,
+      "ContactEC_micro_f1": 0.7179,
+      "ContactEC_hit_rate": 0.7222,
+      "HITEC_micro_f1": 0.9231,
+      "HITEC_hit_rate": 0.9444,
+      "fusion_minus_esm2": 0.627,
+      "fusion_minus_contact": 0.4957
+    },
+    {
+      "true_l1": "2",
+      "family": "Transferases",
+      "n": 25,
+      "mean_seq_len": 529.8,
+      "ESM2_micro_f1": 0.6667,
+      "ESM2_hit_rate": 0.52,
+      "ContactOnly_micro_f1": 0.6154,
+      "ContactOnly_hit_rate": 0.28,
+      "ContactEC_micro_f1": 0.7059,
+      "ContactEC_hit_rate": 0.56,
+      "HITEC_micro_f1": 0.8649,
+      "HITEC_hit_rate": 0.84,
+      "fusion_minus_esm2": 0.0392,
+      "fusion_minus_contact": 0.0905
+    },
+    {
+      "true_l1": "3",
+      "family": "Hydrolases",
+      "n": 42,
+      "mean_seq_len": 256.8,
+      "ESM2_micro_f1": 0.5085,
+      "ESM2_hit_rate": 0.3571,
+      "ContactOnly_micro_f1": 0.4561,
+      "ContactOnly_hit_rate": 0.3095,
+      "ContactEC_micro_f1": 0.7838,
+      "ContactEC_hit_rate": 0.6905,
+      "HITEC_micro_f1": 0.9545,
+      "HITEC_hit_rate": 0.9524,
+      "fusion_minus_esm2": 0.2753,
+      "fusion_minus_contact": 0.3277
+    },
+    {
+      "true_l1": "4",
+      "family": "Lyases",
+      "n": 32,
+      "mean_seq_len": 456.9,
+      "ESM2_micro_f1": 0.1923,
+      "ESM2_hit_rate": 0.1562,
+      "ContactOnly_micro_f1": 0.0833,
+      "ContactOnly_hit_rate": 0.0625,
+      "ContactEC_micro_f1": 0.1695,
+      "ContactEC_hit_rate": 0.1562,
+      "HITEC_micro_f1": 0.6667,
+      "HITEC_hit_rate": 0.7812,
+      "fusion_minus_esm2": -0.0228,
+      "fusion_minus_contact": 0.0862
+    },
+    {
+      "true_l1": "5",
+      "family": "Isomerases",
+      "n": 7,
+      "mean_seq_len": 539.4,
+      "ESM2_micro_f1": 0.3636,
+      "ESM2_hit_rate": 0.2857,
+      "ContactOnly_micro_f1": 0.25,
+      "ContactOnly_hit_rate": 0.1429,
+      "ContactEC_micro_f1": 0.6667,
+      "ContactEC_hit_rate": 0.5714,
+      "HITEC_micro_f1": 0.7143,
+      "HITEC_hit_rate": 0.7143,
+      "fusion_minus_esm2": 0.3031,
+      "fusion_minus_contact": 0.4167
+    }
+  ],
+  "interpretation": "Level-1 family analysis exposes which enzyme groups dominate the temporal gain. Small family counts should be interpreted as hypothesis-generating rather than definitive biological evidence."
+}
