@@ -1,0 +1,71 @@
+{
+  "overall": {
+    "casewise_total_n": 124,
+    "similarity_available_n": 101,
+    "similarity_missing_n": 23,
+    "similarity_source": "data/ecbench/splits/test_vs_train_sim.json",
+    "casewise_source": "outputs/results/casewise_hitec_contactec.csv",
+    "max_recorded_similarity": 1.0,
+    "median_recorded_similarity": 0.487,
+    "n_similarity_eq_0": 32,
+    "n_similarity_le_0_30": 32,
+    "n_similarity_gt_0_90": 6,
+    "contactec_micro_f1_on_similarity_subset": 0.6322,
+    "hitec_micro_f1_on_similarity_subset": 0.8544,
+    "interpretation": "This is a sequence-similarity stratification over the 101 temporal proteins for which EC-Bench test-vs-train similarity values are available. It is not a fold-disjoint structural evaluation."
+  },
+  "bins": [
+    {
+      "similarity_bin": "0.00",
+      "n": 32,
+      "mean_max_train_seq_identity": 0.0,
+      "median_max_train_seq_identity": 0.0,
+      "mean_seq_len": 364.1,
+      "contactec_micro_f1": 0.3673,
+      "hitec_micro_f1": 0.8125,
+      "contactec_hit_rate": 0.2812,
+      "hitec_hit_rate": 0.8125,
+      "contactec_mean_per_protein_f1": 0.2708,
+      "hitec_mean_per_protein_f1": 0.8125
+    },
+    {
+      "similarity_bin": "(0.30,0.60]",
+      "n": 36,
+      "mean_max_train_seq_identity": 0.4634,
+      "median_max_train_seq_identity": 0.479,
+      "mean_seq_len": 482.3,
+      "contactec_micro_f1": 0.5902,
+      "hitec_micro_f1": 0.8108,
+      "contactec_hit_rate": 0.5,
+      "hitec_hit_rate": 0.8333,
+      "contactec_mean_per_protein_f1": 0.463,
+      "hitec_mean_per_protein_f1": 0.8241
+    },
+    {
+      "similarity_bin": "(0.60,0.90]",
+      "n": 27,
+      "mean_max_train_seq_identity": 0.7639,
+      "median_max_train_seq_identity": 0.795,
+      "mean_seq_len": 307.4,
+      "contactec_micro_f1": 0.8889,
+      "hitec_micro_f1": 0.9643,
+      "contactec_hit_rate": 0.8889,
+      "hitec_hit_rate": 1.0,
+      "contactec_mean_per_protein_f1": 0.8765,
+      "hitec_mean_per_protein_f1": 0.9815
+    },
+    {
+      "similarity_bin": ">0.90",
+      "n": 6,
+      "mean_max_train_seq_identity": 0.9562,
+      "median_max_train_seq_identity": 0.963,
+      "mean_seq_len": 400.3,
+      "contactec_micro_f1": 0.8,
+      "hitec_micro_f1": 0.8333,
+      "contactec_hit_rate": 0.6667,
+      "hitec_hit_rate": 0.8333,
+      "contactec_mean_per_protein_f1": 0.6667,
+      "hitec_mean_per_protein_f1": 0.8333
+    }
+  ]
+}

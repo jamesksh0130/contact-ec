@@ -449,6 +449,50 @@ ExpA recent Swiss-Prot train & 243{,}198 & 124 & 0 & 0 & 5{,}145 \\
 \end{tabular}
 \end{table}
 
+\paragraph{Sequence-similarity stratification of temporal cases.}
+To test whether temporal performance is concentrated in proteins with close
+training-set neighbours, we joined the final case-wise temporal comparison
+($N=124$) with the available EC-Bench test-vs-train similarity audit. This
+similarity file covers 101 of the 124 fully evaluable temporal proteins; the
+remaining 23 proteins are therefore excluded from the stratified analysis.
+Table~\ref{tab:similarity_strata} and Figure~\ref{fig:similarity_strata} show
+that Contact-EC performance is substantially lower when no recorded sequence
+similarity to the training set is available, and increases in the
+0.60--0.90 identity regime. This supports the manuscript's conservative
+interpretation: temporal EC performance is sensitive to train-test relatedness,
+and sequence-disjoint validation does not by itself establish fold-disjoint
+structural generalization.
+
+\begin{table}[htbp]
+\centering
+\caption{Temporal performance stratified by maximum recorded train-set sequence
+identity for the 101 temporal proteins with available EC-Bench similarity
+metadata. This is a sequence-similarity sensitivity audit, not a structural
+fold-disjoint evaluation.}
+\label{tab:similarity_strata}
+\small
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{lrrrrr}
+\toprule
+Max train identity & $N$ & Contact-EC F1 & HIT-EC F1 & Contact hit & HIT-EC hit \\
+\midrule
+0.00          & 32 & 0.3673 & 0.8125 & 0.2812 & 0.8125 \\
+(0.30, 0.60] & 36 & 0.5902 & 0.8108 & 0.5000 & 0.8333 \\
+(0.60, 0.90] & 27 & 0.8889 & 0.9643 & 0.8889 & 1.0000 \\
+$>$0.90      &  6 & 0.8000 & 0.8333 & 0.6667 & 0.8333 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.82\linewidth]{temporal_similarity_strata.png}
+\caption{Level-4 micro F1 by maximum recorded train-set sequence identity on
+the 101 temporal proteins with available EC-Bench similarity metadata. The
+result motivates future Foldseek/TM-align or CATH/SCOP fold-disjoint testing.}
+\label{fig:similarity_strata}
+\end{figure}
+
 \begin{table}[htbp]
 \centering
 \caption{Interpretation of each evaluation protocol. The same numerical metric can
