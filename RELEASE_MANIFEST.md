@@ -6,8 +6,8 @@ Package:
 
 - Folder: `github_release/contact-ec/`
 - Zip: `github_release/contact-ec-github-upload.zip`
-- Approximate folder size before compression: 15 MB
-- Files in package: 202
+- Approximate folder size before compression: 16 MB
+- Files in package: 209
 
 Contents:
 
@@ -24,6 +24,9 @@ Contents:
 - Late-fusion baseline audit: `scripts/audit_late_fusion_baselines.py`,
   `outputs/audit/late_fusion_baseline_*`, and
   `outputs/figures/late_fusion_baselines.png`
+- Contact-pair nearest-neighbor audit: `scripts/audit_contact_pair_neighbors.py`,
+  `outputs/audit/contact_pair_neighbor_*`, and
+  `outputs/figures/contact_pair_neighbor_hist.png`
 - Manuscript figures: `outputs/figures/`
 - GitHub documentation: `README.md`, `docs/`, `CITATION.cff`, `requirements.txt`, `.gitignore`
 

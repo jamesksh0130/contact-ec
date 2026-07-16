@@ -1,0 +1,62 @@
+{
+  "overall": {
+    "temporal_known_with_pair_embeddings": 113,
+    "train_processed": 224294,
+    "train_with_pair_embeddings": 212863,
+    "median_nearest_cosine": 0.985153,
+    "mean_nearest_cosine": 0.9844861858407079,
+    "n_cosine_gt_0_80": 113,
+    "n_cosine_gt_0_90": 113,
+    "same_l1_rate": 0.8761061946902655,
+    "same_l2_rate": 0.8230088495575221,
+    "same_l3_rate": 0.8230088495575221,
+    "same_l4_rate": 0.5929203539823009
+  },
+  "bins": [
+    {
+      "cosine_bin": "<=0.40",
+      "n": 0,
+      "mean_cosine": NaN,
+      "same_l1_rate": NaN,
+      "same_l2_rate": NaN,
+      "same_l3_rate": NaN,
+      "same_l4_rate": NaN
+    },
+    {
+      "cosine_bin": "0.40-0.60",
+      "n": 0,
+      "mean_cosine": NaN,
+      "same_l1_rate": NaN,
+      "same_l2_rate": NaN,
+      "same_l3_rate": NaN,
+      "same_l4_rate": NaN
+    },
+    {
+      "cosine_bin": "0.60-0.80",
+      "n": 0,
+      "mean_cosine": NaN,
+      "same_l1_rate": NaN,
+      "same_l2_rate": NaN,
+      "same_l3_rate": NaN,
+      "same_l4_rate": NaN
+    },
+    {
+      "cosine_bin": "0.80-0.90",
+      "n": 0,
+      "mean_cosine": NaN,
+      "same_l1_rate": NaN,
+      "same_l2_rate": NaN,
+      "same_l3_rate": NaN,
+      "same_l4_rate": NaN
+    },
+    {
+      "cosine_bin": ">0.90",
+      "n": 113,
+      "mean_cosine": 0.9844861858407079,
+      "same_l1_rate": 0.8761061946902655,
+      "same_l2_rate": 0.8230088495575221,
+      "same_l3_rate": 0.8230088495575221,
+      "same_l4_rate": 0.5929203539823009
+    }
+  ]
+}

@@ -634,6 +634,60 @@ result motivates future Foldseek/TM-align or CATH/SCOP fold-disjoint testing.}
 \label{fig:similarity_strata}
 \end{figure}
 
+\paragraph{Contact-pair nearest-neighbor audit.}
+Because sequence-disjoint evaluation does not guarantee structural
+fold-disjointness, we also performed a model-proximal relatedness audit using the
+existing contact-pair ESM representation. For each protein, we summarized the
+contact-pair tensor by concatenating the mean and standard deviation across the
+sampled residue pairs and computed cosine similarity to all processed SP-2018
+training proteins with available contact-pair embeddings. This analysis is not a
+Foldseek, TM-align, CATH, or SCOP fold-disjoint benchmark. Instead, it asks
+whether temporal test proteins have close neighbours in the same representation
+space used by the contact branch. Table~\ref{tab:contact_pair_nn} and
+Figure~\ref{fig:contact_pair_nn} show that all 113 evaluable temporal known-EC
+proteins have a nearest training neighbour with contact-pair cosine similarity
+above 0.90. The nearest neighbour shares the same Level-4 EC label in 59.3\% of
+cases. We therefore avoid interpreting the temporal results as evidence of
+fold-disjoint structural generalization; a true claim of that type requires
+Foldseek/TM-align or CATH/SCOP clustering followed by retraining and evaluation
+on the resulting fold-disjoint split.
+
+\begin{table}[htbp]
+\centering
+\caption{Contact-pair nearest-neighbor audit for temporal known-EC proteins.
+Cosine similarity is computed on mean--standard deviation summaries of existing
+contact-pair ESM tensors. This is a representation-neighbour audit, not a
+structural fold-disjoint benchmark.}
+\label{tab:contact_pair_nn}
+\small
+\setlength{\tabcolsep}{5pt}
+\begin{tabular}{lr}
+\toprule
+Quantity & Value \\
+\midrule
+Temporal known-EC proteins with contact-pair embeddings & 113/124 \\
+SP-2018 training proteins with contact-pair embeddings & 212{,}863/224{,}294 \\
+Median nearest-neighbour cosine & 0.9852 \\
+Mean nearest-neighbour cosine & 0.9845 \\
+Temporal proteins with nearest cosine $>$0.90 & 113/113 \\
+Nearest neighbour same Level-1 EC & 87.6\% \\
+Nearest neighbour same Level-2 EC & 82.3\% \\
+Nearest neighbour same Level-3 EC & 82.3\% \\
+Nearest neighbour same Level-4 EC & 59.3\% \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.82\linewidth]{contact_pair_neighbor_hist.png}
+\caption{Distribution of nearest SP-2018 training-set cosine similarity for
+the 113 temporal known-EC proteins with available contact-pair embeddings. The
+high nearest-neighbour similarities indicate that the current temporal
+evaluation should not be treated as fold-disjoint structural generalization.}
+\label{fig:contact_pair_nn}
+\end{figure}
+
 \begin{table}[htbp]
 \centering
 \caption{Interpretation of each evaluation protocol. The same numerical metric can
