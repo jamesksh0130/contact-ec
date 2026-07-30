@@ -1,0 +1,30 @@
+{
+  "n_samples": 16725,
+  "unseen_prevalence": 0.3161136023916293,
+  "best_by_model": [
+    {
+      "model": "Fusion_ESM2_contact",
+      "score": "low_top5_sum",
+      "target": "any_unseen_true_label",
+      "prevalence": 0.3161136023916293,
+      "auroc": 0.738250335614219,
+      "average_precision": 0.58987466416399
+    },
+    {
+      "model": "B1_ESM2_only",
+      "score": "low_top5_sum",
+      "target": "any_unseen_true_label",
+      "prevalence": 0.3161136023916293,
+      "auroc": 0.6756182202264935,
+      "average_precision": 0.43600071625143344
+    },
+    {
+      "model": "B3_contact_only",
+      "score": "low_top1",
+      "target": "any_unseen_true_label",
+      "prevalence": 0.3161136023916293,
+      "auroc": 0.5738791976664646,
+      "average_precision": 0.36521235437684263
+    }
+  ]
+}

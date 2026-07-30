@@ -1,0 +1,4 @@
+model,level1_micro_f1,level2_micro_f1,level3_micro_f1,level4_micro_f1,level4_macro_f1,level4_precision,level4_recall,underrepresented_l4_micro_f1,n_test
+B1_ESM2_only,0.4542,0.0385,0.0130,0.0452,0.0015,0.3402,0.0242,0.0000,16725
+B3_contact_only,0.3679,0.0393,0.0014,0.0436,0.0017,0.2711,0.0237,0.0000,16725
+Fusion_ESM2_contact,0.5151,0.0177,0.0078,0.0864,0.0033,0.5175,0.0471,0.0014,16725

@@ -106,6 +106,30 @@ def build_model(model_name, n_classes):
                               fusion_dim=CFG["model"]["fusion_dim"],
                               dropout=0.0)
 
+    elif model_name == "fusion_concat_flatfc":
+        from models.fusion_simple_baselines import FusionConcatFlatFC
+        return FusionConcatFlatFC(n_classes,
+                                  esm_dim=CFG["model"]["esm2_dim"],
+                                  contact_dim=CFG["model"].get("resnet_out_dim", 512),
+                                  fusion_dim=CFG["model"]["fusion_dim"],
+                                  dropout=0.0)
+
+    elif model_name == "fusion_sum_flatfc":
+        from models.fusion_simple_baselines import FusionSumFlatFC
+        return FusionSumFlatFC(n_classes,
+                               esm_dim=CFG["model"]["esm2_dim"],
+                               contact_dim=CFG["model"].get("resnet_out_dim", 512),
+                               fusion_dim=CFG["model"]["fusion_dim"],
+                               dropout=0.0)
+
+    elif model_name == "fusion_gated_mlp_flatfc":
+        from models.fusion_simple_baselines import FusionGatedMLPFlatFC
+        return FusionGatedMLPFlatFC(n_classes,
+                                    esm_dim=CFG["model"]["esm2_dim"],
+                                    contact_dim=CFG["model"].get("resnet_out_dim", 512),
+                                    fusion_dim=CFG["model"]["fusion_dim"],
+                                    dropout=0.0)
+
 
 @torch.no_grad()
 def run_inference(model, loader, model_name, hier_maps=None, threshold: float = 0.5):
@@ -227,15 +251,17 @@ def compute_all_metrics(preds_l13, labels_all, masks_all,
     pred_bin = (lp >= threshold).astype(np.int32)
     target   = lt.astype(np.int32)
 
-    micro  = f1_score(target, pred_bin, average="micro",    zero_division=0)
-    macro  = f1_score(target, pred_bin, average="macro",    zero_division=0)
-    prec   = precision_score(target, pred_bin, average="micro", zero_division=0)
-    rec    = recall_score(target, pred_bin,    average="micro", zero_division=0)
+    micro    = f1_score(target, pred_bin, average="micro", zero_division=0)
+    macro    = f1_score(target, pred_bin, average="macro", zero_division=0)
+    weighted = f1_score(target, pred_bin, average="weighted", zero_division=0)
+    prec     = precision_score(target, pred_bin, average="micro", zero_division=0)
+    rec      = recall_score(target, pred_bin, average="micro", zero_division=0)
 
     results["level4"] = {
         "n_samples":  int(valid_mask.sum()),
         "micro_f1":   round(micro, 4),
         "macro_f1":   round(macro, 4),
+        "weighted_f1": round(weighted, 4),
         "precision":  round(prec,  4),
         "recall":     round(rec,   4),
         "threshold":  threshold,
@@ -249,7 +275,7 @@ def main():
     parser.add_argument("--model",      required=True)
     parser.add_argument("--checkpoint", required=True)
     parser.add_argument("--split",      default="test",
-                        choices=["val", "test", "cluster_val", "cluster_test", "price149", "new392"])
+                        help="Split name without '_ids.txt' suffix, or one of price149/new392.")
     parser.add_argument("--gpu",        type=int, default=0)
     parser.add_argument("--hierarchical_inference", action="store_true",
                         help="L1→L2→L3→L4 계층 constraint 추론 (독립 argmax 대신)")
@@ -364,10 +390,11 @@ def main():
     if "level4" in results:
         r4 = results["level4"]
         print(f"\n  [L4 멀티레이블 F1  (threshold={r4['threshold']})]")
-        print(f"  {'Micro F1':>10} {'Macro F1':>10} {'Precision':>10} {'Recall':>8}  n")
-        print("  " + "-" * 50)
+        print(f"  {'Micro F1':>10} {'Macro F1':>10} {'W-F1':>10} {'Precision':>10} {'Recall':>8}  n")
+        print("  " + "-" * 61)
         print(f"  {r4['micro_f1']:>10.4f} {r4['macro_f1']:>10.4f} "
-              f"{r4['precision']:>10.4f} {r4['recall']:>8.4f}  {r4['n_samples']:,}")
+              f"{r4['weighted_f1']:>10.4f} {r4['precision']:>10.4f} "
+              f"{r4['recall']:>8.4f}  {r4['n_samples']:,}")
 
         # CLEAN 비교
         is_price = (args.split == "price149")

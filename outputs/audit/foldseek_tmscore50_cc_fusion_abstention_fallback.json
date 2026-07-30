@@ -1,0 +1,41 @@
+{
+  "model": "Fusion_ESM2_contact",
+  "threshold": 0.08,
+  "n_samples": 16725,
+  "baseline": {
+    "model": "Fusion_ESM2_contact",
+    "abstain_low_conf_fraction": 0.0,
+    "coverage": 1.0,
+    "retained_l4_micro_f1": 0.20822806289829937,
+    "retained_l4_sample_hit": 0.16484304932735425,
+    "abstained_unseen_prevalence": NaN,
+    "abstained_l3_top1_hit": NaN,
+    "overall_l4_or_fallback_l3_hit": 0.16484304932735425,
+    "mean_top5_sum_retained": 0.18550808727741241,
+    "mean_top5_sum_abstained": NaN
+  },
+  "best_overall_fallback_hit": {
+    "model": "Fusion_ESM2_contact",
+    "abstain_low_conf_fraction": 0.5,
+    "coverage": 0.5000298953662182,
+    "retained_l4_micro_f1": 0.3046796094714398,
+    "retained_l4_sample_hit": 0.3241659691498266,
+    "abstained_unseen_prevalence": 0.4654388902176513,
+    "abstained_l3_top1_hit": 0.20449653193016024,
+    "overall_l4_or_fallback_l3_hit": 0.26433482810164427,
+    "mean_top5_sum_retained": 0.3267107605934143,
+    "mean_top5_sum_abstained": 0.044288523495197296
+  },
+  "best_retained_l4_micro_f1": {
+    "model": "Fusion_ESM2_contact",
+    "abstain_low_conf_fraction": 0.5,
+    "coverage": 0.5000298953662182,
+    "retained_l4_micro_f1": 0.3046796094714398,
+    "retained_l4_sample_hit": 0.3241659691498266,
+    "abstained_unseen_prevalence": 0.4654388902176513,
+    "abstained_l3_top1_hit": 0.20449653193016024,
+    "overall_l4_or_fallback_l3_hit": 0.26433482810164427,
+    "mean_top5_sum_retained": 0.3267107605934143,
+    "mean_top5_sum_abstained": 0.044288523495197296
+  }
+}

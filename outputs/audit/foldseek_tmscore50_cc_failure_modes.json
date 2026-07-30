@@ -1,0 +1,9 @@
+{
+  "n_samples": 16725,
+  "fusion_rescue_vs_b1_fraction": 0.17279521674140508,
+  "fusion_rescue_vs_b3_fraction": 0.12478325859491779,
+  "fusion_only_rescue_fraction": 0.10995515695067265,
+  "all_models_fail_fraction": 0.7531838565022422,
+  "all_models_fail_any_unseen_fraction": 0.41875049614987697,
+  "fusion_only_rescue_any_unseen_fraction": 0.004893964110929853
+}

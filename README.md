@@ -14,7 +14,8 @@ Contact-EC is a sequence-structure fusion framework for hierarchical, multi-labe
 - `outputs/results/`: selected JSON result files used in the manuscript.
 - `outputs/results/casewise_hitec_contactec.*`: per-protein comparison between HIT-EC and Contact-EC on the 124 known-label temporal proteins.
 - `outputs/results/contactec_threshold_sensitivity.*`: fixed-threshold, global-threshold, and top-1 fallback calibration analysis on the same temporal subset.
-- `outputs/audit/`: overlap, asset-coverage, label-statistics, and reliability audit outputs.
+- `outputs/audit/`: overlap, asset-coverage, label-statistics, Foldseek-disjoint,
+  seed-repeat, fusion-baseline, open-vocabulary, and reliability audit outputs.
 - `outputs/figures/`: manuscript figures.
 - `paper/pdf/`: current main manuscript and supplementary PDF.
 - `paper/source/`: LaTeX source for the current manuscript draft.
@@ -27,14 +28,18 @@ Selected Level-4 micro F1 values from the current manuscript:
 
 | Setting | Model | Micro F1 |
 |---|---:|---:|
-| Temporal Swiss-Prot 2023-01 holdout | ESM-2 650M only | 0.4216 |
-| Temporal Swiss-Prot 2023-01 holdout | Contact map only | 0.3646 |
-| Temporal Swiss-Prot 2023-01 holdout | Contact-EC fusion | 0.6032 |
+| Temporal Swiss-Prot 2023-01 holdout | ESM-2 650M only | 0.4508 +/- 0.0203 |
+| Temporal Swiss-Prot 2023-01 holdout | Contact map only | 0.4244 +/- 0.0207 |
+| Temporal Swiss-Prot 2023-01 holdout | Contact-EC fusion | 0.6241 +/- 0.0170 |
 | Temporal Swiss-Prot 2023-01 holdout | Contact-EC 3B | 0.6316 |
 | Temporal Swiss-Prot 2023-01 holdout | HIT-EC baseline | 0.8471 |
+| Temporal Swiss-Prot 2023-01 holdout | Concat fusion control | 0.5922 +/- 0.0150 |
 | Sequence-disjoint EC-Bench hard validation | ESM-2 650M only | 0.7655 |
 | Sequence-disjoint EC-Bench hard validation | Contact map only | 0.7650 |
 | Sequence-disjoint EC-Bench hard validation | Contact-EC fusion | 0.8879 |
+| Foldseek/TM-score 0.50 test, validation-selected threshold | ESM-2 650M only | 0.0607 +/- 0.0009 |
+| Foldseek/TM-score 0.50 test, validation-selected threshold | Contact map only | 0.0654 +/- 0.0016 |
+| Foldseek/TM-score 0.50 test, validation-selected threshold | Contact-EC fusion | 0.1685 +/- 0.0334 |
 
 See `outputs/audit/reliability_report.md` and `outputs/audit/paper_consistency_audit.md` before making new claims from these results.
 
@@ -45,8 +50,9 @@ frame Contact-EC as a decomposition model rather than a replacement for HIT-EC.
 
 The threshold sensitivity analysis shows that Contact-EC reaches micro F1 0.6032
 with the fixed 0.5 cutoff and 0.6167 with the best global cutoff of 0.65. The
-small gain supports the manuscript's interpretation that the temporal gap is not
-explained by a single threshold choice alone.
+simple fusion seed-repeat audit shows that concat/sum/gated-MLP controls remain
+below Contact-EC, while the Foldseek audit shows that absolute closed-set
+Level-4 performance under fold-level shift is still low.
 
 ## Installation
 
@@ -62,6 +68,7 @@ External tools and resources used by some scripts:
 - ESM-2 weights from Hugging Face or FAIR ESM.
 - AlphaFold/PDB structure files for contact-map construction.
 - MMseqs2 for sequence-disjoint split checks where applicable.
+- Foldseek for the TM-score-disjoint structural split audit.
 
 ## Typical workflow
 

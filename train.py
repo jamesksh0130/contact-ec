@@ -9,7 +9,7 @@
   python train.py --model fusion --phase 2 --epochs 20 \
                   --resume outputs/checkpoints/fusion_phase1_best.pt
 """
-import os, argparse, pickle, yaml, time
+import os, argparse, pickle, yaml, time, random
 from pathlib import Path
 
 import torch
@@ -36,6 +36,16 @@ with open(ROOT / "configs" / _config_file) as f:
 from models.dataset import ProteinDataset, collate_fn, ContactPairDataset, collate_fn_v3
 
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
+
+
+def seed_everything(seed: int):
+    random.seed(seed)
+    np.random.seed(seed)
+    torch.manual_seed(seed)
+    if torch.cuda.is_available():
+        torch.cuda.manual_seed_all(seed)
+    torch.backends.cudnn.benchmark = False
+    torch.backends.cudnn.deterministic = True
 
 
 # ── 모델 팩토리 ──────────────────────────────────────────────
@@ -106,6 +116,30 @@ def build_model(model_name: str, n_classes: list[int]):
                               contact_dim=CFG["model"]["resnet_out_dim"],
                               fusion_dim=CFG["model"]["fusion_dim"],
                               dropout=CFG["model"]["dropout"])
+
+    elif model_name == "fusion_concat_flatfc":
+        from models.fusion_simple_baselines import FusionConcatFlatFC
+        return FusionConcatFlatFC(n_classes,
+                                  esm_dim=CFG["model"]["esm2_dim"],
+                                  contact_dim=CFG["model"]["resnet_out_dim"],
+                                  fusion_dim=CFG["model"]["fusion_dim"],
+                                  dropout=CFG["model"]["dropout"])
+
+    elif model_name == "fusion_sum_flatfc":
+        from models.fusion_simple_baselines import FusionSumFlatFC
+        return FusionSumFlatFC(n_classes,
+                               esm_dim=CFG["model"]["esm2_dim"],
+                               contact_dim=CFG["model"]["resnet_out_dim"],
+                               fusion_dim=CFG["model"]["fusion_dim"],
+                               dropout=CFG["model"]["dropout"])
+
+    elif model_name == "fusion_gated_mlp_flatfc":
+        from models.fusion_simple_baselines import FusionGatedMLPFlatFC
+        return FusionGatedMLPFlatFC(n_classes,
+                                    esm_dim=CFG["model"]["esm2_dim"],
+                                    contact_dim=CFG["model"]["resnet_out_dim"],
+                                    fusion_dim=CFG["model"]["fusion_dim"],
+                                    dropout=CFG["model"]["dropout"])
 
     elif model_name == "fusion_v2_3b":
         from models.fusion_v2 import FusionModelV2
@@ -342,6 +376,8 @@ def main():
                         choices=["b0_cnn", "b1_esm2_fc", "b2_esm2_hier",
                                  "b3_contact", "fusion", "fusion_esm_ft",
                                  "fusion_v2", "fusion_v2_flatfc", "fusion_v2_3b",
+                                 "fusion_concat_flatfc", "fusion_sum_flatfc",
+                                 "fusion_gated_mlp_flatfc",
                                  "fusion_v3", "fusion_v3_esm_ft"])
     parser.add_argument("--phase",   type=int, default=1,
                         help="fusion 모델: 1=ESM frozen, 2=partial unfreeze")
@@ -367,11 +403,15 @@ def main():
                         help="gradient accumulation steps (effective_bs = batch_size * grad_accum)")
     parser.add_argument("--fp16", action="store_true",
                         help="fp16 mixed precision training (AMP)")
+    parser.add_argument("--seed", type=int, default=42,
+                        help="random seed for reproducible repeated runs")
     args = parser.parse_args()
+
+    seed_everything(args.seed)
 
     global DEVICE
     DEVICE = f"cuda:{args.gpu}" if torch.cuda.is_available() else "cpu"
-    print(f"디바이스: {DEVICE}  |  모델: {args.model}  |  Phase: {args.phase}", flush=True)
+    print(f"디바이스: {DEVICE}  |  모델: {args.model}  |  Phase: {args.phase}  |  Seed: {args.seed}", flush=True)
 
     # ── 라벨 인코더에서 클래스 수 로드 ──
     with open(ROOT / CFG["paths"]["label_enc"], "rb") as f:
@@ -385,9 +425,20 @@ def main():
     M34 = build_parent_child_matrix(encoders, 3, 4).to(DEVICE)
     print(f"일관성 매핑: M12{tuple(M12.shape)} M23{tuple(M23.shape)} M34{tuple(M34.shape)}", flush=True)
 
+    def seed_worker(worker_id):
+        worker_seed = args.seed + worker_id
+        np.random.seed(worker_seed)
+        random.seed(worker_seed)
+
+    def loader_generator():
+        generator = torch.Generator()
+        generator.manual_seed(args.seed)
+        return generator
+
     # ── 데이터셋 ──
     def make_loader(split, shuffle):
         bs = args.batch_size if args.batch_size else CFG["train"]["batch_size"]
+
         if args.model == "fusion_v3":
             ds = ContactPairDataset(
                 ids_file      = ROOT / CFG["paths"]["splits_dir"] / f"{split}_ids.txt",
@@ -399,7 +450,8 @@ def main():
                 k_pairs       = 32,
             )
             return DataLoader(ds, batch_size=bs, shuffle=shuffle,
-                              num_workers=4, collate_fn=collate_fn_v3, pin_memory=True)
+                              num_workers=4, collate_fn=collate_fn_v3, pin_memory=True,
+                              worker_init_fn=seed_worker, generator=loader_generator())
         else:
             ds = ProteinDataset(
                 ids_file      = ROOT / CFG["paths"]["splits_dir"] / f"{split}_ids.txt",
@@ -409,7 +461,8 @@ def main():
                 label_enc_pkl = ROOT / CFG["paths"]["label_enc"],
             )
             return DataLoader(ds, batch_size=bs, shuffle=shuffle,
-                              num_workers=4, collate_fn=collate_fn, pin_memory=True)
+                              num_workers=4, collate_fn=collate_fn, pin_memory=True,
+                              worker_init_fn=seed_worker, generator=loader_generator())
 
     pfx = args.split_prefix  # e.g. "" or "cluster_"
     train_loader = make_loader(f"{pfx}train", shuffle=True)
@@ -424,7 +477,9 @@ def main():
             label_enc_pkl = ROOT / CFG["paths"]["label_enc"],
         )
         val_loader = DataLoader(val_ds, batch_size=bs, shuffle=False,
-                                num_workers=4, collate_fn=collate_fn, pin_memory=True)
+                                num_workers=4, collate_fn=collate_fn, pin_memory=True,
+                                worker_init_fn=seed_worker,
+                                generator=loader_generator())
     else:
         val_loader = make_loader(f"{pfx}val", shuffle=False)
     print(f"Train: {len(train_loader.dataset):,}  Val: {len(val_loader.dataset):,}", flush=True)

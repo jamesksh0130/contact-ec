@@ -1,0 +1,44 @@
+[
+  {
+    "model": "B1_ESM2_only",
+    "val_selected_threshold": 0.13,
+    "val_micro_f1_at_threshold": 0.0600919992554973,
+    "test_micro_f1_at_val_threshold": 0.06128749827196903,
+    "test_macro_f1_at_val_threshold": 0.0026651382257040527,
+    "test_precision_at_val_threshold": 0.14068119314575842,
+    "test_recall_at_val_threshold": 0.039177565688700365,
+    "test_avg_pred_labels_at_val_threshold": 0.2826307922272048,
+    "test_posthoc_best_threshold": 0.05,
+    "test_posthoc_best_micro_f1": 0.0713359273670557,
+    "posthoc_minus_val_selected_micro_f1": 0.010048429095086665,
+    "n_test": 16725
+  },
+  {
+    "model": "B3_contact_only",
+    "val_selected_threshold": 0.07,
+    "val_micro_f1_at_threshold": 0.0146463401753335,
+    "test_micro_f1_at_val_threshold": 0.0652440383329619,
+    "test_macro_f1_at_val_threshold": 0.003022647504547789,
+    "test_precision_at_val_threshold": 0.06188563576788923,
+    "test_recall_at_val_threshold": 0.0689878637916814,
+    "test_avg_pred_labels_at_val_threshold": 1.1313602391629298,
+    "test_posthoc_best_threshold": 0.12,
+    "test_posthoc_best_micro_f1": 0.0692013825723121,
+    "posthoc_minus_val_selected_micro_f1": 0.003957344239350208,
+    "n_test": 16725
+  },
+  {
+    "model": "Fusion_ESM2_contact",
+    "val_selected_threshold": 0.08,
+    "val_micro_f1_at_threshold": 0.0756949144045918,
+    "test_micro_f1_at_val_threshold": 0.17466691686995683,
+    "test_macro_f1_at_val_threshold": 0.006699057937398507,
+    "test_precision_at_val_threshold": 0.2406162754627236,
+    "test_recall_at_val_threshold": 0.13709202309414398,
+    "test_avg_pred_labels_at_val_threshold": 0.578236173393124,
+    "test_posthoc_best_threshold": 0.05,
+    "test_posthoc_best_micro_f1": 0.1778275771157395,
+    "posthoc_minus_val_selected_micro_f1": 0.003160660245782654,
+    "n_test": 16725
+  }
+]

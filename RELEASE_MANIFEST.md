@@ -1,13 +1,13 @@
 # GitHub Upload Manifest
 
-Prepared on: 2026-07-17
+Prepared on: 2026-07-30
 
 Package:
 
 - Folder: `github_release/contact-ec/`
 - Zip: `github_release/contact-ec-github-upload.zip`
-- Approximate folder size before compression: 21 MB
-- Files in package: 229
+- Approximate folder size before compression: 40 MB
+- Files in zip package: 342
 
 Contents:
 
@@ -38,6 +38,28 @@ Contents:
   `scripts/audit_contactec_calibration.py`,
   `outputs/audit/contactec_calibration_audit.*`, and
   `outputs/figures/contactec_calibration_diagnostics.png`
+- Foldseek/TM-score-disjoint split and robustness audit:
+  `scripts/foldseek_structure_split.py`,
+  `scripts/build_foldseek_tmscore_sweep_splits.sh`,
+  `scripts/run_foldseek_tmscore_sweep_training.sh`,
+  `scripts/collect_foldseek_tmscore_sweep.py`,
+  `scripts/audit_foldseek_*`,
+  `outputs/audit/foldseek_tmscore50_cc_*`, and
+  `outputs/audit/foldseek_tmscore_sweep_*`
+- Three-seed temporal known-label repeats:
+  `scripts/run_temporal_known_seed_repeats.sh`,
+  `scripts/collect_temporal_known_seed_repeats.py`, and
+  `outputs/audit/temporal_known_seed_repeats.*`
+- Trainable simple fusion architecture controls:
+  `models/fusion_simple_baselines.py`,
+  `scripts/run_simple_fusion_baseline_seed_repeats.sh`,
+  `scripts/collect_simple_fusion_seed_repeats.py`, and
+  `outputs/audit/simple_fusion_seed_repeats.*`
+- Open-vocabulary, abstention, label-difficulty, and fusion-rescue audits:
+  `outputs/audit/foldseek_tmscore50_cc_open_set_confidence.*`,
+  `outputs/audit/foldseek_tmscore50_cc_fusion_abstention_fallback.*`,
+  `outputs/audit/foldseek_tmscore50_cc_label_difficulty_audit.*`, and
+  `outputs/audit/foldseek_tmscore50_cc_fusion_rescue_case_studies.*`
 - Manuscript figures: `outputs/figures/`
 - GitHub documentation: `README.md`, `docs/`, `CITATION.cff`, `requirements.txt`, `.gitignore`
 
