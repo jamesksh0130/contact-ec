@@ -1,0 +1,5 @@
+model,seed,n,micro_f1,weighted_f1,precision,recall,rare_micro_f1
+Contact-EC 2018,42,99,0.6386,0.5492,0.791,0.5354,0.4375
+Contact-EC 2018,43,99,0.6706,0.5917,0.8028,0.5758,0.4638
+Contact-EC 2018,44,99,0.631,0.5666,0.7681,0.5354,0.4545
+Contact-EC ExpA 2026,single,99,0.7209,0.6578,0.8493,0.6263,0.5

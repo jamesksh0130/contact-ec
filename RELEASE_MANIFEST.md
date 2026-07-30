@@ -6,8 +6,8 @@ Package:
 
 - Folder: `github_release/contact-ec/`
 - Zip: `github_release/contact-ec-github-upload.zip`
-- Approximate folder size before compression: 40 MB
-- Files in zip package: 342
+- Approximate folder size before compression: 48 MB
+- Files in zip package: 352
 
 Contents:
 
@@ -55,6 +55,13 @@ Contents:
   `scripts/run_simple_fusion_baseline_seed_repeats.sh`,
   `scripts/collect_simple_fusion_seed_repeats.py`, and
   `outputs/audit/simple_fusion_seed_repeats.*`
+- Recency cutoff and matched-intersection audit:
+  `scripts/audit_recency_cutoff_decomposition.py`,
+  `scripts/build_recency_intersection_ids.py`,
+  `scripts/collect_recency_intersection_eval.py`,
+  `outputs/audit/recency_cutoff_decomposition.*`,
+  `outputs/audit/recency_intersection_ids.md`, and
+  `outputs/audit/recency_intersection_eval.*`
 - Open-vocabulary, abstention, label-difficulty, and fusion-rescue audits:
   `outputs/audit/foldseek_tmscore50_cc_open_set_confidence.*`,
   `outputs/audit/foldseek_tmscore50_cc_fusion_abstention_fallback.*`,

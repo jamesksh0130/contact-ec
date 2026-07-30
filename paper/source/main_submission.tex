@@ -44,8 +44,9 @@ ESM-2 650M on sequence-disjoint hard validation (0.7650 vs.\ 0.7655), and topolo
 perturbations collapse the contact-only model to zero, supporting genuine
 structural signal. A label-shift audit shows that 344/468 temporal proteins contain
 partial or novel EC labels outside the evaluated closed-set vocabulary. Data-recency
-retraining recovers +11.8\,pp, whereas end-to-end ESM-2 fine-tuning reduces temporal
-micro F1 by 5.1\,pp. HIT-EC remains stronger in absolute temporal performance
+retraining recovers +7.4\,pp on a matched encoder-evaluable subset, whereas
+end-to-end ESM-2 fine-tuning reduces temporal micro F1 by 5.1\,pp. HIT-EC
+remains stronger in absolute temporal performance
 (0.8471), indicating that structure-aware fusion is not sufficient by itself to
 close the temporal gap. A Foldseek/TM-score-disjoint split further shows that
 absolute novel-fold-like Level-4 performance is low, but validation-calibrated
@@ -285,7 +286,9 @@ Trainable fusion controls remain below Contact-EC: concatenation reaches
 complete known-EC subset ($N$\,=\,124). B1, B3, and Contact-EC flat FC temporal
 values are mean $\pm$ sample standard deviation across three seeds; other rows
 are single-run or externally reported. Bold denotes the best value among our
-SP-2018-trained models.}
+SP-2018-trained models. $^\dagger$ExpA is evaluated on the Level-4
+encoder-evaluable intersection subset ($N$\,=\,99); Contact-EC trained on
+SP-2018 reaches $0.6467\pm0.0210$ micro F1 on the same subset.}
 \label{tab:main}
 \scriptsize
 \setlength{\tabcolsep}{3pt}
@@ -306,7 +309,7 @@ Contact-EC (flat FC)      & $0.6241\pm0.0170$ & $0.5278\pm0.0222$ & $\mathbf{0.5
 Contact-EC-Hier           & 0.5690 & 0.4528 & 0.3621 & 0.1263 \\
 Contact-EC-3B (flat FC)   & \textbf{0.6316} & \textbf{0.5477} & 0.4786 & \textbf{0.2915} \\
 \midrule
-Contact-EC-ExpA (recent data) & 0.7209 & 0.6578 & 0.5283 & 0.2764 \\
+Contact-EC-ExpA (recent data)$^\dagger$ & 0.7209 & 0.6578 & 0.5000 & 0.2764 \\
 Contact-EC-E2E (fine-tuned)   & 0.6703 & 0.6382 & 0.5091 & 0.2522 \\
 \bottomrule
 \end{tabular}
@@ -379,16 +382,22 @@ All-zero maps & 0.0000 & 0.9124 \\
 \end{table}
 
 The recent-corpus experiment tests the effect of updating the training corpus and
-label vocabulary. Contact-EC-ExpA improves from 0.6032 to 0.7209, but sample
-size, class frequencies, and homolog coverage also change, so this is a
-recent-corpus effect rather than a pure date effect. In contrast,
+label vocabulary. A recency-cutoff audit shows no accession or exact-sequence
+overlap between the ExpA training split and the temporal proteins, but the ExpA
+encoder evaluates only 99 of the 124 complete-known temporal proteins at Level 4.
+On this matched $N=99$ intersection, Contact-EC trained on SP-2018 reaches
+$0.6467\pm0.0210$ micro F1, whereas Contact-EC-ExpA reaches 0.7209. Thus the
+fair-subset recent-corpus gain is +7.4\,pp, not the naive +11.8\,pp obtained by
+comparing different denominators. Sample size, class frequencies, label
+coverage, and homolog coverage also change, so this is a recent-corpus effect
+rather than a pure date effect. In contrast,
 end-to-end ESM-2 fine-tuning reaches similar in-distribution validation performance
 but drops to 0.6703 temporally. This suggests over-adaptation of the PLM backbone
 under limited supervised data and supports frozen or lightly tuned representations
-for temporal robustness. The +11.8\,pp recent-corpus gain is larger than the
-+2.8\,pp gain from replacing ESM-2 650M with the 3B backbone, reinforcing that
-benchmark date, data volume, homolog coverage, and label coverage can matter more
-than backbone scale.
+for temporal robustness. The matched +7.4\,pp recent-corpus gain remains larger
+than the +2.8\,pp gain from replacing ESM-2 650M with the 3B backbone,
+reinforcing that benchmark date, data volume, homolog coverage, and label
+coverage can matter as much as or more than backbone scale.
 
 \section{Discussion}
 

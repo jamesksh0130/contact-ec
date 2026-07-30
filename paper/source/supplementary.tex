@@ -651,9 +651,12 @@ CLEAN-Contact uses ESM-2 3B (2{,}560-dimensional) with contrastive kNN inference
 and full Swiss-Prot training data. On New-392, Contact-EC (0.3717, SP-2018)
 trails CLEAN-Contact (0.566) due to backbone scale (3B vs.\ 650M) and training
 recency. Contact-EC-ExpA (SP-2026, 0.7680) surpasses CLEAN-Contact but with
-potential train/test overlap. The gap on Price-149 reflects the OOD nature of
-bacterial RefSeq sequences and exact Level-4 calibration under structure-source
-shift rather than a simple missing-input problem.
+potential train/test overlap on New-392. On the Swiss-Prot 2023 temporal audit,
+ExpA is instead evaluated on the $N=99$ encoder-evaluable intersection subset,
+where it improves over the matched SP-2018 Contact-EC baseline by +7.4\,pp micro
+F1. The gap on Price-149 reflects the OOD nature of bacterial RefSeq sequences
+and exact Level-4 calibration under structure-source shift rather than a simple
+missing-input problem.
 
 \paragraph{Paper significance and scope.}
 The current results demonstrate that structural contact maps provide complementary
@@ -692,20 +695,46 @@ are labeled separately to avoid mixing evaluation protocols.
 
 \begin{table}[htbp]
 \centering
-\caption{Final temporal leakage audit for the 124 fully evaluable Swiss-Prot
-2023-01 proteins. Accession and exact-sequence overlap are necessary checks but
-do not establish homolog- or fold-disjointness.}
+\caption{Final temporal leakage and label-encoder audit for the complete-known
+Swiss-Prot 2023-01 proteins. Accession and exact-sequence overlap are necessary
+checks but do not establish homolog- or fold-disjointness. ExpA contains many
+temporal proteins in the full corpus because it is a later Swiss-Prot snapshot,
+but the training split excludes them; only 99 temporal proteins are Level-4
+evaluable under the ExpA encoder.}
 \label{tab:leakage_audit}
 \small
 \setlength{\tabcolsep}{3pt}
-\begin{tabular}{lrrrrr}
+\resizebox{\linewidth}{!}{%
+\begin{tabular}{lrrrrrrr}
 \toprule
-Training corpus & Train $N$ & Test $N$ & Acc.\ overlap & Seq.\ overlap & Train L4 \\
+Training corpus & Train $N$ & Eval.\ $N$ & Corpus acc.\ ovl. & Train acc.\ ovl. & Train seq.\ ovl. & Encoder L4 & Train L4 \\
 \midrule
-SP-2018 EC-Bench train & 201{,}865 & 124 & 0 & 0 & 4{,}284 \\
-ExpA recent Swiss-Prot train & 243{,}198 & 124 & 0 & 0 & 5{,}145 \\
+SP-2018 EC-Bench train & 201{,}865 & 124 & 0 & 0 & 0 & 4{,}647 & 4{,}521 \\
+SP-2022 train & 243{,}335 & 124 & 0 & 0 & 0 & 5{,}306 & 5{,}173 \\
+ExpA recent Swiss-Prot train & 243{,}198 & 99 & 115 & 0 & 0 & 5{,}306 & 5{,}164 \\
 \bottomrule
 \end{tabular}
+}
+\end{table}
+
+\begin{table}[htbp]
+\centering
+\caption{Matched temporal recency comparison on the Level-4 encoder-evaluable
+intersection subset ($N=99$). This avoids comparing ExpA against the broader
+SP-2018-only $N=124$ denominator.}
+\label{tab:recency_intersection}
+\small
+\setlength{\tabcolsep}{4pt}
+\resizebox{\linewidth}{!}{%
+\begin{tabular}{lccccc}
+\toprule
+Model & Runs & Micro F1 & Weighted F1 & Precision & Recall \\
+\midrule
+Contact-EC SP-2018 & 3 seeds & $0.6467\pm0.0210$ & $0.5692\pm0.0214$ & $0.7873\pm0.0175$ & $0.5489\pm0.0233$ \\
+Contact-EC-ExpA SP-2026 & single & 0.7209 & 0.6578 & 0.8493 & 0.6263 \\
+\bottomrule
+\end{tabular}
+}
 \end{table}
 
 \paragraph{Sequence-similarity stratification of temporal cases.}

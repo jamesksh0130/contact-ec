@@ -15,7 +15,8 @@ Contact-EC is a sequence-structure fusion framework for hierarchical, multi-labe
 - `outputs/results/casewise_hitec_contactec.*`: per-protein comparison between HIT-EC and Contact-EC on the 124 known-label temporal proteins.
 - `outputs/results/contactec_threshold_sensitivity.*`: fixed-threshold, global-threshold, and top-1 fallback calibration analysis on the same temporal subset.
 - `outputs/audit/`: overlap, asset-coverage, label-statistics, Foldseek-disjoint,
-  seed-repeat, fusion-baseline, open-vocabulary, and reliability audit outputs.
+  seed-repeat, fusion-baseline, recency-intersection, open-vocabulary, and
+  reliability audit outputs.
 - `outputs/figures/`: manuscript figures.
 - `paper/pdf/`: current main manuscript and supplementary PDF.
 - `paper/source/`: LaTeX source for the current manuscript draft.
@@ -34,6 +35,8 @@ Selected Level-4 micro F1 values from the current manuscript:
 | Temporal Swiss-Prot 2023-01 holdout | Contact-EC 3B | 0.6316 |
 | Temporal Swiss-Prot 2023-01 holdout | HIT-EC baseline | 0.8471 |
 | Temporal Swiss-Prot 2023-01 holdout | Concat fusion control | 0.5922 +/- 0.0150 |
+| Temporal recency intersection, N=99 | Contact-EC SP-2018 | 0.6467 +/- 0.0210 |
+| Temporal recency intersection, N=99 | Contact-EC-ExpA SP-2026 | 0.7209 |
 | Sequence-disjoint EC-Bench hard validation | ESM-2 650M only | 0.7655 |
 | Sequence-disjoint EC-Bench hard validation | Contact map only | 0.7650 |
 | Sequence-disjoint EC-Bench hard validation | Contact-EC fusion | 0.8879 |
@@ -41,7 +44,10 @@ Selected Level-4 micro F1 values from the current manuscript:
 | Foldseek/TM-score 0.50 test, validation-selected threshold | Contact map only | 0.0654 +/- 0.0016 |
 | Foldseek/TM-score 0.50 test, validation-selected threshold | Contact-EC fusion | 0.1685 +/- 0.0334 |
 
-See `outputs/audit/reliability_report.md` and `outputs/audit/paper_consistency_audit.md` before making new claims from these results.
+See `outputs/audit/reliability_report.md`,
+`outputs/audit/paper_consistency_audit.md`, and
+`outputs/audit/recency_intersection_eval.md` before making new claims from these
+results.
 
 The case-wise HIT-EC comparison shows that both HIT-EC and Contact-EC recover at
 least one correct EC label for 63/124 temporal proteins, HIT-EC alone recovers 45,

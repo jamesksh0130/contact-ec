@@ -284,6 +284,8 @@ def main():
     parser.add_argument("--meta_csv",   default=None, help="커스텀 meta CSV")
     parser.add_argument("--batch_size", type=int, default=None,
                         help="배치 크기 오버라이드 (기본: config.yaml 값)")
+    parser.add_argument("--num_workers", type=int, default=4,
+                        help="DataLoader worker 수 (sandbox/CPU 평가에서는 0 권장)")
     parser.add_argument("--cmap_dir",   default=None,
                         help="contact map 디렉토리 오버라이드 (채널 ablation 등)")
     args = parser.parse_args()
@@ -324,7 +326,7 @@ def main():
         )
         bs = args.batch_size or CFG["train"]["batch_size"]
         loader = DataLoader(ds, batch_size=bs,
-                            shuffle=False, num_workers=4,
+                            shuffle=False, num_workers=args.num_workers,
                             collate_fn=collate_fn_v3, pin_memory=True)
     else:
         # price149 / new392 split 또는 커스텀 경로 지원
@@ -347,7 +349,7 @@ def main():
         )
         bs = args.batch_size or CFG["train"]["batch_size"]
         loader = DataLoader(ds, batch_size=bs,
-                            shuffle=False, num_workers=4,
+                            shuffle=False, num_workers=args.num_workers,
                             collate_fn=collate_fn, pin_memory=True)
     print(f"평가 셋({args.split}): {len(ds):,}개")
 
