@@ -737,6 +737,33 @@ Contact-EC-ExpA SP-2026 & 3 seeds & $0.7417\pm0.0182$ & $0.6768\pm0.0168$ & $0.8
 }
 \end{table}
 
+\begin{table}[htbp]
+\centering
+\caption{MMseqs2 nearest-neighbour and label-coverage audit for the temporal
+recency comparison. Searches use complete Level-4 EC-labelled proteins in each
+training split as the target database. The newer corpora increase nearest-neighbour
+identity and top-hit exact EC agreement on the matched $N=99$ subset, so the
+ExpA gain should be interpreted as a recent-corpus effect that includes homolog
+availability and label-frequency changes rather than a pure calendar-date effect.}
+\label{tab:recency_homology_coverage}
+\small
+\setlength{\tabcolsep}{3pt}
+\resizebox{\linewidth}{!}{%
+\begin{tabular}{llrrrrrr}
+\toprule
+Subset & Training corpus & $N$ & Median top identity & $\geq0.60$ identity & $\geq0.90$ identity & All L4 in train & Top-hit same L4 \\
+\midrule
+Complete-known & SP-2018 & 124 & 0.555 & 46 & 9 & 113 & 85 \\
+Complete-known & SP-2022 & 124 & 0.644 & 63 & 18 & 115 & 95 \\
+Complete-known & SP-2026 ExpA & 124 & 0.644 & 63 & 18 & 114 & 95 \\
+Matched intersection & SP-2018 & 99 & 0.556 & 38 & 8 & 99 & 69 \\
+Matched intersection & SP-2022 & 99 & 0.619 & 49 & 14 & 99 & 78 \\
+Matched intersection & SP-2026 ExpA & 99 & 0.619 & 49 & 14 & 99 & 78 \\
+\bottomrule
+\end{tabular}
+}
+\end{table}
+
 \paragraph{Sequence-similarity stratification of temporal cases.}
 To test whether temporal performance is concentrated in proteins with close
 training-set neighbours, we joined the final case-wise temporal comparison

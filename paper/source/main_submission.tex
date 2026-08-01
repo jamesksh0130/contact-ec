@@ -392,7 +392,11 @@ $0.7417\pm0.0182$ across three seeds. Thus the fair-subset recent-corpus gain is
 +9.5\,pp, not the naive +11.8\,pp obtained by
 comparing different denominators. Sample size, class frequencies, label
 coverage, and homolog coverage also change, so this is a recent-corpus effect
-rather than a pure date effect. In contrast,
+rather than a pure date effect. A separate MMseqs2 nearest-neighbour audit
+supports this interpretation: on the same $N=99$ subset, moving from SP-2018 to
+SP-2022/ExpA increases the median top-hit identity from 0.556 to 0.619, the
+number of proteins with a $\geq0.60$-identity training neighbour from 38 to 49,
+and top-hit exact Level-4 EC agreement from 69 to 78. In contrast,
 end-to-end ESM-2 fine-tuning reaches similar in-distribution validation performance
 but drops to 0.6703 temporally. This suggests over-adaptation of the PLM backbone
 under limited supervised data and supports frozen or lightly tuned representations

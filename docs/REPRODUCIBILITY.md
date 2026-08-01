@@ -45,6 +45,7 @@ python scripts/run_stats.py --config configs/config.yaml
 ```bash
 python scripts/audit_reliability.py
 python scripts/collect_result_tables.py
+python scripts/audit_recency_homology_coverage.py --threads 24
 ```
 
 Read these outputs before updating the manuscript:
@@ -53,6 +54,7 @@ Read these outputs before updating the manuscript:
 - `outputs/audit/paper_consistency_audit.md`
 - `outputs/audit/all_result_metrics.csv`
 - `outputs/audit/paper_metric_candidates.csv`
+- `outputs/audit/recency_homology_coverage.md`
 
 ## 5. Generate figures
 

@@ -15,8 +15,8 @@ Contact-EC is a sequence-structure fusion framework for hierarchical, multi-labe
 - `outputs/results/casewise_hitec_contactec.*`: per-protein comparison between HIT-EC and Contact-EC on the 124 known-label temporal proteins.
 - `outputs/results/contactec_threshold_sensitivity.*`: fixed-threshold, global-threshold, and top-1 fallback calibration analysis on the same temporal subset.
 - `outputs/audit/`: overlap, asset-coverage, label-statistics, Foldseek-disjoint,
-  seed-repeat, fusion-baseline, recency-intersection, open-vocabulary, and
-  reliability audit outputs.
+  seed-repeat, fusion-baseline, recency-intersection, recency homology-coverage,
+  open-vocabulary, and reliability audit outputs.
 - `outputs/figures/`: manuscript figures.
 - `paper/pdf/`: current main manuscript and supplementary PDF.
 - `paper/source/`: LaTeX source for the current manuscript draft.
@@ -47,7 +47,10 @@ Selected Level-4 micro F1 values from the current manuscript:
 See `outputs/audit/reliability_report.md`,
 `outputs/audit/paper_consistency_audit.md`, and
 `outputs/audit/recency_intersection_eval.md` before making new claims from these
-results.
+results. The recency interpretation should also be checked against
+`outputs/audit/recency_homology_coverage.md`, which shows that the matched
+SP-2018 to SP-2026/ExpA gain occurs alongside higher nearest-neighbour identity
+and top-hit EC agreement.
 
 The case-wise HIT-EC comparison shows that both HIT-EC and Contact-EC recover at
 least one correct EC label for 63/124 temporal proteins, HIT-EC alone recovers 45,

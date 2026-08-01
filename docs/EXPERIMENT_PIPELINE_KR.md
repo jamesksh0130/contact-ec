@@ -335,10 +335,14 @@ tail -80 outputs/audit/temporal_known_seed_repeats.md
 - `scripts/audit_recency_cutoff_decomposition.py`
 - `scripts/build_recency_intersection_ids.py`
 - `scripts/collect_recency_intersection_eval.py`
+- `scripts/audit_recency_homology_coverage.py`
 - 산출물:
   - `outputs/audit/recency_cutoff_decomposition.md`
   - `outputs/audit/recency_intersection_ids.md`
   - `outputs/audit/recency_intersection_eval.md`
+  - `outputs/audit/recency_homology_coverage.md`
+  - `outputs/audit/recency_homology_coverage_summary.csv`
+  - `outputs/audit/recency_homology_coverage_per_protein.csv`
 
 핵심 발견:
 
@@ -354,6 +358,9 @@ tail -80 outputs/audit/temporal_known_seed_repeats.md
 - Contact-EC-ExpA SP-2026 on same N=99: micro F1 `0.7417 ± 0.0182` across 3 seeds
 - fair-subset recent-corpus gain: `+9.5 pp`
 - 기존의 `0.6032 -> 0.7209`, `+11.8 pp` 표현은 denominator가 달라서 main claim으로 쓰면 안 됨
+- MMseqs2 nearest-neighbour audit에서 matched N=99 기준 median top-hit identity가 SP-2018 `0.556`에서 SP-2022/ExpA `0.619`로 증가
+- 같은 matched N=99 기준 `>=0.60` identity training neighbour는 `38 -> 49`, top-hit exact L4 agreement는 `69 -> 78`로 증가
+- 따라서 ExpA improvement는 pure calendar-date effect가 아니라 corpus expansion, homolog availability, label-frequency/coverage 변화가 섞인 recent-corpus effect로 해석해야 함
 
 ### G. Simple fusion architecture baselines
 
