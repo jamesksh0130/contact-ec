@@ -36,7 +36,7 @@ Selected Level-4 micro F1 values from the current manuscript:
 | Temporal Swiss-Prot 2023-01 holdout | HIT-EC baseline | 0.8471 |
 | Temporal Swiss-Prot 2023-01 holdout | Concat fusion control | 0.5922 +/- 0.0150 |
 | Temporal recency intersection, N=99 | Contact-EC SP-2018 | 0.6467 +/- 0.0210 |
-| Temporal recency intersection, N=99 | Contact-EC-ExpA SP-2026 | 0.7209 |
+| Temporal recency intersection, N=99 | Contact-EC-ExpA SP-2026 | 0.7417 +/- 0.0182 |
 | Sequence-disjoint EC-Bench hard validation | ESM-2 650M only | 0.7655 |
 | Sequence-disjoint EC-Bench hard validation | Contact map only | 0.7650 |
 | Sequence-disjoint EC-Bench hard validation | Contact-EC fusion | 0.8879 |

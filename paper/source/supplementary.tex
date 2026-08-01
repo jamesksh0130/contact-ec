@@ -653,8 +653,8 @@ trails CLEAN-Contact (0.566) due to backbone scale (3B vs.\ 650M) and training
 recency. Contact-EC-ExpA (SP-2026, 0.7680) surpasses CLEAN-Contact but with
 potential train/test overlap on New-392. On the Swiss-Prot 2023 temporal audit,
 ExpA is instead evaluated on the $N=99$ encoder-evaluable intersection subset,
-where it improves over the matched SP-2018 Contact-EC baseline by +7.4\,pp micro
-F1. The gap on Price-149 reflects the OOD nature of bacterial RefSeq sequences
+where it improves over the matched SP-2018 Contact-EC baseline by
++9.5\,pp micro F1 across three seeds. The gap on Price-149 reflects the OOD nature of bacterial RefSeq sequences
 and exact Level-4 calibration under structure-source shift rather than a simple
 missing-input problem.
 
@@ -731,7 +731,7 @@ SP-2018-only $N=124$ denominator.}
 Model & Runs & Micro F1 & Weighted F1 & Precision & Recall \\
 \midrule
 Contact-EC SP-2018 & 3 seeds & $0.6467\pm0.0210$ & $0.5692\pm0.0214$ & $0.7873\pm0.0175$ & $0.5489\pm0.0233$ \\
-Contact-EC-ExpA SP-2026 & single & 0.7209 & 0.6578 & 0.8493 & 0.6263 \\
+Contact-EC-ExpA SP-2026 & 3 seeds & $0.7417\pm0.0182$ & $0.6768\pm0.0168$ & $0.8583\pm0.0096$ & $0.6532\pm0.0233$ \\
 \bottomrule
 \end{tabular}
 }

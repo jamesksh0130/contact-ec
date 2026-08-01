@@ -1,7 +1,8 @@
 """
 Gap Decomposition Figure for Contact-EC paper.
-Shows: data recency (+11.8pp) vs architecture gap (-12.6pp)
-relative to HIT-EC temporal baseline (0.8471).
+Shows the matched recency-intersection ExpA result against HIT-EC temporal
+baseline (0.8471). The ExpA value is the 3-seed mean on N=99, not the naive
+N=124-to-N=99 denominator comparison.
 Automatically adds E2E bar if outputs/results/expa_e2e_eval.json exists.
 """
 import json
@@ -32,9 +33,9 @@ else:
 # ── Data ──────────────────────────────────────────────────────────────────────
 models = [
     "Contact-EC\n(SP-2018)",
-    "Contact-EC-ExpA\n(SP-2026, 243K)",
+    "Contact-EC-ExpA\n(SP-2026, N=99)",
 ]
-scores = [0.6032, 0.7209]
+scores = [0.6467, 0.7417]
 COLORS = ["#4878CF", "#4878CF"]
 EDGE   = ["#2B5490", "#2B5490"]
 HATCH  = ["", "///"]

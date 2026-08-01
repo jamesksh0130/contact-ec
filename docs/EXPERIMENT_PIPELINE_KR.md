@@ -346,13 +346,13 @@ tail -80 outputs/audit/temporal_known_seed_repeats.md
 - SP-2022 encoder도 124개 모두 Level-4 평가 가능
 - ExpA/SP-2026 encoder는 124개 중 99개만 Level-4 평가 가능
 - ExpA 전체 corpus에는 temporal protein 115개가 포함되지만, ExpA training split에는 accession 및 exact sequence overlap이 0개
-- 따라서 ExpA 0.7209는 124개 결과가 아니라 99개 encoder-evaluable intersection 결과로 표기해야 함
+- 따라서 ExpA 결과는 124개 결과가 아니라 99개 encoder-evaluable intersection 결과로 표기해야 함
 
 수정된 공정 비교:
 
 - Contact-EC SP-2018 on same N=99: micro F1 `0.6467 ± 0.0210`
-- Contact-EC-ExpA SP-2026 on same N=99: micro F1 `0.7209`
-- fair-subset recent-corpus gain: `+7.4 pp`
+- Contact-EC-ExpA SP-2026 on same N=99: micro F1 `0.7417 ± 0.0182` across 3 seeds
+- fair-subset recent-corpus gain: `+9.5 pp`
 - 기존의 `0.6032 -> 0.7209`, `+11.8 pp` 표현은 denominator가 달라서 main claim으로 쓰면 안 됨
 
 ### G. Simple fusion architecture baselines

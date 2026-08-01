@@ -1,6 +1,6 @@
 # Paper Consistency Audit
 
-Last checked: 2026-07-11
+Last checked: 2026-08-01
 
 ## Canonical Evaluation Rules
 
@@ -20,7 +20,7 @@ Last checked: 2026-07-11
 | Contact-EC flat temporal micro F1 | 0.6032 | `outputs/results/eval_full_testset.json` |
 | Contact-EC-Hier temporal micro F1 | 0.5690 | `outputs/results/eval_full_testset.json` |
 | Contact-EC-3B temporal micro F1 | 0.6316 | `outputs/results/contact_ec_3b_full_eval.json` |
-| Contact-EC-ExpA temporal micro F1 | 0.7209 | `outputs/results/expa_e2e_full_eval.json` |
+| Contact-EC-ExpA recency-intersection micro F1 | 0.7417 +/- 0.0182 | `outputs/audit/recency_intersection_eval.md` |
 | Contact-EC-E2E temporal micro F1 | 0.6703 | `outputs/results/expa_e2e_full_eval.json` |
 | HIT-EC temporal micro F1 | 0.8471 | `outputs/results/hitec_eval.json` |
 | Contact-EC flat val_hard micro F1 | 0.8879 | `outputs/results/ecbench_eval_ecbench_b4_flatfc_best.json` |
@@ -59,6 +59,6 @@ Paper action:
 
 1. HIT-EC remains stronger in absolute temporal performance (`0.8471` vs. Contact-EC flat `0.6032` and Contact-EC-3B `0.6316`).
 2. Macro F1 is very low on temporal testing because the Level-4 EC label space is long-tailed.
-3. Contact-EC-ExpA `0.7209` is a data-recency experiment, not a fair external benchmark result.
+3. Contact-EC-ExpA `0.7417 +/- 0.0182` is a matched `N=99` recency-intersection diagnostic, not a fair full-`N=124` temporal benchmark result.
 4. New-392 overlaps the current Swiss-Prot 2026 corpus and should not be called a clean temporal benchmark unless cutoff-controlled.
 5. Price-149 lacks AlphaFold contact maps in the current pipeline, so it mainly tests fallback/OOD behavior.
