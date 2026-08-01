@@ -336,6 +336,8 @@ tail -80 outputs/audit/temporal_known_seed_repeats.md
 - `scripts/build_recency_intersection_ids.py`
 - `scripts/collect_recency_intersection_eval.py`
 - `scripts/audit_recency_homology_coverage.py`
+- `scripts/build_recency_fixed_vocab_control.py`
+- `scripts/collect_recency_fixed_vocab_eval.py`
 - 산출물:
   - `outputs/audit/recency_cutoff_decomposition.md`
   - `outputs/audit/recency_intersection_ids.md`
@@ -343,6 +345,8 @@ tail -80 outputs/audit/temporal_known_seed_repeats.md
   - `outputs/audit/recency_homology_coverage.md`
   - `outputs/audit/recency_homology_coverage_summary.csv`
   - `outputs/audit/recency_homology_coverage_per_protein.csv`
+  - `data/recency_fixed_vocab/sp2026/fixed_vocab_control_audit.md`
+  - `outputs/audit/recency_fixed_vocab_eval.md`
 
 핵심 발견:
 
@@ -361,6 +365,30 @@ tail -80 outputs/audit/temporal_known_seed_repeats.md
 - MMseqs2 nearest-neighbour audit에서 matched N=99 기준 median top-hit identity가 SP-2018 `0.556`에서 SP-2022/ExpA `0.619`로 증가
 - 같은 matched N=99 기준 `>=0.60` identity training neighbour는 `38 -> 49`, top-hit exact L4 agreement는 `69 -> 78`로 증가
 - 따라서 ExpA improvement는 pure calendar-date effect가 아니라 corpus expansion, homolog availability, label-frequency/coverage 변화가 섞인 recent-corpus effect로 해석해야 함
+
+진행 중:
+
+- SP-2026 corpus를 SP-2018 EC-Bench fixed vocabulary로 재인코딩한 control 학습 시작
+- source rows `270,336`, old-vocabulary encoded rows `206,771`, train `186,077`, val `20,694`
+- rejected missing complete EC `39,546`, rejected outside old vocabulary `23,904`, temporal accession excluded `115`
+- 실행 스크립트: `scripts/run_recency_fixed_vocab_seed_repeats.sh`
+- 실행 중인 대표 tag: `recency_fixed_vocab_sp2026_seed42_phase1`
+
+이 실험의 해석:
+
+- fixed-vocab SP-2026이 SP-2018보다 높으면 최신 sample/homolog coverage 자체의 효과가 남는 것
+- fixed-vocab SP-2026이 ExpA full-vocab보다 낮으면 label vocabulary expansion도 일부 기여한 것
+- fixed-vocab SP-2026이 SP-2018과 비슷하면 이전 ExpA gain은 대부분 vocabulary/coverage denominator 차이였을 가능성이 큼
+
+추가 완료된 구조 입력 audit:
+
+- `scripts/audit_contact_map_quality.py`
+- quick random-sample 산출물:
+  - `outputs/audit/contact_map_quality_audit.md`
+  - `outputs/audit/contact_map_quality_summary.csv`
+  - `outputs/audit/contact_map_quality_per_sample.csv`
+- 목적: split별 contact-map 존재율, zero-map 비율, contact density, long-range contact fraction, sequence length 분포를 점검해 구조 입력 artifact 가능성을 줄임
+- 최종 논문 수치는 `--max-per-split` 없이 전수 실행한 결과로 교체해야 함
 
 ### G. Simple fusion architecture baselines
 

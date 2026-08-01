@@ -46,6 +46,9 @@ python scripts/run_stats.py --config configs/config.yaml
 python scripts/audit_reliability.py
 python scripts/collect_result_tables.py
 python scripts/audit_recency_homology_coverage.py --threads 24
+python scripts/build_recency_fixed_vocab_control.py --source sp2026
+python scripts/collect_recency_fixed_vocab_eval.py
+python scripts/audit_contact_map_quality.py
 ```
 
 Read these outputs before updating the manuscript:
@@ -55,6 +58,9 @@ Read these outputs before updating the manuscript:
 - `outputs/audit/all_result_metrics.csv`
 - `outputs/audit/paper_metric_candidates.csv`
 - `outputs/audit/recency_homology_coverage.md`
+- `data/recency_fixed_vocab/sp2026/fixed_vocab_control_audit.md`
+- `outputs/audit/recency_fixed_vocab_eval.md`
+- `outputs/audit/contact_map_quality_audit.md`
 
 ## 5. Generate figures
 
