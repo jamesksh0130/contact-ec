@@ -1,0 +1,8 @@
+{
+  "model": "HIT-EC",
+  "test_set": "SP-2024",
+  "n": 1226,
+  "threshold": 0.4,
+  "micro_f1": 0.4578,
+  "weighted_f1": 0.4296
+}

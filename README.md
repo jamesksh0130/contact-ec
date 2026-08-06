@@ -29,20 +29,25 @@ Selected Level-4 micro F1 values from the current manuscript:
 
 | Setting | Model | Micro F1 |
 |---|---:|---:|
-| Temporal Swiss-Prot 2023-01 holdout | ESM-2 650M only | 0.4508 +/- 0.0203 |
-| Temporal Swiss-Prot 2023-01 holdout | Contact map only | 0.4244 +/- 0.0207 |
-| Temporal Swiss-Prot 2023-01 holdout | Contact-EC fusion | 0.6241 +/- 0.0170 |
-| Temporal Swiss-Prot 2023-01 holdout | Contact-EC 3B | 0.6316 |
-| Temporal Swiss-Prot 2023-01 holdout | HIT-EC baseline | 0.8471 |
-| Temporal Swiss-Prot 2023-01 holdout | Concat fusion control | 0.5922 +/- 0.0150 |
+| Temporal SP-2023-01 holdout (N=124) | ESM-2 650M only | 0.4508 +/- 0.0203 |
+| Temporal SP-2023-01 holdout (N=124) | Contact map only | 0.4244 +/- 0.0207 |
+| Temporal SP-2023-01 holdout (N=124) | Contact-EC fusion | 0.6241 +/- 0.0170 |
+| Temporal SP-2023-01 holdout (N=124) | Contact-EC 3B | 0.6316 |
+| Temporal SP-2023-01 holdout (N=124) | HIT-EC | 0.8471 |
+| Temporal SP-2023-01 holdout (N=124) | MMseqs2 top-hit | 0.5852 |
+| **Temporal SP-2024 holdout (N=1,226)** | **ESM-2 650M only** | **0.3892 +/- 0.0121** |
+| Temporal SP-2024 holdout (N=1,226) | Contact map only | 0.4388 +/- 0.0166 |
+| **Temporal SP-2024 holdout (N=1,226)** | **Contact-EC fusion** | **0.6819 +/- 0.0026** |
+| Temporal SP-2024 holdout (N=1,226) | HIT-EC | 0.4578 |
+| Temporal SP-2024 holdout (N=1,226) | MMseqs2 top-hit | 0.7080 |
 | Temporal recency intersection, N=99 | Contact-EC SP-2018 | 0.6467 +/- 0.0210 |
 | Temporal recency intersection, N=99 | Contact-EC-ExpA SP-2026 | 0.7417 +/- 0.0182 |
 | Sequence-disjoint EC-Bench hard validation | ESM-2 650M only | 0.7655 |
 | Sequence-disjoint EC-Bench hard validation | Contact map only | 0.7650 |
 | Sequence-disjoint EC-Bench hard validation | Contact-EC fusion | 0.8879 |
-| Foldseek/TM-score 0.50 test, validation-selected threshold | ESM-2 650M only | 0.0607 +/- 0.0009 |
-| Foldseek/TM-score 0.50 test, validation-selected threshold | Contact map only | 0.0654 +/- 0.0016 |
-| Foldseek/TM-score 0.50 test, validation-selected threshold | Contact-EC fusion | 0.1685 +/- 0.0334 |
+| Foldseek/TM-score 0.50 test, val-selected threshold | ESM-2 650M only | 0.0607 +/- 0.0009 |
+| Foldseek/TM-score 0.50 test, val-selected threshold | Contact map only | 0.0654 +/- 0.0016 |
+| Foldseek/TM-score 0.50 test, val-selected threshold | Contact-EC fusion | 0.1685 +/- 0.0334 |
 
 See `outputs/audit/reliability_report.md`,
 `outputs/audit/paper_consistency_audit.md`, and
@@ -52,10 +57,18 @@ results. The recency interpretation should also be checked against
 SP-2018 to SP-2026/ExpA gain occurs alongside higher nearest-neighbour identity
 and top-hit EC agreement.
 
+The SP-2024 evaluation (N=1,226) reveals a striking reversal: HIT-EC falls
+−38.9 pp while Contact-EC improves +5.8 pp, so Contact-EC outperforms HIT-EC on
+the longer temporal horizon. MMseqs2 improves +12.3 pp on SP-2024, confirming
+SP-2024 proteins are not intrinsically harder homology targets. A
+vocabulary-stratified analysis shows that 75% of HIT-EC's collapse reflects
+genuine temporal degradation even on vocab-covered proteins (`outputs/results/hitec_sp2024_vocab_stratified.json`).
+
 The case-wise HIT-EC comparison shows that both HIT-EC and Contact-EC recover at
 least one correct EC label for 63/124 temporal proteins, HIT-EC alone recovers 45,
 Contact-EC alone recovers 2, and both miss 14. This is used in the manuscript to
-frame Contact-EC as a decomposition model rather than a replacement for HIT-EC.
+frame Contact-EC as a decomposition model rather than a replacement for HIT-EC on
+the SP-2023-01 horizon.
 
 The threshold sensitivity analysis shows that Contact-EC reaches micro F1 0.6032
 with the fixed 0.5 cutoff and 0.6167 with the best global cutoff of 0.65. The

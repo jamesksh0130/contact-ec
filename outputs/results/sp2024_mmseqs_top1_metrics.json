@@ -1,0 +1,13 @@
+{
+  "split": "sp2024",
+  "n_samples": 1226,
+  "coverage": 0.9356,
+  "l4_micro_f1": 0.708,
+  "l4_precision": 0.796,
+  "l4_recall": 0.6376,
+  "l4_sample_hit": 0.7447,
+  "l1_accuracy": 0.9086,
+  "l2_accuracy": 0.8956,
+  "l3_accuracy": 0.8785,
+  "mean_sample_f1": 0.7118
+}
