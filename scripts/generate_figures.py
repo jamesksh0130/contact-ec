@@ -41,87 +41,130 @@ plt.rcParams.update({
 # Fig 1: 전체 파이프라인
 # ══════════════════════════════════════════════════════
 def fig1_pipeline():
-    fig, ax = plt.subplots(figsize=(16, 7))
-    ax.set_xlim(0, 16)
-    ax.set_ylim(0, 7)
+    fig, ax = plt.subplots(figsize=(26, 13))
+    ax.set_xlim(0, 26)
+    ax.set_ylim(0, 13)
     ax.axis("off")
     ax.set_facecolor("#F8F9FA")
     fig.patch.set_facecolor("#F8F9FA")
 
-    def box(ax, x, y, w, h, text, color, fontsize=10, textcolor="white", subtext=None):
-        rect = FancyBboxPatch((x, y), w, h, boxstyle="round,pad=0.1",
-                               facecolor=color, edgecolor="white", linewidth=2, zorder=3)
+    BW = 4.0   # box width
+    BH = 2.6   # box height
+
+    # cx, cy = center; returns (left, right, top, bot) edges
+    def edges(cx, cy, w=BW, h=BH):
+        return cx-w/2, cx+w/2, cy+h/2, cy-h/2
+
+    def box(cx, cy, text, color, textcolor="white", subtext=None, w=BW, h=BH):
+        l, r, t, b = edges(cx, cy, w, h)
+        rect = FancyBboxPatch((l, b), w, h, boxstyle="round,pad=0.15",
+                              facecolor=color, edgecolor="white", linewidth=3, zorder=3)
         ax.add_patch(rect)
-        ty = y + h/2 + (0.15 if subtext else 0)
-        ax.text(x + w/2, ty, text, ha="center", va="center",
-                fontsize=fontsize, fontweight="bold", color=textcolor, zorder=4)
+        # 같은 행의 박스들 제목 상단 정렬 (va="top", 일정한 y 위치)
+        title_y = cy + h/2 - 0.28
+        ax.text(cx, title_y, text, ha="center", va="top",
+                fontsize=17, fontweight="bold", color=textcolor, zorder=4)
         if subtext:
-            ax.text(x + w/2, y + h/2 - 0.22, subtext, ha="center", va="center",
-                    fontsize=8, color=textcolor, alpha=0.85, zorder=4)
+            ax.text(cx, cy - h/2 + 0.28, subtext, ha="center", va="bottom",
+                    fontsize=13, color=textcolor, alpha=0.90, zorder=4)
 
-    def arrow(ax, x1, y1, x2, y2):
-        ax.annotate("", xy=(x2, y2), xytext=(x1, y1),
-                    arrowprops=dict(arrowstyle="-|>", color=DARK, lw=2),
-                    zorder=5)
+    # arrow: tail starts at (x1,y1) box border, head TIP stops just before (x2,y2) border
+    def arr(x1, y1, x2, y2, col=DARK, lw=2.8, rad=0):
+        # nudge tip slightly away from destination so head sits AT border, not inside
+        dx, dy = x2 - x1, y2 - y1
+        dist = (dx**2 + dy**2) ** 0.5
+        if dist > 0:
+            nx, ny = dx / dist, dy / dist
+            x2e, y2e = x2 - nx * 0.06, y2 - ny * 0.06  # tip just before border
+            x1e, y1e = x1 + nx * 0.06, y1 + ny * 0.06  # tail just after border
+        else:
+            x1e, y1e, x2e, y2e = x1, y1, x2, y2
+        ax.annotate("", xy=(x2e, y2e), xytext=(x1e, y1e),
+                    arrowprops=dict(arrowstyle="-|>", color=col, lw=lw,
+                                   mutation_scale=24,
+                                   connectionstyle=f"arc3,rad={rad}"),
+                    zorder=6)
 
-    # ── 입력 ──
-    box(ax, 0.3, 5.2, 2.4, 1.3, "UniProt\nSwiss-Prot", DARK, fontsize=10,
+    # ── Column x-centers ──
+    CX1 = 2.4    # UniProt / AlphaFold / ContactPair
+    CX2 = 8.0    # ESM-2
+    CX3 = 14.0   # FusionV2 / FusionV3
+    CX4 = 19.5   # Ensemble
+    CX5 = 24.0   # HCI / EC Prediction
+
+    # ── Row y-centers ──
+    CY_TOP = 10.0
+    CY_MID =  6.5
+    CY_BOT =  3.0
+
+    # Box edge helpers
+    def L(cx, w=BW): return cx - w/2
+    def R(cx, w=BW): return cx + w/2
+    def T(cy, h=BH): return cy + h/2
+    def B(cy, h=BH): return cy - h/2
+
+    # ── 박스 그리기 ──
+    box(CX1, CY_TOP, "UniProt\nSwiss-Prot", DARK,
         subtext="270,628 proteins")
-
-    # ── 전처리 branch ──
-    # 서열 branch
-    arrow(ax, 2.7, 5.85, 4.0, 5.85)
-    box(ax, 4.0, 5.2, 2.2, 1.3, "ESM-2\n(650M, frozen)", BLUE, fontsize=9,
-        subtext="CLS token → 1280-dim")
-
-    # 구조 branch
-    arrow(ax, 1.5, 5.2, 1.5, 4.0)
-    box(ax, 0.3, 3.0, 2.4, 1.1, "AlphaFold PDB\n→ Contact Map", GREEN, fontsize=9,
+    box(CX1, CY_MID, "AlphaFold PDB\n→ Contact Map", GREEN,
         subtext="8Å threshold, 256×256")
-
-    # contact pair branch
-    arrow(ax, 1.5, 3.0, 1.5, 1.8)
-    box(ax, 0.3, 0.9, 2.4, 1.0, "Contact Pair\nEmbedding", PURPLE, fontsize=9,
+    box(CX1, CY_BOT, "Contact Pair\nEmbedding", PURPLE,
         subtext="top-32 LR, (32,2,1280)")
 
-    # ── 모델 ──
-    arrow(ax, 6.2, 5.85, 7.5, 5.85)
-    arrow(ax, 2.7, 3.55, 7.5, 3.55)
+    box(CX2, CY_TOP, "ESM-2\n(650M, frozen)", BLUE,
+        subtext="CLS token → 1280-dim")
 
-    box(ax, 7.5, 4.9, 2.4, 1.5, "FusionV2", ORANGE, fontsize=10,
+    box(CX3, CY_TOP, "FusionV2", ORANGE,
         subtext="AttentionContactEncoder\n+ GCA + Hier.Transformer")
-
-    arrow(ax, 2.7, 1.4, 7.5, 1.4)
-    arrow(ax, 6.2, 5.2, 6.8, 1.4)
-
-    box(ax, 7.5, 0.7, 2.4, 1.5, "FusionV3", PURPLE, fontsize=10,
+    box(CX3, CY_BOT, "FusionV3", PURPLE,
         subtext="ContactPairEncoder\n+ GCA + Hier.Transformer")
 
-    # ── 앙상블 ──
-    arrow(ax, 9.9, 5.65, 11.2, 5.65)
-    arrow(ax, 9.9, 1.45, 11.2, 1.45)
+    ENS_W, ENS_H = 4.0, 4.0
+    box(CX4, 6.5, "Ensemble\n(6:4 Weighted\nAverage)", GOLD,
+        textcolor=DARK, w=ENS_W, h=ENS_H)
 
-    box(ax, 11.2, 3.3, 2.4, 2.3, "Ensemble\n(6:4 Weighted\nAverage)", GOLD, fontsize=10,
-        textcolor=DARK)
+    OUT_W, OUT_H = 3.2, 2.6
+    box(CX5, CY_TOP, "Hierarchical\nConstraint\nInference", RED, w=OUT_W, h=OUT_H)
+    box(CX5, CY_BOT, "EC\nPrediction\nL1~L4", DARK, w=OUT_W, h=OUT_H)
 
-    # ── 추론 ──
-    arrow(ax, 13.6, 4.45, 14.3, 4.45)
-    box(ax, 14.3, 3.7, 1.5, 1.5, "Hierarchical\nConstraint\nInference", RED, fontsize=8)
+    # ── 화살표: 테두리 → 테두리 ──
+    # UniProt right → ESM-2 left  (수평)
+    arr(R(CX1), CY_TOP, L(CX2), CY_TOP)
+    # UniProt bottom → AlphaFold top  (수직)
+    arr(CX1, B(CY_TOP), CX1, T(CY_MID))
+    # AlphaFold bottom → ContactPair top  (수직)
+    arr(CX1, B(CY_MID), CX1, T(CY_BOT))
 
-    arrow(ax, 15.8, 4.45, 15.8, 4.45)  # dummy, extend right edge
+    # ESM-2 right → FusionV2 left  (수평)
+    arr(R(CX2), CY_TOP, L(CX3), CY_TOP)
+    # AlphaFold right → FusionV2 left  (곡선, ESM-2 아래를 지나지 않도록)
+    arr(R(CX1), CY_MID, L(CX3), CY_TOP, rad=-0.18)
+    # ContactPair right → FusionV3 left  (수평)
+    arr(R(CX1), CY_BOT, L(CX3), CY_BOT)
+    # ESM-2 → FusionV3: 대각선 (ContactPair 화살표 y=3.0과 겹침 없도록 y=3.5에 진입)
+    arr(R(CX2), B(CY_TOP), L(CX3), 3.5)
 
-    # ── EC 예측 ──
-    box(ax, 14.3, 0.8, 1.5, 2.5, "EC\nPrediction\nL1~L4", DARK, fontsize=9)
-    arrow(ax, 15.05, 3.7, 15.05, 3.3)
+    # FusionV2 right → Ensemble top-right area
+    arr(R(CX3), CY_TOP, L(CX4, ENS_W), T(6.5, ENS_H) - 1.0)
+    # FusionV3 right → Ensemble bottom-right area
+    arr(R(CX3), CY_BOT, L(CX4, ENS_W), B(6.5, ENS_H) + 1.0)
 
-    # 레이블
-    ax.text(5.1, 6.7, "Sequence Path", fontsize=9, color=BLUE,
-            fontweight="bold", ha="center")
-    ax.text(1.5, 4.25, "Structure Path", fontsize=9, color=GREEN,
-            fontweight="bold", ha="center", rotation=90)
+    # Ensemble right → HCI left
+    arr(R(CX4, ENS_W), T(6.5, ENS_H) - 1.2, L(CX5, OUT_W), CY_TOP)
+    # Ensemble right → EC Prediction left
+    arr(R(CX4, ENS_W), B(6.5, ENS_H) + 1.2, L(CX5, OUT_W), CY_BOT)
 
-    ax.set_title("EC Number Prediction Pipeline", fontsize=14,
-                 fontweight="bold", pad=10, color=DARK)
+    # HCI bottom → EC Prediction top  (수직)
+    arr(CX5, B(CY_TOP, OUT_H), CX5, T(CY_BOT, OUT_H))
+
+    # ── 경로 레이블 ──
+    ax.text(CX2, T(CY_TOP) + 0.45, "Sequence Path",
+            fontsize=16, color=BLUE, fontweight="bold", ha="center")
+    ax.text(L(CX1) - 0.35, CY_MID, "Structure\nPath",
+            fontsize=16, color=GREEN, fontweight="bold", ha="right", va="center")
+
+    ax.set_title("EC Number Prediction Pipeline", fontsize=22,
+                 fontweight="bold", pad=14, color=DARK)
 
     fig.savefig(OUT / "fig1_pipeline.png", dpi=200, bbox_inches="tight",
                 facecolor=fig.get_facecolor())
@@ -146,15 +189,26 @@ def fig2_architecture():
         rect = FancyBboxPatch((x, y), w, h, boxstyle="round,pad=0.08",
                                facecolor=color, edgecolor="white", linewidth=1.8, zorder=3)
         ax.add_patch(rect)
-        ty = y + h/2 + (0.12 if subtext else 0)
+        ty = y + h/2 + (0.15 if subtext else 0)
         ax.text(x + w/2, ty, text, ha="center", va="center",
+                multialignment="center", linespacing=1.08,
                 fontsize=fontsize, fontweight="bold", color=textcolor, zorder=4)
         if subtext:
-            ax.text(x + w/2, y + h/2 - 0.18, subtext, ha="center", va="center",
+            ax.text(x + w/2, y + h/2 - 0.20, subtext, ha="center", va="center",
+                    multialignment="center", linespacing=1.08,
                     fontsize=7.5, color=textcolor, alpha=0.88, zorder=4)
 
     def arr(ax, x1, y1, x2, y2, color=DARK):
         ax.annotate("", xy=(x2, y2), xytext=(x1, y1),
+                    arrowprops=dict(arrowstyle="-|>", color=color, lw=1.8), zorder=5)
+
+    def elbow_arr(ax, x1, y1, x2, y2, xm=None, color=DARK):
+        """Draw a clean two-segment connector with a single arrow head."""
+        if xm is None:
+            xm = (x1 + x2) / 2
+        ax.plot([x1, xm], [y1, y1], color=color, lw=1.8, zorder=4)
+        ax.plot([xm, xm], [y1, y2], color=color, lw=1.8, zorder=4)
+        ax.annotate("", xy=(x2, y2), xytext=(xm, y2),
                     arrowprops=dict(arrowstyle="-|>", color=color, lw=1.8), zorder=5)
 
     # ──────── V2 (왼쪽) ────────
@@ -177,13 +231,14 @@ def fig2_architecture():
     box(ax, 3.8, 3.7, 3.4, 0.65, "GAP → Linear(2048→512)", GREEN,
         fontsize=8.5, subtext="+ LayerNorm + ReLU  →  (B,512)")
 
-    # GCA
-    arr(ax, 2.25, 8.8, 2.25, 4.0)
-    arr(ax, 5.0,  3.7, 5.0,  3.2)
+    # GCA: route modality inputs directly into the fusion block.
+    arr(ax, 2.25, 8.8, 2.25, 3.12)
+    arr(ax, 5.75, 3.7, 5.75, 3.12)
+    ax.text(4.0, 3.24, "learned gate: sigmoid(Linear)",
+            fontsize=7.2, color=ORANGE, ha="center", va="bottom",
+            fontweight="bold", zorder=6)
     box(ax, 1.2, 2.45, 5.6, 0.65, "GCA Fusion: gate·contact + (1-gate)·esm  →  (B,1024)",
         ORANGE, fontsize=8.5)
-    ax.text(0.35, 3.65, "gate =\nsigmoid(\nLinear\n(1792→1))", fontsize=7.5,
-            color=ORANGE, ha="center", va="center")
 
     # Head
     arr(ax, 4.0, 2.45, 4.0, 1.7)
@@ -209,9 +264,12 @@ def fig2_architecture():
     box(ax, 3.5, 3.7, 3.6, 0.65, "Attention Pooling → out_proj", PURPLE,
         fontsize=8.5, subtext="softmax(Linear(512→1)) → (B,512)")
 
-    # GCA
-    arr(ax, 2.25, 8.8, 2.25, 4.0)
-    arr(ax, 5.3,  3.7, 5.3,  3.2)
+    # GCA: same clean routing as FusionV2.
+    arr(ax, 2.25, 8.8, 2.25, 3.12)
+    arr(ax, 5.5, 3.7, 5.5, 3.12)
+    ax.text(4.0, 3.24, "learned gate: sigmoid(Linear)",
+            fontsize=7.2, color=ORANGE, ha="center", va="bottom",
+            fontweight="bold", zorder=6)
     box(ax, 1.2, 2.45, 5.6, 0.65, "GCA Fusion: gate·contact + (1-gate)·esm  →  (B,1024)",
         ORANGE, fontsize=8.5)
 
