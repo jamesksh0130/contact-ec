@@ -37,31 +37,19 @@ generalisation or mainly benefits from benchmark design.\\[3pt]
 \textbf{Results:}
 We analyze Contact-EC, a gated additive ESM-2/contact-map fusion model, as a controlled
 probe for decomposing temporal EC prediction performance. On a Swiss-Prot 2023-01 temporal holdout
-($N$\,=\,124 complete known-EC proteins), fusion improves Level-4 micro F1 from
-$0.4508\pm0.0203$ (ESM-2-only) and $0.4244\pm0.0207$ (contact-only) to
-$0.6241\pm0.0170$ across three seeds. Contact maps alone match
-ESM-2 650M on sequence-disjoint hard validation (0.7650 vs.\ 0.7655), and topology
-perturbations collapse the contact-only model to zero and reduce fusion flat-FC
-micro F1 by 54\,pp (shuffled) or 50\,pp (density-matched random), confirming
-genuine structural signal utilisation; the hierarchical head variant shows no
-degradation, revealing that it routes to ESM-2 when contact topology is
-disrupted---which also explains its 3.4\,pp underperformance vs.\ flat FC. A label-shift audit shows that 344/468 temporal proteins contain
-partial or novel EC labels outside the evaluated closed-set vocabulary. Data-recency
-retraining recovers +9.5\,pp on a matched encoder-evaluable subset across three
-seeds, whereas
-end-to-end ESM-2 fine-tuning reduces temporal micro F1 by 5.1\,pp. HIT-EC
-leads on the one-year SP-2023-01 horizon (0.8471 vs.\ 0.6241), indicating that
-structure-aware fusion alone is not sufficient to close the short-horizon
-temporal gap. A larger SP-2024 temporal evaluation ($N$\,=\,1{,}226 from 3{,}137 new entries,
-three seeds) reveals a striking reversal: HIT-EC falls to $0.4578$ ($-$38.9\,pp)
-while Contact-EC improves to $0.6819\pm0.0026$ ($+$5.8\,pp), so Contact-EC
-outperforms HIT-EC on SP-2024 by $+$22.4\,pp; the fusion--ESM-2 gap widens from
-17\,pp to 29\,pp. A Foldseek/TM-score-disjoint split further shows that
-absolute novel-fold-like Level-4 performance is low, but validation-calibrated
-fusion remains higher than ESM-2-only and contact-only baselines across three
-training seeds (micro F1 $0.1685\pm0.0334$ vs.\ $0.0607\pm0.0009$ and
-$0.0654\pm0.0016$). The contribution is therefore a reproducible decomposition
-of when structure helps and when fold shift, benchmark recency, and label shift dominate.\\[3pt]
+($N$\,=\,124, three seeds), fusion reaches Level-4 micro F1 of $0.6241\pm0.0170$,
+outperforming ESM-2-only and contact-only baselines; topology perturbations confirm that
+the contact-map encoder contributes genuine structural signal. HIT-EC leads on this
+one-year horizon (0.8471 vs.\ 0.6241), indicating that structure-aware fusion alone does
+not close the short-horizon temporal gap. A larger SP-2024 temporal evaluation
+($N$\,=\,1{,}226, three seeds) reveals a striking reversal: HIT-EC falls to
+$0.4578$ ($-$38.9\,pp) while Contact-EC improves to $0.6819\pm0.0026$ ($+$5.8\,pp),
+yielding a $+$22.4\,pp advantage; a vocabulary-stratified analysis confirms that 75\%
+of HIT-EC's collapse reflects genuine temporal degradation rather than
+label-vocabulary mismatch. A Foldseek/TM-score-disjoint split shows that fusion
+retains the highest micro F1 under explicit fold-level shift. The contribution is a
+reproducible decomposition of when structure helps and when fold shift, benchmark
+recency, and label shift dominate.\\[3pt]
 \textbf{Availability and Implementation:}
 Code and reproducibility artifacts are available at \url{https://anonymous.4open.science/r/contact-ec-8432}.\\[3pt]
 \textbf{Contact:}
