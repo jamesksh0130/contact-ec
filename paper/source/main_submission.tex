@@ -66,24 +66,31 @@ temporal evaluation; sequence--structure fusion; out-of-distribution generalisat
 
 \section{Introduction}
 
-Enzyme Commission (EC) numbers provide a four-level hierarchy for classifying
-enzyme-catalysed reactions, from broad reaction class to substrate-specific
-function. Accurate EC assignment supports metabolic reconstruction, pathway
-annotation, enzyme engineering, and drug-target discovery, but experimental
-characterisation remains slow relative to the growth of protein sequence databases.
+Enzyme Commission (EC) numbers~\citep{mcdonald2023} provide a four-level hierarchy
+for classifying enzyme-catalysed reactions, from broad reaction class to
+substrate-specific function. Accurate EC assignment supports metabolic
+reconstruction, pathway annotation, enzyme engineering, and drug-target
+discovery, but experimental characterisation remains slow relative to the
+growth of protein sequence databases.
 
-Recent protein language model (PLM) approaches have improved EC prediction
-substantially. ESM-2~\citep{lin2023} encodes residue-level evolutionary and
+Computational EC prediction has progressed from alignment-based
+transfer~\citep{altschul1990} and 1D convolutional classifiers on one-hot
+sequences~\citep{ryu2019,dalkiran2018} to large protein language model (PLM)
+representations. ESM-2~\citep{lin2023} encodes residue-level evolutionary and
 structural information from large sequence corpora, while systems such as
-HIT-EC~\citep{dumontet2026} and CLEAN~\citep{yu2023} use hierarchical or
-contrastive sequence representations. Structure-aware approaches, including
-CLEAN-Contact~\citep{ayres2024}, add contact-map features derived from AlphaFold
-structures~\citep{jumper2021,varadi2022}. However, reported scores are often
-obtained on same-distribution or near-contemporaneous splits. This creates a
-reliability problem for biological deployment: a model may rank highly because it
-has access to more recent annotations, an easier closed-set label vocabulary, or
-near-duplicate sequences, rather than because it generalises to newly annotated
-enzymes.
+HIT-EC~\citep{dumontet2026}, CLEAN~\citep{yu2023}, EnzBert~\citep{buton2023},
+and ECPick~\citep{han2024} apply hierarchical, contrastive, or evidential heads
+to PLM embeddings. Structure-aware approaches derive contact-map features from
+predicted structures~\citep{jumper2021,varadi2022}: DeepFRI~\citep{gligorijevic2021}
+uses graph convolutional networks over residue contact graphs, and
+CLEAN-Contact~\citep{ayres2024} integrates AlphaFold-derived maps into a
+contrastive learning framework. ProteInfer~\citep{sanderson2023} further extends
+function prediction with dilated convolutional sequence profiles. However,
+reported scores are often obtained on same-distribution or near-contemporaneous
+splits. This creates a reliability problem for biological deployment: a model
+may rank highly because it has access to more recent annotations, an easier
+closed-set label vocabulary, or near-duplicate sequences, rather than because
+it generalises to newly annotated enzymes.
 
 We study these factors using Contact-EC, a gated sequence--structure fusion model
 combining ESM-2 650M embeddings with ResNet-50 contact-map features. The goal is
@@ -565,7 +572,7 @@ classes versus robustness to newly curated or incomplete annotations.
 
 There are limitations. Contact-EC relies on AlphaFold or predicted structures, so
 performance can degrade when external structures or predicted contact maps come
-from a shifted distribution. On Price-149, supplementary audit results show that
+from a shifted distribution. On Price-149~\citep{price2018}, supplementary audit results show that
 input coverage is available but exact Level-4 specificity collapses despite
 stronger coarse-level EC recovery, indicating an OOD calibration and specificity
 failure rather than a simple missing-input problem. A calibration audit supports
@@ -610,8 +617,8 @@ structure availability, and evaluation horizon.
 
 \section*{Data Availability}
 
-Swiss-Prot sequences and EC annotations were downloaded from UniProt
-(\url{https://www.uniprot.org}). AlphaFold structures were retrieved from the
+Swiss-Prot sequences and EC annotations were downloaded from
+UniProt~\citep{uniprot2023} (\url{https://www.uniprot.org}). AlphaFold structures were retrieved from the
 AlphaFold Protein Structure Database (\url{https://alphafold.ebi.ac.uk}).
 New-392 and Price-149 benchmark files are available from the CLEAN-Contact
 repository~\citep{ayres2024}. EC-Bench training and test data can be obtained from the EC-Bench
