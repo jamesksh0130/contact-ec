@@ -67,7 +67,7 @@ def SH(ax, x, y, s):
 # ═══════════════════════════════════════════════════════════════════════════
 fig = plt.figure(figsize=(20, 36))
 gs = gridspec.GridSpec(2, 1, figure=fig, height_ratios=[0.9, 2.0],
-                       hspace=0.22, left=0.04, right=0.96,
+                       hspace=0.05, left=0.04, right=0.96,
                        top=0.97, bottom=0.01)
 gs_top = gridspec.GridSpecFromSubplotSpec(1, 2, subplot_spec=gs[0],
                                           wspace=0.30, width_ratios=[1, 1.1])
@@ -135,9 +135,9 @@ ax_b.set_xlabel("Residue index  j", fontsize=16)
 ax_b.set_ylabel("Residue index  i", fontsize=16)
 ax_b.tick_params(labelsize=14)
 
-ax_b.text(-0.06, 1.24, "B", transform=ax_b.transAxes,
+ax_b.text(-0.06, 1.04, "B", transform=ax_b.transAxes,
           fontsize=30, fontweight="bold", va="top")
-ax_b.text(0.5, 1.12, "Residue–residue contact map  (8 Å threshold)",
+ax_b.text(0.5, 1.02, "Residue–residue contact map  (8 Å threshold)",
           transform=ax_b.transAxes, ha="center", va="bottom",
           fontsize=20, fontweight="bold")
 
@@ -177,7 +177,6 @@ XL = 4.5; XR = 13.5; XC = 9.0
 # ── INPUTS ────────────────────────────────────────────────────────────────
 SH(ax_c, XC, 28.5, "INPUTS")
 
-draw_box(ax_c, XL, Y_IN, BW_SIDE, BH, "#DBEAFE", "#1565C0")
 T(ax_c, XL, Y_IN + 0.7, "Protein Sequence",
   fontsize=23, fontweight="bold", color="#1565C0")
 seq = "MKTAYIAKQR"; bw_aa = 0.52
@@ -193,7 +192,6 @@ ax_c.text(x0_aa + len(seq) * bw_aa + 0.08, Y_IN + 0.06, "…",
 T(ax_c, XL, Y_IN - 0.8, "1,438 amino acid residues",
   fontsize=19, color="#555")
 
-draw_box(ax_c, XR, Y_IN, BW_SIDE, BH, "#FFF3E0", "#E65100")
 T(ax_c, XR, Y_IN + 0.6, "Protein 3D Structure",
   fontsize=23, fontweight="bold", color="#E65100")
 T(ax_c, XR, Y_IN - 0.05, "UniProt ID → AlphaFold Database",
@@ -207,7 +205,6 @@ arrow(ax_c, XR, Y_IN - BH/2, XR, Y_PRE + BH/2, col="#E65100")
 # ── PREPROCESSING ─────────────────────────────────────────────────────────
 SH(ax_c, XC, Y_IN - BH/2 - 0.70, "PREPROCESSING")
 
-draw_box(ax_c, XL, Y_PRE, BW_SIDE, BH, "#EFF6FF", "#3B82F6")
 T(ax_c, XL, Y_PRE + 0.6, "Tokenization",
   fontsize=23, fontweight="bold", color="#1E40AF")
 T(ax_c, XL, Y_PRE - 0.25, "BPE encoding",
@@ -215,36 +212,12 @@ T(ax_c, XL, Y_PRE - 0.25, "BPE encoding",
 T(ax_c, XL, Y_PRE - 0.92, "Max length: 1,024 tokens",
   fontsize=17, color="#888")
 
-draw_box(ax_c, XR, Y_PRE, BW_SIDE, BH, "#FFF7ED", "#C2410C")
-# 제목 (상단)
-T(ax_c, XR, Y_PRE + BH/2 - 0.20, "Contact Map Extraction",
-  fontsize=23, fontweight="bold", color="#C2410C", ha="center", va="top")
-# 설명 (제목 아래)
-T(ax_c, XR, Y_PRE + BH/2 - 0.72, "8 Å threshold  ·  256 × 256",
-  fontsize=17, color="#555", ha="center", va="top")
-# Contact map 그리드 (메인 시각화, 하단)
-NM = 9; GRID_SZ = 1.5; CS = GRID_SZ / NM
-mini = np.zeros((NM, NM))
-for ri in range(NM):
-    for ci in range(NM):
-        d2 = abs(ri - ci)
-        if d2 == 0: mini[ri, ci] = 1.0
-        elif d2 == 1: mini[ri, ci] = 0.75
-        elif d2 == 2: mini[ri, ci] = 0.45
-        elif d2 == 3: mini[ri, ci] = 0.20
-mini[0][7] = mini[7][0] = 0.85
-mini[1][8] = mini[8][1] = 0.70
-mini[2][6] = mini[6][2] = 0.60
-cm_x0 = XR - GRID_SZ / 2; cm_y0 = Y_PRE - BH/2 + 0.18
-for ri in range(NM):
-    for ci in range(NM):
-        v = mini[ri, ci]
-        ax_c.add_patch(Rectangle(
-            (cm_x0 + ci * CS, cm_y0 + (NM - 1 - ri) * CS),
-            CS - 0.02, CS - 0.02,
-            fc=plt.cm.Blues(v * 0.88 + 0.06), ec="white", lw=0.8, zorder=4))
-ax_c.add_patch(Rectangle((cm_x0, cm_y0), GRID_SZ, GRID_SZ,
-                          fc="none", ec="#C2410C", lw=1.8, zorder=5))
+T(ax_c, XR, Y_PRE + 0.6, "Contact Map Extraction",
+  fontsize=23, fontweight="bold", color="#C2410C")
+T(ax_c, XR, Y_PRE - 0.15, "8 Å threshold  ·  256 × 256",
+  fontsize=19, color="#555")
+T(ax_c, XR, Y_PRE - 0.85, "Cα pairwise distance matrix",
+  fontsize=17, color="#888")
 
 arrow(ax_c, XL, Y_PRE - BH/2, XL, Y_ENC + BH/2, col="#1E40AF")
 arrow(ax_c, XR, Y_PRE - BH/2, XR, Y_ENC + BH/2, col="#C2410C")
@@ -252,7 +225,6 @@ arrow(ax_c, XR, Y_PRE - BH/2, XR, Y_ENC + BH/2, col="#C2410C")
 # ── ENCODING ──────────────────────────────────────────────────────────────
 SH(ax_c, XC, Y_PRE - BH/2 - 0.70, "ENCODING")
 
-draw_box(ax_c, XL, Y_ENC, BW_SIDE, BH, "#DBEAFE", "#1D4ED8")
 T(ax_c, XL, Y_ENC + 0.6, "ESM-2 650M",
   fontsize=23, fontweight="bold", color="#1D4ED8")
 T(ax_c, XL, Y_ENC - 0.1, "Protein language model  (frozen)",
@@ -260,7 +232,6 @@ T(ax_c, XL, Y_ENC - 0.1, "Protein language model  (frozen)",
 T(ax_c, XL, Y_ENC - 0.85, "→  1,280-d sequence embedding",
   fontsize=19, fontweight="bold", color="#1D4ED8")
 
-draw_box(ax_c, XR, Y_ENC, BW_SIDE, BH, "#FFF3E0", "#EA580C")
 T(ax_c, XR, Y_ENC + 0.6, "ResNet-50",
   fontsize=23, fontweight="bold", color="#EA580C")
 T(ax_c, XR, Y_ENC - 0.1, "Convolutional encoder  (trainable)",
@@ -277,7 +248,6 @@ arrow(ax_c, XR, Y_ENC - BH/2, 11.0, Y_FUS + BH/2,
 # ── FUSION ────────────────────────────────────────────────────────────────
 SH(ax_c, XC, Y_ENC - BH/2 - 0.70, "FUSION")
 
-draw_box(ax_c, XC, Y_FUS, BW_CTR, BH, "#ECFDF5", "#065F46", lw=2.6)
 T(ax_c, XC, Y_FUS + 0.6, "Gated Cross-Attention Fusion",
   fontsize=23, fontweight="bold", color="#065F46")
 T(ax_c, XC, Y_FUS - 0.1, "Structure features gate sequence attention",
@@ -290,7 +260,6 @@ arrow(ax_c, XC, Y_FUS - BH/2, XC, Y_CLS + BH/2, col="#444")
 # ── CLASSIFICATION ────────────────────────────────────────────────────────
 SH(ax_c, XC, Y_FUS - BH/2 - 0.70, "CLASSIFICATION HEAD")
 
-draw_box(ax_c, XC, Y_CLS, BW_CTR, BH, "#F5F3FF", "#3730A3")
 T(ax_c, XC, Y_CLS + 0.6, "FC Head  +  Sigmoid",
   fontsize=23, fontweight="bold", color="#3730A3")
 T(ax_c, XC, Y_CLS - 0.1, "Multi-label binary classification",
@@ -304,7 +273,6 @@ arrow(ax_c, XC, Y_CLS - BH/2, XC, Y_OUT + BH/2,
 # ── OUTPUT ────────────────────────────────────────────────────────────────
 SH(ax_c, XC, Y_CLS - BH/2 - 0.70, "PREDICTED ENZYME FUNCTION")
 
-draw_box(ax_c, XC, Y_OUT, 13.0, BH, "#F0FDF4", "#166534", lw=2.6)
 T(ax_c, XC, Y_OUT + 0.6, "EC 1.1.3.4  —  Glucose oxidase",
   fontsize=23, fontweight="bold", color="#166534")
 T(ax_c, XC, Y_OUT - 0.1, "Oxidoreductase  ·  CH–OH donors  ·  O₂ as acceptor",
