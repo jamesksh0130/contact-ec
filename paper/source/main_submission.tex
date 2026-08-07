@@ -321,6 +321,16 @@ Contact-EC-E2E (fine-tuned)   & 0.6703 & 0.6382 & 0.5091 & 0.2522 \\
 \end{tabular}
 \end{table}
 
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.90\linewidth]{fig2_temporal_bars.pdf}
+\caption{Level-4 micro F1 on the SP-2023-01 (hatched, $N$=124) and SP-2024
+(solid, $N$=1,226) temporal holdouts. Error bars show $\pm$1 s.d.\ across
+three seeds where applicable. Contact-EC is the only neural model that
+improves across both horizons.}
+\label{fig:temporal_bars}
+\end{figure}
+
 Bootstrap confidence intervals (1{,}000 resamples) confirm the main differences:
 Contact-EC-3B [0.547, 0.711], Contact-EC [0.511, 0.686], Contact-EC-Hier
 [0.476, 0.664], B1 [0.315, 0.521], and B3 [0.254, 0.473]. McNemar tests further
@@ -403,6 +413,16 @@ HIT-EC (mapped)       & 0.8471 & 0.4578 & $-$38.9\,pp \\
 \end{tabular}
 \end{table}
 
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.72\linewidth]{fig3_reversal_slope.pdf}
+\caption{Model trajectories across evaluation horizons. HIT-EC falls
+$-$38.9\,pp from SP-2023-01 to SP-2024, while Contact-EC improves
+$+$5.8\,pp, yielding a $+$22.4\,pp reversal. Dashed lines: single-modality
+baselines; solid lines: fusion and HIT-EC.}
+\label{fig:reversal}
+\end{figure}
+
 \begin{table}[htbp]
 \centering
 \caption{HIT-EC vocabulary-stratified evaluation on SP-2024. Proteins are
@@ -484,6 +504,18 @@ Density-matched random  & 0.0000 & 0.0982           & 0.5641 \\
 \bottomrule
 \end{tabular}
 \end{table}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.88\linewidth]{fig4_perturbation.pdf}
+\caption{Contact-map perturbation controls on the SP-2023-01 temporal test
+($N$=124). B3 collapses to zero under all three perturbations, confirming
+reliance on genuine fold topology. Contact-EC flat FC drops sharply under
+shuffling and density-matched random maps but retains performance under
+diagonal-only maps (short-range contacts). Contact-EC-Hier is invariant,
+revealing that its gate routes to ESM-2 when topology is destroyed.}
+\label{fig:perturbation}
+\end{figure}
 
 Two findings emerge. First, the flat FC model exhibits massive degradation under
 shuffling ($-$54.1\,pp) and random density matching ($-$50.5\,pp), confirming that
