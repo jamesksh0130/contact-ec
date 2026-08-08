@@ -148,20 +148,21 @@ ax_c.text(-0.02, 1.03, "C", transform=ax_c.transAxes,
 ax_c.text(9, 29.3, "Contact-EC: Sequence–Structure Fusion Pipeline",
           ha="center", fontsize=9, fontweight="bold")
 
-BH_H = 1.7; BH_SEC = BH_H * 2; BW_FULL = 17.0; BW_CTR = 12.0
-Y_IN = 26.0; Y_PRE = 21.2; Y_ENC = 16.4
-Y_FUS = 11.5; Y_CLS = 7.0; Y_OUT = 2.8
+BH_H = 1.7; BH_H_PRE = 2.2; BH_SEC = BH_H * 2; BW_FULL = 17.0; BW_CTR = 12.0
+Y_IN = 26.0; Y_PRE = 20.8; Y_ENC = 15.7
+Y_FUS = 10.8; Y_CLS = 6.3; Y_OUT = 2.1
 XL = 4.5; XR = 13.5; XC = 9.0
 
 DARK  = "#0F172A"; MID = "#555555"; LIGHT = "#888888"
 ECBOX = "#374151"
 
-def sec_box(cy, bw=BW_FULL, cx=XC, fc="white", ec=ECBOX, label=None):
-    ax_c.add_patch(FancyBboxPatch((cx - bw/2, cy - BH_H), bw, BH_SEC,
+def sec_box(cy, bw=BW_FULL, cx=XC, fc="white", ec=ECBOX, label=None, bh=None):
+    h = bh if bh is not None else BH_H
+    ax_c.add_patch(FancyBboxPatch((cx - bw/2, cy - h), bw, h * 2,
                                    boxstyle="round,pad=0.1", lw=0.8,
                                    edgecolor=ec, facecolor=fc, zorder=2))
     if label:
-        ax_c.text(cx, cy + BH_H - 0.20, label,
+        ax_c.text(cx, cy + h - 0.20, label,
                   ha="center", va="top", fontsize=5.5,
                   fontweight="bold", color=ECBOX, fontstyle="italic")
 
@@ -186,21 +187,24 @@ T(ax_c, XR, Y_IN + 0.55, "Protein 3D Structure", fontsize=8, fontweight="bold", 
 T(ax_c, XR, Y_IN - 0.12, "UniProt ID → AlphaFold Database", fontsize=6, color=MID)
 T(ax_c, XR, Y_IN - 0.75, "Cα atomic coordinates (PDB)", fontsize=5.5, color=LIGHT)
 
-arr(ax_c, XL, Y_IN - BH_H, XL, Y_PRE + BH_H)
-arr(ax_c, XR, Y_IN - BH_H, XR, Y_PRE + BH_H)
+arr(ax_c, XL, Y_IN - BH_H, XL, Y_PRE + BH_H_PRE)
+arr(ax_c, XR, Y_IN - BH_H, XR, Y_PRE + BH_H_PRE)
 
 # ── PREPROCESSING ─────────────────────────────────────────────────────────
-sec_box(Y_PRE, label="PREPROCESSING")
+sec_box(Y_PRE, label="PREPROCESSING", bh=BH_H_PRE)
 
-T(ax_c, XL, Y_PRE + 0.55, "Tokenization", fontsize=8, fontweight="bold", color=DARK)
-T(ax_c, XL, Y_PRE - 0.10, "BPE encoding", fontsize=6, color=MID)
-T(ax_c, XL, Y_PRE - 0.72, "Max length: 1,024 tokens", fontsize=5.5, color=LIGHT)
+T(ax_c, XL, Y_PRE + 1.35, "Tokenization", fontsize=8, fontweight="bold", color=DARK)
+T(ax_c, XL, Y_PRE + 0.75, "BPE encoding", fontsize=6, color=MID)
+T(ax_c, XL, Y_PRE + 0.15, "Max length: 1,024 tokens", fontsize=5.5, color=LIGHT)
 
-# Contact Map Extraction: title → subtitle → grid stacked vertically, centered at XR
-T(ax_c, XR, Y_PRE + 0.55, "Contact Map Extraction", fontsize=8, fontweight="bold", color=DARK)
-T(ax_c, XR, Y_PRE + 0.05, "8 Å threshold  ·  256 × 256", fontsize=6, color=MID)
+# Contact Map Extraction: title + subtitle at top, large square grid below
+T(ax_c, XR, Y_PRE + 1.35, "Contact Map Extraction", fontsize=8, fontweight="bold", color=DARK)
+T(ax_c, XR, Y_PRE + 0.45, "8 Å threshold  ·  256 × 256", fontsize=6, color=MID)
 
-NM_CM = 8; GSZ = 1.10; CS_CM = GSZ / NM_CM
+# GSZ_X/GSZ_Y chosen so cells are physically square (x-scale 8.51 mm/unit, y-scale 6.26 mm/unit)
+NM_CM = 8
+GSZ_X = 1.47; GSZ_Y = 2.00   # 1.47×8.51 ≈ 12.5 mm  ≈  2.00×6.26 mm
+CS_X = GSZ_X / NM_CM; CS_Y = GSZ_Y / NM_CM
 mini_cm = np.zeros((NM_CM, NM_CM))
 for ri in range(NM_CM):
     for ci in range(NM_CM):
@@ -213,25 +217,24 @@ mini_cm[0][7] = mini_cm[7][0] = 0.82
 mini_cm[1][6] = mini_cm[6][1] = 0.68
 mini_cm[2][5] = mini_cm[5][2] = 0.52
 mini_cm[1][5] = mini_cm[5][1] = 0.40
-# grid centered at XR, below subtitle
-cm_x0 = XR - GSZ / 2; cm_y0 = Y_PRE - 0.22 - GSZ
+cm_x0 = XR - GSZ_X / 2; cm_y0 = Y_PRE - BH_H_PRE + 0.40
 for ri in range(NM_CM):
     for ci in range(NM_CM):
         v = mini_cm[ri, ci]
         ax_c.add_patch(Rectangle(
-            (cm_x0 + ci * CS_CM, cm_y0 + (NM_CM - 1 - ri) * CS_CM),
-            CS_CM - 0.012, CS_CM - 0.012,
+            (cm_x0 + ci * CS_X, cm_y0 + (NM_CM - 1 - ri) * CS_Y),
+            CS_X - 0.012, CS_Y - 0.016,
             fc=plt.cm.Blues(v * 0.85 + 0.08), ec="white", lw=0.5, zorder=4))
 # i / j axis labels
-cm_cx = cm_x0 + GSZ / 2
-cm_cy = cm_y0 + GSZ / 2
-ax_c.text(cm_cx, cm_y0 - 0.09, "j", ha="center", va="top",
+cm_cx = cm_x0 + GSZ_X / 2
+cm_cy = cm_y0 + GSZ_Y / 2
+ax_c.text(cm_cx, cm_y0 - 0.12, "j", ha="center", va="top",
           fontsize=5.5, color="#444", zorder=5)
-ax_c.text(cm_x0 - 0.07, cm_cy, "i", ha="right", va="center",
+ax_c.text(cm_x0 - 0.09, cm_cy, "i", ha="right", va="center",
           fontsize=5.5, color="#444", rotation=90, zorder=5)
 
-arr(ax_c, XL, Y_PRE - BH_H, XL, Y_ENC + BH_H)
-arr(ax_c, XR, Y_PRE - BH_H, XR, Y_ENC + BH_H)
+arr(ax_c, XL, Y_PRE - BH_H_PRE, XL, Y_ENC + BH_H)
+arr(ax_c, XR, Y_PRE - BH_H_PRE, XR, Y_ENC + BH_H)
 
 # ── ENCODING ──────────────────────────────────────────────────────────────
 sec_box(Y_ENC, label="ENCODING")
