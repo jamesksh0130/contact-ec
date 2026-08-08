@@ -67,7 +67,7 @@ def SH(ax, x, y, s):
 # ═══════════════════════════════════════════════════════════════════════════
 fig = plt.figure(figsize=(20, 36))
 gs = gridspec.GridSpec(2, 1, figure=fig, height_ratios=[0.9, 2.0],
-                       hspace=0.05, left=0.04, right=0.96,
+                       hspace=0.12, left=0.04, right=0.96,
                        top=0.97, bottom=0.01)
 gs_top = gridspec.GridSpecFromSubplotSpec(1, 2, subplot_spec=gs[0],
                                           wspace=0.30, width_ratios=[1, 1.1])
@@ -234,7 +234,7 @@ mini_cm[0][7] = mini_cm[7][0] = 0.82
 mini_cm[1][6] = mini_cm[6][1] = 0.68
 mini_cm[2][5] = mini_cm[5][2] = 0.52
 mini_cm[1][5] = mini_cm[5][1] = 0.40
-cm_x0 = 15.1; cm_y0 = Y_PRE - GSZ / 2   # centered vertically in box
+cm_x0 = 13.4; cm_y0 = Y_PRE - GSZ / 2   # right next to title text
 for ri in range(NM_CM):
     for ci in range(NM_CM):
         v = mini_cm[ri, ci]
