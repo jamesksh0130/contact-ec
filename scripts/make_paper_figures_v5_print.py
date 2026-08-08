@@ -187,8 +187,10 @@ T(ax_c, XR, Y_IN + 0.55, "Protein 3D Structure", fontsize=8, fontweight="bold", 
 T(ax_c, XR, Y_IN - 0.12, "UniProt ID → AlphaFold Database", fontsize=6, color=MID)
 T(ax_c, XR, Y_IN - 0.75, "Cα atomic coordinates (PDB)", fontsize=5.5, color=LIGHT)
 
-arr(ax_c, XL, Y_IN - BH_H, XL, Y_PRE + BH_H_PRE)
-arr(ax_c, XR, Y_IN - BH_H, XR, Y_PRE + BH_H_PRE)
+SEQ_COL = "#4878CF"   # sequence pathway — blue
+STR_COL = "#E8812A"   # structure pathway — orange
+arr(ax_c, XL, Y_IN - BH_H, XL, Y_PRE + BH_H_PRE, col=SEQ_COL)
+arr(ax_c, XR, Y_IN - BH_H, XR, Y_PRE + BH_H_PRE, col=STR_COL)
 
 # ── PREPROCESSING ─────────────────────────────────────────────────────────
 sec_box(Y_PRE, label="PREPROCESSING", bh=BH_H_PRE)
@@ -231,10 +233,10 @@ cm_cy = cm_y0 + GSZ_Y / 2
 ax_c.text(cm_cx, cm_y0 - 0.12, "j", ha="center", va="top",
           fontsize=5.5, color="#444", zorder=5)
 ax_c.text(cm_x0 - 0.09, cm_cy, "i", ha="right", va="center",
-          fontsize=5.5, color="#444", rotation=90, zorder=5)
+          fontsize=5.5, color="#444", zorder=5)
 
-arr(ax_c, XL, Y_PRE - BH_H_PRE, XL, Y_ENC + BH_H)
-arr(ax_c, XR, Y_PRE - BH_H_PRE, XR, Y_ENC + BH_H)
+arr(ax_c, XL, Y_PRE - BH_H_PRE, XL, Y_ENC + BH_H, col=SEQ_COL)
+arr(ax_c, XR, Y_PRE - BH_H_PRE, XR, Y_ENC + BH_H, col=STR_COL)
 
 # ── ENCODING ──────────────────────────────────────────────────────────────
 sec_box(Y_ENC, label="ENCODING")
@@ -242,15 +244,15 @@ sec_box(Y_ENC, label="ENCODING")
 T(ax_c, XL, Y_ENC + 0.55, "ESM-2 650M", fontsize=8, fontweight="bold", color=DARK)
 T(ax_c, XL, Y_ENC - 0.10, "Protein language model  (frozen)", fontsize=6, color=MID)
 T(ax_c, XL, Y_ENC - 0.75, "→  1,280-d sequence embedding",
-  fontsize=6.5, fontweight="bold", color=DARK)
+  fontsize=6.5, fontweight="bold", color=SEQ_COL)
 
 T(ax_c, XR, Y_ENC + 0.55, "ResNet-50", fontsize=8, fontweight="bold", color=DARK)
 T(ax_c, XR, Y_ENC - 0.10, "Convolutional encoder  (trainable)", fontsize=6, color=MID)
 T(ax_c, XR, Y_ENC - 0.75, "→  512-d structural feature",
-  fontsize=6.5, fontweight="bold", color=DARK)
+  fontsize=6.5, fontweight="bold", color=STR_COL)
 
-arr(ax_c, XL, Y_ENC - BH_H, 7.0, Y_FUS + BH_H, rad=-0.18)
-arr(ax_c, XR, Y_ENC - BH_H, 11.0, Y_FUS + BH_H, rad=0.18)
+arr(ax_c, XL, Y_ENC - BH_H, 7.0, Y_FUS + BH_H, rad=-0.18, col=SEQ_COL)
+arr(ax_c, XR, Y_ENC - BH_H, 11.0, Y_FUS + BH_H, rad=0.18, col=STR_COL)
 
 # ── FUSION ────────────────────────────────────────────────────────────────
 sec_box(Y_FUS, bw=BW_CTR, label="FUSION")
