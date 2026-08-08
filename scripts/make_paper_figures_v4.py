@@ -82,7 +82,7 @@ ax_a.text(-0.06, 1.04, "A", transform=ax_a.transAxes,
 ax_a.text(5.0, 14.5, "Enzyme Commission (EC) Classification",
           ha="center", fontsize=22, fontweight="bold")
 
-BOX_W = 9.0; BOX_H = 2.4; GAP = 0.85
+BOX_W = 9.0; BOX_H = 2.1; GAP = 0.70
 step = BOX_H + GAP
 yc = [13.0 - i * step for i in range(4)]
 
@@ -100,12 +100,12 @@ for i, (ec, desc, lvl, bg, bc) in enumerate(levels):
     ax_a.add_patch(FancyBboxPatch((0.5, yc[i] - BOX_H / 2), BOX_W, BOX_H,
                                   boxstyle="round,pad=0.18", lw=2.4,
                                   edgecolor=bc, facecolor=bg))
-    ax_a.text(0.95, yc[i] + 0.50, ec,
-              fontsize=32, fontweight="bold", va="center", color="#111")
-    ax_a.text(0.95, yc[i] - 0.50, desc,
-              fontsize=24, va="center", color="#333")
-    ax_a.text(9.3, yc[i] + 0.50, lvl,
-              fontsize=16, va="center", ha="right", color=bc, fontstyle="italic")
+    ax_a.text(0.95, yc[i] + 0.38, ec,
+              fontsize=28, fontweight="bold", va="center", color="#111")
+    ax_a.text(0.95, yc[i] - 0.40, desc,
+              fontsize=20, va="center", color="#333")
+    ax_a.text(9.3, yc[i] + 0.38, lvl,
+              fontsize=14, va="center", ha="right", color=bc, fontstyle="italic")
     if i < 3:
         ax_a.annotate("",
                       xy=(5, yc[i + 1] + BOX_H / 2 + 0.08),
@@ -152,133 +152,148 @@ ax_b.annotate("Long-range\ncontacts",
               arrowprops=dict(arrowstyle="->", lw=2.0, color="#7B2D8B",
                               connectionstyle="arc3,rad=-0.25"))
 
-# ── Panel C: 6-stage vertical pipeline ───────────────────────────────────
+# ── Panel C: Section-level boxes ──────────────────────────────────────────
 ax_c.set_xlim(0, 18); ax_c.set_ylim(0, 30); ax_c.axis("off")
 ax_c.text(-0.02, 1.03, "C", transform=ax_c.transAxes,
           fontsize=30, fontweight="bold", va="top")
 ax_c.text(9, 29.3, "Contact-EC: Sequence–Structure Fusion Pipeline",
           ha="center", fontsize=23, fontweight="bold")
 
-BW_SIDE  = 7.5   # branch box width
-BH       = 2.80  # standard box height
-BW_CTR   = 11.0  # center box width
+BH_H   = 1.7     # section box half-height (total 3.4)
+BH_SEC = BH_H * 2
+BW_FULL = 17.0   # two-column sections (x: 0.5–17.5)
+BW_CTR  = 12.0   # center sections
 
-# Stage y-centers — generous spacing so section headers fit in gaps
-Y_IN   = 26.5   # INPUT
-Y_PRE  = 21.5   # PREPROCESSING
-Y_ENC  = 16.5   # ENCODING
-Y_FUS  = 11.5   # FUSION
-Y_CLS  =  7.0   # CLASSIFICATION
-Y_OUT  =  2.8   # OUTPUT
-
-# X-centers for branches and center
+Y_IN  = 26.0; Y_PRE = 21.2; Y_ENC = 16.4
+Y_FUS = 11.5; Y_CLS =  7.0; Y_OUT =  2.8
 XL = 4.5; XR = 13.5; XC = 9.0
 
-# ── INPUTS ────────────────────────────────────────────────────────────────
-SH(ax_c, XC, 28.5, "INPUTS")
+def sec_box(cy, bw=BW_FULL, cx=XC, fc="#F8FAFF", ec="#334155",
+            label=None, label_col="#334155"):
+    ax_c.add_patch(FancyBboxPatch((cx - bw/2, cy - BH_H), bw, BH_SEC,
+                                   boxstyle="round,pad=0.1", lw=2.0,
+                                   edgecolor=ec, facecolor=fc, zorder=2))
+    if label:
+        ax_c.text(cx, cy + BH_H - 0.20, label,
+                  ha="center", va="top", fontsize=17,
+                  fontweight="bold", color=label_col, fontstyle="italic")
 
-T(ax_c, XL, Y_IN + 0.7, "Protein Sequence",
-  fontsize=23, fontweight="bold", color="#1565C0")
-seq = "MKTAYIAKQR"; bw_aa = 0.52
+# ── INPUTS ────────────────────────────────────────────────────────────────
+sec_box(Y_IN, fc="#EFF8FF", ec="#1565C0", label="INPUTS", label_col="#1565C0")
+
+T(ax_c, XL, Y_IN + 0.52, "Protein Sequence",
+  fontsize=22, fontweight="bold", color="#1565C0")
+seq = "MKTAYIAKQR"; bw_aa = 0.50
 x0_aa = XL - len(seq) * bw_aa / 2
 for idx, aa in enumerate(seq):
     xb = x0_aa + idx * bw_aa
-    ax_c.add_patch(Rectangle((xb, Y_IN - 0.22), bw_aa - 0.04, 0.55,
-                              fc=AA_COL.get(aa, "#CCC"), ec="white", lw=1.2))
-    ax_c.text(xb + (bw_aa - 0.04) / 2, Y_IN + 0.06, aa,
-              ha="center", va="center", fontsize=10, fontweight="bold", color="#111")
-ax_c.text(x0_aa + len(seq) * bw_aa + 0.08, Y_IN + 0.06, "…",
-          ha="left", va="center", fontsize=18, color="#888")
-T(ax_c, XL, Y_IN - 0.8, "1,438 amino acid residues",
-  fontsize=19, color="#555")
+    ax_c.add_patch(Rectangle((xb, Y_IN - 0.18), bw_aa - 0.04, 0.46,
+                              fc=AA_COL.get(aa, "#CCC"), ec="white", lw=1.2, zorder=3))
+    ax_c.text(xb + (bw_aa-0.04)/2, Y_IN + 0.05, aa,
+              ha="center", va="center", fontsize=9, fontweight="bold", color="#111", zorder=4)
+ax_c.text(x0_aa + len(seq)*bw_aa + 0.06, Y_IN + 0.05, "…",
+          ha="left", va="center", fontsize=16, color="#888")
+T(ax_c, XL, Y_IN - 0.75, "1,438 amino acid residues", fontsize=17, color="#555")
 
-T(ax_c, XR, Y_IN + 0.6, "Protein 3D Structure",
-  fontsize=23, fontweight="bold", color="#E65100")
-T(ax_c, XR, Y_IN - 0.05, "UniProt ID → AlphaFold Database",
-  fontsize=19, color="#555")
-T(ax_c, XR, Y_IN - 0.82, "Cα atomic coordinates (PDB)",
-  fontsize=17, color="#888")
+T(ax_c, XR, Y_IN + 0.52, "Protein 3D Structure",
+  fontsize=22, fontweight="bold", color="#E65100")
+T(ax_c, XR, Y_IN - 0.10, "UniProt ID → AlphaFold Database", fontsize=17, color="#555")
+T(ax_c, XR, Y_IN - 0.75, "Cα atomic coordinates (PDB)", fontsize=15, color="#888")
 
-arrow(ax_c, XL, Y_IN - BH/2, XL, Y_PRE + BH/2, col="#1565C0")
-arrow(ax_c, XR, Y_IN - BH/2, XR, Y_PRE + BH/2, col="#E65100")
+arrow(ax_c, XL, Y_IN - BH_H, XL, Y_PRE + BH_H, col="#1565C0")
+arrow(ax_c, XR, Y_IN - BH_H, XR, Y_PRE + BH_H, col="#E65100")
 
 # ── PREPROCESSING ─────────────────────────────────────────────────────────
-SH(ax_c, XC, Y_IN - BH/2 - 0.70, "PREPROCESSING")
+sec_box(Y_PRE, fc="#FFF7F0", ec="#C2410C", label="PREPROCESSING", label_col="#C2410C")
 
-T(ax_c, XL, Y_PRE + 0.6, "Tokenization",
-  fontsize=23, fontweight="bold", color="#1E40AF")
-T(ax_c, XL, Y_PRE - 0.25, "BPE encoding",
-  fontsize=19, color="#555")
-T(ax_c, XL, Y_PRE - 0.92, "Max length: 1,024 tokens",
-  fontsize=17, color="#888")
+T(ax_c, XL, Y_PRE + 0.52, "Tokenization",
+  fontsize=22, fontweight="bold", color="#1E40AF")
+T(ax_c, XL, Y_PRE - 0.12, "BPE encoding", fontsize=17, color="#555")
+T(ax_c, XL, Y_PRE - 0.75, "Max length: 1,024 tokens", fontsize=15, color="#888")
 
-T(ax_c, XR, Y_PRE + 0.6, "Contact Map Extraction",
-  fontsize=23, fontweight="bold", color="#C2410C")
-T(ax_c, XR, Y_PRE - 0.15, "8 Å threshold  ·  256 × 256",
-  fontsize=19, color="#555")
-T(ax_c, XR, Y_PRE - 0.85, "Cα pairwise distance matrix",
-  fontsize=17, color="#888")
+T(ax_c, XR, Y_PRE + 0.52, "Contact Map Extraction",
+  fontsize=22, fontweight="bold", color="#C2410C")
+T(ax_c, XR, Y_PRE - 0.12, "8 Å threshold  ·  256 × 256", fontsize=15, color="#555")
+# mini contact map grid
+NM_CM = 6; GSZ = 0.70; CS_CM = GSZ / NM_CM
+mini_cm = np.zeros((NM_CM, NM_CM))
+for ri in range(NM_CM):
+    for ci in range(NM_CM):
+        d = abs(ri - ci)
+        if d == 0: mini_cm[ri,ci] = 1.0
+        elif d == 1: mini_cm[ri,ci] = 0.75
+        elif d == 2: mini_cm[ri,ci] = 0.40
+        elif d == 3: mini_cm[ri,ci] = 0.18
+mini_cm[0][5] = mini_cm[5][0] = 0.78
+mini_cm[1][4] = mini_cm[4][1] = 0.62
+cm_x0 = XR - GSZ/2; cm_y0 = Y_PRE - 0.42 - GSZ
+for ri in range(NM_CM):
+    for ci in range(NM_CM):
+        v = mini_cm[ri, ci]
+        ax_c.add_patch(Rectangle(
+            (cm_x0 + ci*CS_CM, cm_y0 + (NM_CM-1-ri)*CS_CM),
+            CS_CM - 0.016, CS_CM - 0.016,
+            fc=plt.cm.Blues(v*0.85+0.08), ec="white", lw=0.7, zorder=4))
+ax_c.add_patch(Rectangle((cm_x0, cm_y0), GSZ, GSZ,
+                          fc="none", ec="#C2410C", lw=1.4, zorder=5))
 
-arrow(ax_c, XL, Y_PRE - BH/2, XL, Y_ENC + BH/2, col="#1E40AF")
-arrow(ax_c, XR, Y_PRE - BH/2, XR, Y_ENC + BH/2, col="#C2410C")
+arrow(ax_c, XL, Y_PRE - BH_H, XL, Y_ENC + BH_H, col="#1E40AF")
+arrow(ax_c, XR, Y_PRE - BH_H, XR, Y_ENC + BH_H, col="#C2410C")
 
 # ── ENCODING ──────────────────────────────────────────────────────────────
-SH(ax_c, XC, Y_PRE - BH/2 - 0.70, "ENCODING")
+sec_box(Y_ENC, fc="#EFF6FF", ec="#1D4ED8", label="ENCODING", label_col="#1D4ED8")
 
-T(ax_c, XL, Y_ENC + 0.6, "ESM-2 650M",
-  fontsize=23, fontweight="bold", color="#1D4ED8")
-T(ax_c, XL, Y_ENC - 0.1, "Protein language model  (frozen)",
-  fontsize=19, color="#555")
-T(ax_c, XL, Y_ENC - 0.85, "→  1,280-d sequence embedding",
-  fontsize=19, fontweight="bold", color="#1D4ED8")
+T(ax_c, XL, Y_ENC + 0.52, "ESM-2 650M",
+  fontsize=22, fontweight="bold", color="#1D4ED8")
+T(ax_c, XL, Y_ENC - 0.10, "Protein language model  (frozen)", fontsize=17, color="#555")
+T(ax_c, XL, Y_ENC - 0.78, "→  1,280-d sequence embedding",
+  fontsize=17, fontweight="bold", color="#1D4ED8")
 
-T(ax_c, XR, Y_ENC + 0.6, "ResNet-50",
-  fontsize=23, fontweight="bold", color="#EA580C")
-T(ax_c, XR, Y_ENC - 0.1, "Convolutional encoder  (trainable)",
-  fontsize=19, color="#555")
-T(ax_c, XR, Y_ENC - 0.85, "→  512-d structural feature",
-  fontsize=19, fontweight="bold", color="#EA580C")
+T(ax_c, XR, Y_ENC + 0.52, "ResNet-50",
+  fontsize=22, fontweight="bold", color="#EA580C")
+T(ax_c, XR, Y_ENC - 0.10, "Convolutional encoder  (trainable)", fontsize=17, color="#555")
+T(ax_c, XR, Y_ENC - 0.78, "→  512-d structural feature",
+  fontsize=17, fontweight="bold", color="#EA580C")
 
-# Converging arrows to fusion
-arrow(ax_c, XL, Y_ENC - BH/2, 7.0, Y_FUS + BH/2,
-      col="#1D4ED8", rad=-0.18)
-arrow(ax_c, XR, Y_ENC - BH/2, 11.0, Y_FUS + BH/2,
-      col="#EA580C", rad=0.18)
+arrow(ax_c, XL, Y_ENC - BH_H, 7.0, Y_FUS + BH_H, col="#1D4ED8", rad=-0.18)
+arrow(ax_c, XR, Y_ENC - BH_H, 11.0, Y_FUS + BH_H, col="#EA580C", rad=0.18)
 
 # ── FUSION ────────────────────────────────────────────────────────────────
-SH(ax_c, XC, Y_ENC - BH/2 - 0.70, "FUSION")
+sec_box(Y_FUS, bw=BW_CTR, fc="#ECFDF5", ec="#065F46",
+        label="FUSION", label_col="#065F46")
 
-T(ax_c, XC, Y_FUS + 0.6, "Gated Cross-Attention Fusion",
-  fontsize=23, fontweight="bold", color="#065F46")
-T(ax_c, XC, Y_FUS - 0.1, "Structure features gate sequence attention",
-  fontsize=19, color="#444")
+T(ax_c, XC, Y_FUS + 0.45, "Gated Cross-Attention Fusion",
+  fontsize=22, fontweight="bold", color="#065F46")
+T(ax_c, XC, Y_FUS - 0.18, "Structure features gate sequence attention",
+  fontsize=17, color="#444")
 T(ax_c, XC, Y_FUS - 0.85, "1,792-d  →  512-d fused representation",
-  fontsize=19, fontweight="bold", color="#065F46")
+  fontsize=17, fontweight="bold", color="#065F46")
 
-arrow(ax_c, XC, Y_FUS - BH/2, XC, Y_CLS + BH/2, col="#444")
+arrow(ax_c, XC, Y_FUS - BH_H, XC, Y_CLS + BH_H, col="#444")
 
-# ── CLASSIFICATION ────────────────────────────────────────────────────────
-SH(ax_c, XC, Y_FUS - BH/2 - 0.70, "CLASSIFICATION HEAD")
+# ── CLASSIFICATION HEAD ────────────────────────────────────────────────────
+sec_box(Y_CLS, bw=BW_CTR, fc="#F5F3FF", ec="#3730A3",
+        label="CLASSIFICATION HEAD", label_col="#3730A3")
 
-T(ax_c, XC, Y_CLS + 0.6, "FC Head  +  Sigmoid",
-  fontsize=23, fontweight="bold", color="#3730A3")
-T(ax_c, XC, Y_CLS - 0.1, "Multi-label binary classification",
-  fontsize=19, color="#444")
+T(ax_c, XC, Y_CLS + 0.45, "FC Head  +  Sigmoid",
+  fontsize=22, fontweight="bold", color="#3730A3")
+T(ax_c, XC, Y_CLS - 0.18, "Multi-label binary classification",
+  fontsize=17, color="#444")
 T(ax_c, XC, Y_CLS - 0.85, "1,938 EC class labels",
-  fontsize=19, fontweight="bold", color="#3730A3")
+  fontsize=17, fontweight="bold", color="#3730A3")
 
-arrow(ax_c, XC, Y_CLS - BH/2, XC, Y_OUT + BH/2,
-      col="#166534", lw=2.6)
+arrow(ax_c, XC, Y_CLS - BH_H, XC, Y_OUT + BH_H, col="#166534", lw=2.6)
 
-# ── OUTPUT ────────────────────────────────────────────────────────────────
-SH(ax_c, XC, Y_CLS - BH/2 - 0.70, "PREDICTED ENZYME FUNCTION")
+# ── PREDICTED ENZYME FUNCTION ─────────────────────────────────────────────
+sec_box(Y_OUT, bw=BW_CTR, fc="#F0FDF4", ec="#166534",
+        label="PREDICTED ENZYME FUNCTION", label_col="#166534")
 
-T(ax_c, XC, Y_OUT + 0.6, "EC 1.1.3.4  —  Glucose oxidase",
-  fontsize=23, fontweight="bold", color="#166534")
-T(ax_c, XC, Y_OUT - 0.1, "Oxidoreductase  ·  CH–OH donors  ·  O₂ as acceptor",
-  fontsize=19, color="#333")
-T(ax_c, XC, Y_OUT - 0.82, "Confidence: p = 0.94   (Aspergillus niger,  UniProt P13006)",
-  fontsize=17, color="#666", fontstyle="italic")
+T(ax_c, XC, Y_OUT + 0.45, "EC 1.1.3.4  —  Glucose oxidase",
+  fontsize=22, fontweight="bold", color="#166534")
+T(ax_c, XC, Y_OUT - 0.18, "Oxidoreductase  ·  CH–OH donors  ·  O₂ as acceptor",
+  fontsize=17, color="#333")
+T(ax_c, XC, Y_OUT - 0.85, "Confidence: p = 0.94   (Aspergillus niger,  UniProt P13006)",
+  fontsize=15, color="#666", fontstyle="italic")
 
 fig.savefig(f"{OUT}/fig1_overview.pdf", dpi=300, bbox_inches="tight")
 fig.savefig(f"{OUT}/fig1_overview.png", dpi=300, bbox_inches="tight")
