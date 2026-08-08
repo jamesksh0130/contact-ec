@@ -127,7 +127,7 @@ for r, c in [(15,60),(16,61),(17,62),(18,63),(20,55),(40,75),(41,76)]:
         cm_arr[r, c] = cm_arr[c, r] = 0.75 + 0.2 * np.random.rand()
 
 im = ax_b.imshow(cm_arr, cmap="Blues", vmin=0, vmax=1,
-                 origin="upper", interpolation="nearest")
+                 origin="upper", interpolation="nearest", aspect="auto")
 cbar = plt.colorbar(im, ax=ax_b, fraction=0.046, pad=0.04)
 cbar.set_label("Contact probability", fontsize=14)
 cbar.ax.tick_params(labelsize=13)
@@ -139,7 +139,7 @@ ax_b.text(-0.06, 1.04, "B", transform=ax_b.transAxes,
           fontsize=30, fontweight="bold", va="top")
 ax_b.text(0.5, 1.02, "Residue–residue contact map  (8 Å threshold)",
           transform=ax_b.transAxes, ha="center", va="bottom",
-          fontsize=20, fontweight="bold")
+          fontsize=22, fontweight="bold")
 
 ax_b.annotate("Short-range\ncontacts",
               xy=(5, 5), xytext=(26, 18),
@@ -157,7 +157,7 @@ ax_c.set_xlim(0, 18); ax_c.set_ylim(0, 30); ax_c.axis("off")
 ax_c.text(-0.02, 1.03, "C", transform=ax_c.transAxes,
           fontsize=30, fontweight="bold", va="top")
 ax_c.text(9, 29.3, "Contact-EC: Sequence–Structure Fusion Pipeline",
-          ha="center", fontsize=23, fontweight="bold")
+          ha="center", fontsize=22, fontweight="bold")
 
 BH_H   = 1.7     # section box half-height (total 3.4)
 BH_SEC = BH_H * 2
@@ -168,10 +168,10 @@ Y_IN  = 26.0; Y_PRE = 21.2; Y_ENC = 16.4
 Y_FUS = 11.5; Y_CLS =  7.0; Y_OUT =  2.8
 XL = 4.5; XR = 13.5; XC = 9.0
 
-def sec_box(cy, bw=BW_FULL, cx=XC, fc="#F8FAFF", ec="#334155",
+def sec_box(cy, bw=BW_FULL, cx=XC, fc="white", ec="#334155",
             label=None, label_col="#334155"):
     ax_c.add_patch(FancyBboxPatch((cx - bw/2, cy - BH_H), bw, BH_SEC,
-                                   boxstyle="round,pad=0.1", lw=2.0,
+                                   boxstyle="round,pad=0.1", lw=2.4,
                                    edgecolor=ec, facecolor=fc, zorder=2))
     if label:
         ax_c.text(cx, cy + BH_H - 0.20, label,
@@ -179,21 +179,21 @@ def sec_box(cy, bw=BW_FULL, cx=XC, fc="#F8FAFF", ec="#334155",
                   fontweight="bold", color=label_col, fontstyle="italic")
 
 # ── INPUTS ────────────────────────────────────────────────────────────────
-sec_box(Y_IN, fc="#EFF8FF", ec="#1565C0", label="INPUTS", label_col="#1565C0")
+sec_box(Y_IN, ec="#1565C0", label="INPUTS", label_col="#1565C0")
 
-T(ax_c, XL, Y_IN + 0.52, "Protein Sequence",
+T(ax_c, XL, Y_IN + 0.68, "Protein Sequence",
   fontsize=22, fontweight="bold", color="#1565C0")
-seq = "MKTAYIAKQR"; bw_aa = 0.50
+seq = "MKTAYIAKQR"; bw_aa = 0.54
 x0_aa = XL - len(seq) * bw_aa / 2
 for idx, aa in enumerate(seq):
     xb = x0_aa + idx * bw_aa
-    ax_c.add_patch(Rectangle((xb, Y_IN - 0.18), bw_aa - 0.04, 0.46,
-                              fc=AA_COL.get(aa, "#CCC"), ec="white", lw=1.2, zorder=3))
-    ax_c.text(xb + (bw_aa-0.04)/2, Y_IN + 0.05, aa,
-              ha="center", va="center", fontsize=9, fontweight="bold", color="#111", zorder=4)
-ax_c.text(x0_aa + len(seq)*bw_aa + 0.06, Y_IN + 0.05, "…",
-          ha="left", va="center", fontsize=16, color="#888")
-T(ax_c, XL, Y_IN - 0.75, "1,438 amino acid residues", fontsize=17, color="#555")
+    ax_c.add_patch(Rectangle((xb, Y_IN - 0.25), bw_aa - 0.04, 0.65,
+                              fc=AA_COL.get(aa, "#CCC"), ec="white", lw=1.3, zorder=3))
+    ax_c.text(xb + (bw_aa-0.04)/2, Y_IN + 0.07, aa,
+              ha="center", va="center", fontsize=10, fontweight="bold", color="#111", zorder=4)
+ax_c.text(x0_aa + len(seq)*bw_aa + 0.06, Y_IN + 0.07, "…",
+          ha="left", va="center", fontsize=18, color="#888")
+T(ax_c, XL, Y_IN - 0.82, "1,438 amino acid residues", fontsize=17, color="#555")
 
 T(ax_c, XR, Y_IN + 0.52, "Protein 3D Structure",
   fontsize=22, fontweight="bold", color="#E65100")
@@ -204,44 +204,45 @@ arrow(ax_c, XL, Y_IN - BH_H, XL, Y_PRE + BH_H, col="#1565C0")
 arrow(ax_c, XR, Y_IN - BH_H, XR, Y_PRE + BH_H, col="#E65100")
 
 # ── PREPROCESSING ─────────────────────────────────────────────────────────
-sec_box(Y_PRE, fc="#FFF7F0", ec="#C2410C", label="PREPROCESSING", label_col="#C2410C")
+sec_box(Y_PRE, ec="#C2410C", label="PREPROCESSING", label_col="#C2410C")
 
 T(ax_c, XL, Y_PRE + 0.52, "Tokenization",
   fontsize=22, fontweight="bold", color="#1E40AF")
 T(ax_c, XL, Y_PRE - 0.12, "BPE encoding", fontsize=17, color="#555")
 T(ax_c, XL, Y_PRE - 0.75, "Max length: 1,024 tokens", fontsize=15, color="#888")
 
-T(ax_c, XR, Y_PRE + 0.52, "Contact Map Extraction",
+T(ax_c, XR, Y_PRE + 0.62, "Contact Map Extraction",
   fontsize=22, fontweight="bold", color="#C2410C")
-T(ax_c, XR, Y_PRE - 0.12, "8 Å threshold  ·  256 × 256", fontsize=15, color="#555")
-# mini contact map grid
-NM_CM = 6; GSZ = 0.70; CS_CM = GSZ / NM_CM
+T(ax_c, XR, Y_PRE + 0.08, "8 Å threshold  ·  256 × 256", fontsize=15, color="#555")
+# mini contact map grid — larger
+NM_CM = 7; GSZ = 1.10; CS_CM = GSZ / NM_CM
 mini_cm = np.zeros((NM_CM, NM_CM))
 for ri in range(NM_CM):
     for ci in range(NM_CM):
         d = abs(ri - ci)
         if d == 0: mini_cm[ri,ci] = 1.0
         elif d == 1: mini_cm[ri,ci] = 0.75
-        elif d == 2: mini_cm[ri,ci] = 0.40
+        elif d == 2: mini_cm[ri,ci] = 0.42
         elif d == 3: mini_cm[ri,ci] = 0.18
-mini_cm[0][5] = mini_cm[5][0] = 0.78
-mini_cm[1][4] = mini_cm[4][1] = 0.62
-cm_x0 = XR - GSZ/2; cm_y0 = Y_PRE - 0.42 - GSZ
+mini_cm[0][6] = mini_cm[6][0] = 0.82
+mini_cm[1][5] = mini_cm[5][1] = 0.65
+mini_cm[2][4] = mini_cm[4][2] = 0.50
+cm_x0 = XR - GSZ/2; cm_y0 = Y_PRE - 0.38 - GSZ
 for ri in range(NM_CM):
     for ci in range(NM_CM):
         v = mini_cm[ri, ci]
         ax_c.add_patch(Rectangle(
             (cm_x0 + ci*CS_CM, cm_y0 + (NM_CM-1-ri)*CS_CM),
-            CS_CM - 0.016, CS_CM - 0.016,
-            fc=plt.cm.Blues(v*0.85+0.08), ec="white", lw=0.7, zorder=4))
+            CS_CM - 0.018, CS_CM - 0.018,
+            fc=plt.cm.Blues(v*0.85+0.08), ec="white", lw=0.8, zorder=4))
 ax_c.add_patch(Rectangle((cm_x0, cm_y0), GSZ, GSZ,
-                          fc="none", ec="#C2410C", lw=1.4, zorder=5))
+                          fc="none", ec="#C2410C", lw=1.6, zorder=5))
 
 arrow(ax_c, XL, Y_PRE - BH_H, XL, Y_ENC + BH_H, col="#1E40AF")
 arrow(ax_c, XR, Y_PRE - BH_H, XR, Y_ENC + BH_H, col="#C2410C")
 
 # ── ENCODING ──────────────────────────────────────────────────────────────
-sec_box(Y_ENC, fc="#EFF6FF", ec="#1D4ED8", label="ENCODING", label_col="#1D4ED8")
+sec_box(Y_ENC, ec="#1D4ED8", label="ENCODING", label_col="#1D4ED8")
 
 T(ax_c, XL, Y_ENC + 0.52, "ESM-2 650M",
   fontsize=22, fontweight="bold", color="#1D4ED8")
@@ -259,7 +260,7 @@ arrow(ax_c, XL, Y_ENC - BH_H, 7.0, Y_FUS + BH_H, col="#1D4ED8", rad=-0.18)
 arrow(ax_c, XR, Y_ENC - BH_H, 11.0, Y_FUS + BH_H, col="#EA580C", rad=0.18)
 
 # ── FUSION ────────────────────────────────────────────────────────────────
-sec_box(Y_FUS, bw=BW_CTR, fc="#ECFDF5", ec="#065F46",
+sec_box(Y_FUS, bw=BW_CTR, ec="#065F46",
         label="FUSION", label_col="#065F46")
 
 T(ax_c, XC, Y_FUS + 0.45, "Gated Cross-Attention Fusion",
@@ -272,7 +273,7 @@ T(ax_c, XC, Y_FUS - 0.85, "1,792-d  →  512-d fused representation",
 arrow(ax_c, XC, Y_FUS - BH_H, XC, Y_CLS + BH_H, col="#444")
 
 # ── CLASSIFICATION HEAD ────────────────────────────────────────────────────
-sec_box(Y_CLS, bw=BW_CTR, fc="#F5F3FF", ec="#3730A3",
+sec_box(Y_CLS, bw=BW_CTR, ec="#3730A3",
         label="CLASSIFICATION HEAD", label_col="#3730A3")
 
 T(ax_c, XC, Y_CLS + 0.45, "FC Head  +  Sigmoid",
@@ -285,7 +286,7 @@ T(ax_c, XC, Y_CLS - 0.85, "1,938 EC class labels",
 arrow(ax_c, XC, Y_CLS - BH_H, XC, Y_OUT + BH_H, col="#166534", lw=2.6)
 
 # ── PREDICTED ENZYME FUNCTION ─────────────────────────────────────────────
-sec_box(Y_OUT, bw=BW_CTR, fc="#F0FDF4", ec="#166534",
+sec_box(Y_OUT, bw=BW_CTR, ec="#166534",
         label="PREDICTED ENZYME FUNCTION", label_col="#166534")
 
 T(ax_c, XC, Y_OUT + 0.45, "EC 1.1.3.4  —  Glucose oxidase",
