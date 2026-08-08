@@ -67,7 +67,7 @@ ax_c = fig.add_subplot(gs[1])
 
 # ── Panel A ───────────────────────────────────────────────────────────────
 ax_a.set_xlim(0, 10); ax_a.set_ylim(2.5, 14.8); ax_a.axis("off")
-ax_a.text(-0.06, 1.10, "A", transform=ax_a.transAxes,
+ax_a.text(-0.06, 1.15, "A", transform=ax_a.transAxes,
           fontsize=11, fontweight="bold", va="top")
 ax_a.text(0.5, 1.02, "Enzyme Commission (EC) Classification",
           transform=ax_a.transAxes, ha="center", va="bottom",
@@ -124,7 +124,7 @@ ax_b.set_xlabel("Residue index  j", fontsize=7)
 ax_b.set_ylabel("Residue index  i", fontsize=7)
 ax_b.tick_params(labelsize=6)
 
-ax_b.text(-0.06, 1.10, "B", transform=ax_b.transAxes,
+ax_b.text(-0.06, 1.15, "B", transform=ax_b.transAxes,
           fontsize=11, fontweight="bold", va="top")
 ax_b.text(0.5, 1.02, "Residue–residue contact map  (8 Å threshold)",
           transform=ax_b.transAxes, ha="center", va="bottom",
@@ -196,12 +196,13 @@ T(ax_c, XL, Y_PRE + 0.55, "Tokenization", fontsize=8, fontweight="bold", color=D
 T(ax_c, XL, Y_PRE - 0.10, "BPE encoding", fontsize=6, color=MID)
 T(ax_c, XL, Y_PRE - 0.72, "Max length: 1,024 tokens", fontsize=5.5, color=LIGHT)
 
-# Contact Map Extraction: title at top of box, grid immediately to the right
-CM_Y = Y_PRE + 0.72   # title moved up toward top of section box
-T(ax_c, 10.0, CM_Y, "Contact Map Extraction", fontsize=8, fontweight="bold", color=DARK)
-T(ax_c, 10.0, CM_Y - 0.52, "8 Å threshold  ·  256 × 256", fontsize=6, color=MID)
+# Contact Map Extraction: aligned with Protein 3D Structure (XR=13.5)
+# grid placed immediately to the right of title
+CM_Y = Y_PRE + 0.72
+T(ax_c, XR, CM_Y, "Contact Map Extraction", fontsize=8, fontweight="bold", color=DARK)
+T(ax_c, XR, CM_Y - 0.52, "8 Å threshold  ·  256 × 256", fontsize=6, color=MID)
 
-NM_CM = 8; GSZ = 1.30; CS_CM = GSZ / NM_CM
+NM_CM = 8; GSZ = 1.25; CS_CM = GSZ / NM_CM
 mini_cm = np.zeros((NM_CM, NM_CM))
 for ri in range(NM_CM):
     for ci in range(NM_CM):
@@ -214,8 +215,8 @@ mini_cm[0][7] = mini_cm[7][0] = 0.82
 mini_cm[1][6] = mini_cm[6][1] = 0.68
 mini_cm[2][5] = mini_cm[5][2] = 0.52
 mini_cm[1][5] = mini_cm[5][1] = 0.40
-# grid starts immediately to the right of title text (딱 붙이게)
-cm_x0 = 12.3; cm_y0 = CM_Y - GSZ / 2
+# grid right next to title (XR + half_title_width + tiny gap)
+cm_x0 = 15.7; cm_y0 = CM_Y - GSZ / 2
 for ri in range(NM_CM):
     for ci in range(NM_CM):
         v = mini_cm[ri, ci]
