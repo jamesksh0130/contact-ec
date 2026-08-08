@@ -196,13 +196,11 @@ T(ax_c, XL, Y_PRE + 0.55, "Tokenization", fontsize=8, fontweight="bold", color=D
 T(ax_c, XL, Y_PRE - 0.10, "BPE encoding", fontsize=6, color=MID)
 T(ax_c, XL, Y_PRE - 0.72, "Max length: 1,024 tokens", fontsize=5.5, color=LIGHT)
 
-# Contact Map Extraction: aligned with Protein 3D Structure (XR=13.5)
-# grid placed immediately to the right of title
-CM_Y = Y_PRE + 0.72
-T(ax_c, XR, CM_Y, "Contact Map Extraction", fontsize=8, fontweight="bold", color=DARK)
-T(ax_c, XR, CM_Y - 0.52, "8 Å threshold  ·  256 × 256", fontsize=6, color=MID)
+# Contact Map Extraction: title → subtitle → grid stacked vertically, centered at XR
+T(ax_c, XR, Y_PRE + 0.55, "Contact Map Extraction", fontsize=8, fontweight="bold", color=DARK)
+T(ax_c, XR, Y_PRE + 0.05, "8 Å threshold  ·  256 × 256", fontsize=6, color=MID)
 
-NM_CM = 8; GSZ = 1.25; CS_CM = GSZ / NM_CM
+NM_CM = 8; GSZ = 1.10; CS_CM = GSZ / NM_CM
 mini_cm = np.zeros((NM_CM, NM_CM))
 for ri in range(NM_CM):
     for ci in range(NM_CM):
@@ -215,8 +213,8 @@ mini_cm[0][7] = mini_cm[7][0] = 0.82
 mini_cm[1][6] = mini_cm[6][1] = 0.68
 mini_cm[2][5] = mini_cm[5][2] = 0.52
 mini_cm[1][5] = mini_cm[5][1] = 0.40
-# grid right next to title (XR + half_title_width + tiny gap)
-cm_x0 = 15.7; cm_y0 = CM_Y - GSZ / 2
+# grid centered at XR, below subtitle
+cm_x0 = XR - GSZ / 2; cm_y0 = Y_PRE - 0.22 - GSZ
 for ri in range(NM_CM):
     for ci in range(NM_CM):
         v = mini_cm[ri, ci]
@@ -224,13 +222,13 @@ for ri in range(NM_CM):
             (cm_x0 + ci * CS_CM, cm_y0 + (NM_CM - 1 - ri) * CS_CM),
             CS_CM - 0.012, CS_CM - 0.012,
             fc=plt.cm.Blues(v * 0.85 + 0.08), ec="white", lw=0.5, zorder=4))
-# i / j axis labels — connects mini grid visually to Panel B
+# i / j axis labels
 cm_cx = cm_x0 + GSZ / 2
 cm_cy = cm_y0 + GSZ / 2
-ax_c.text(cm_cx, cm_y0 - 0.12, "j", ha="center", va="top",
+ax_c.text(cm_cx, cm_y0 - 0.09, "j", ha="center", va="top",
           fontsize=5.5, color="#444", zorder=5)
-ax_c.text(cm_x0 - 0.05, cm_y0 + GSZ + 0.10, "i", ha="right", va="bottom",
-          fontsize=5.5, color="#444", zorder=5)
+ax_c.text(cm_x0 - 0.07, cm_cy, "i", ha="right", va="center",
+          fontsize=5.5, color="#444", rotation=90, zorder=5)
 
 arr(ax_c, XL, Y_PRE - BH_H, XL, Y_ENC + BH_H)
 arr(ax_c, XR, Y_PRE - BH_H, XR, Y_ENC + BH_H)
