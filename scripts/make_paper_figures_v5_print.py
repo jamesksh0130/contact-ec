@@ -224,6 +224,13 @@ for ri in range(NM_CM):
             (cm_x0 + ci * CS_CM, cm_y0 + (NM_CM - 1 - ri) * CS_CM),
             CS_CM - 0.012, CS_CM - 0.012,
             fc=plt.cm.Blues(v * 0.85 + 0.08), ec="white", lw=0.5, zorder=4))
+# i / j axis labels — connects mini grid visually to Panel B
+cm_cx = cm_x0 + GSZ / 2
+cm_cy = cm_y0 + GSZ / 2
+ax_c.text(cm_cx, cm_y0 - 0.12, "j", ha="center", va="top",
+          fontsize=5.5, color="#444", zorder=5)
+ax_c.text(cm_x0 - 0.05, cm_y0 + GSZ + 0.10, "i", ha="right", va="bottom",
+          fontsize=5.5, color="#444", zorder=5)
 
 arr(ax_c, XL, Y_PRE - BH_H, XL, Y_ENC + BH_H)
 arr(ax_c, XR, Y_PRE - BH_H, XR, Y_ENC + BH_H)
