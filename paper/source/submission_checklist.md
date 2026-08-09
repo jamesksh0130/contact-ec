@@ -28,3 +28,4 @@ resurrect it as the submission source.
 - BMC figure note checked 2026-08-09: figures should be numbered in first-citation order, uploaded in that order, and multi-panel figures should be single composite files. Current figure placement follows first-use narrative order.
 - BMC cost note checked 2026-08-09: BMC Bioinformatics is fully open access and charges an APC only for accepted articles. Current listed APC is GBP 2290 / USD 3090 / EUR 2590, subject to tax and possible institutional/country-tiered pricing, discount, or waiver handling.
 - Submission-system declarations prepared in `declarations_for_submission.md`.
+- Cost-aware fallback journal notes prepared in `journal_cost_options.md`.
