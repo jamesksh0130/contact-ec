@@ -19,7 +19,7 @@ resurrect it as the submission source.
 - Review mode: submit `main.tex` / `main.pdf` as the author-visible manuscript unless the submission system explicitly requests a blinded file. `main_blind.tex` exists only as a backup for venues/preprint workflows that require blinding.
 - Completed: author name, affiliation, corresponding email, ORCID, funding statement, acknowledgements, conflict of interest, and author contribution statement have been added.
 - **Repository policy note 2026-08-09:** use the direct public GitHub URL rather than an anonymous mirror.
-- **Done 2026-08-09:** `github.com/jamesksh0130/contact-ec` is now **public** (was private; created 2026-08-06). It is tracked separately at `github_release/contact-ec/` (its own clone, `origin` -> this repo). Synced the 2026-08-09 manuscript/package fixes, committed, and pushed the latest release commit (`74cd196`). Confirmed externally reachable post-push.
+- **Done 2026-08-09:** `github.com/jamesksh0130/contact-ec` is now **public** (was private; created 2026-08-06). It is tracked separately at `github_release/contact-ec/` (its own clone, `origin` -> this repo). Synced the 2026-08-09 manuscript/package fixes through commit `74cd196`; BMC declaration files were added and pushed afterward. Confirmed externally reachable post-push.
 - **Done 2026-08-09:** the manuscript's Abstract and Data Availability statement now cite the public repository directly: `https://github.com/jamesksh0130/contact-ec`.
 - Required before upload: provide ORCID iD `0009-0002-0708-748X` for the submitting author in the submission system.
 - Required before upload: archive code/data release in a stable repository such as GitHub plus Zenodo if the manuscript is presented as software/tooling.
