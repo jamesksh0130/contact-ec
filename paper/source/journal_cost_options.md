@@ -29,9 +29,25 @@ system before final submission.
 - Cost model: hybrid. Elsevier lists an optional open-access APC, but the
   subscription publication route is listed as no publication fee charged to
   authors.
-- Practical advice: this is the most realistic no-APC alternative among the
-  checked options, but acceptance may depend on reframing the paper for a broader
-  computational biomedicine audience.
+- Indexing caution: the journal's current Guide for Authors includes a research
+  integrity notice stating that Web of Science Core Collection coverage for
+  content after Volume 172 (2024) is not currently indexed. Do not use this as a
+  primary target if SCIE indexing is a strict requirement.
+- Practical advice: this is a possible no-APC route only if subscription
+  publication is acceptable and indexing risk is acceptable. It should not
+  replace BMC Bioinformatics as the primary target for this manuscript.
+
+### Journal of Biomedical Informatics
+
+- Fit: low to moderate. It is methodologically strong, but expects clear
+  biomedical or clinical problem motivation and comparison to the state of the
+  art. Contact-EC would need a broader trustworthy biomedical AI framing.
+- Cost model: hybrid. Elsevier lists an optional open-access APC, but the
+  subscription publication route is listed as no publication fee charged to
+  authors.
+- Practical advice: a better-indexed no-APC fallback than Computers in Biology
+  and Medicine, but the current enzyme-function benchmark manuscript is not a
+  natural fit without substantial reframing.
 
 ### Artificial Intelligence in Medicine
 
@@ -74,5 +90,8 @@ system before final submission.
 
 For acceptance probability and topic fit, keep BMC Bioinformatics as the primary
 target and request APC waiver/discount at submission if needed. If a no-APC route
-is mandatory, the best checked fallback is Computers in Biology and Medicine via
-the subscription route, but the manuscript should be reframed before submission.
+is mandatory, the safest checked route is a hybrid subscription journal, not a
+fully open-access bioinformatics journal. Journal of Biomedical Informatics is
+better indexed but lower fit; Computers in Biology and Medicine has better topic
+fit but a current indexing caution. For this manuscript, BMC Bioinformatics with
+a waiver/discount request remains the best balance.
