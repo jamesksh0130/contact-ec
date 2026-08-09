@@ -1,10 +1,12 @@
 %% BMC Bioinformatics submission manuscript
-\documentclass[namedate,contemporary,mediumone]{oup-authoring-template}
+\documentclass[numbered,contemporary,mediumone]{oup-authoring-template}
 
 \usepackage{booktabs}
 \usepackage{multirow}
 \usepackage{microtype}
 \usepackage{placeins}
+\usepackage{lineno}
+\usepackage{setspace}
 
 \setlength{\textfloatsep}{7pt plus 1pt minus 2pt}
 \setlength{\floatsep}{7pt plus 1pt minus 2pt}
@@ -15,6 +17,8 @@
 \renewcommand{\bottomfraction}{0.85}
 \renewcommand{\textfraction}{0.05}
 \renewcommand{\floatpagefraction}{0.80}
+\doublespacing
+\setcitestyle{numbers,square}
 
 \providecommand{\authormark}[1]{\markboth{#1}{}}
 \providecommand{\titlemark}[1]{\markright{#1}}
@@ -66,6 +70,7 @@ temporal evaluation; sequence--structure fusion; out-of-distribution generalisat
 
 \begin{document}
 \maketitle
+\linenumbers
 
 \section{Background}
 
@@ -224,6 +229,12 @@ hyper-parameter table). Level-4
 micro F1 is the primary metric, with macro F1, weighted F1, rare-EC F1,
 precision, and recall reported for interpretation. Hyper-parameters were fixed
 before temporal testing.
+
+\subsection{AI-assisted tools}
+
+AI tools were used for grammar checking, LaTeX formatting assistance, and code
+refactoring during manuscript preparation. All scientific content, experimental
+design, analysis, and interpretation were performed by the author.
 
 \section{Results}
 
@@ -727,7 +738,7 @@ This research received no specific grant from any funding agency in the public,
 commercial, or not-for-profit sectors.
 
 \subsection*{Authors' contributions}
-CRediT author statement: Seunghyon Kim: Conceptualization, Methodology,
+CRediT author statement: SK: Conceptualization, Methodology,
 Software, Validation, Formal Analysis, Investigation, Data Curation,
 Visualization, Writing -- Original Draft, Writing -- Review \& Editing.
 The author has read and approved the final manuscript.
@@ -737,13 +748,7 @@ The author acknowledges the developers and curators of UniProt, AlphaFold DB,
 ESM, EC-Bench, CLEAN, CLEAN-Contact, and HIT-EC for making their resources
 available to the research community.
 
-\noindent\textbf{AI/LLM disclosure.}
-In accordance with ISCB policy, we disclose that AI tools were used for grammar
-checking, LaTeX formatting assistance, and code refactoring during manuscript
-preparation. All scientific content, experimental design, analysis, and
-interpretation were performed by the author.
-
-\bibliographystyle{plainnat}
+\bibliographystyle{unsrtnat}
 \bibliography{references}
 
 \end{document}

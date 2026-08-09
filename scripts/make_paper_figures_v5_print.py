@@ -191,7 +191,7 @@ for idx, aa in enumerate(seq):
               color="#111", zorder=4)
 ax_c.text(x0_aa + len(seq)*bw_aa + 0.05, Y_IN + 0.00, "…",
           ha="left", va="center", fontsize=8, color="#888")
-T(ax_c, XL, Y_IN - 0.98, "1,438 amino acid residues", fontsize=6, color=MID)
+T(ax_c, XL, Y_IN - 0.98, "605 amino acid residues", fontsize=6, color=MID)
 
 # Right side also shifted +0.8; image space is now much larger
 T(ax_c, XR, Y_IN + 1.52, "Protein 3D Structure", fontsize=8, fontweight="bold", color=DARK)
@@ -245,7 +245,7 @@ arr(ax_c, XR, Y_IN - BH_H_IN, XR, Y_PRE + BH_H_PRE, col=STR_COL)
 sec_box(Y_PRE, label="PREPROCESSING", bh=BH_H_PRE)
 
 T(ax_c, XL, Y_PRE + 1.35, "Tokenization", fontsize=8, fontweight="bold", color=DARK)
-T(ax_c, XL, Y_PRE + 0.75, "BPE encoding", fontsize=6, color=MID)
+T(ax_c, XL, Y_PRE + 0.75, "ESM alphabet encoding", fontsize=6, color=MID)
 T(ax_c, XL, Y_PRE + 0.15, "Max length: 1,024 tokens", fontsize=5.5, color=LIGHT)
 
 # ── Tokenization visualization (PREPROCESSING left inset) ─────────────────

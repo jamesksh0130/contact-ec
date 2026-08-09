@@ -6,16 +6,17 @@
 \usepackage{booktabs}
 \usepackage{multirow}
 \usepackage{hyperref}
-\usepackage{natbib}
+\usepackage[numbers,square]{natbib}
 \usepackage{xcolor}
 \usepackage{caption}
 \usepackage{setspace}
+\usepackage{lineno}
 \usepackage{microtype}
 \usepackage{tikz}
 \usetikzlibrary{arrows.meta,positioning,fit,calc}
 \usepackage{pgfplots}
 \pgfplotsset{compat=1.18}
-\onehalfspacing
+\doublespacing
 
 \hypersetup{colorlinks=true,linkcolor=blue,citecolor=blue,urlcolor=blue}
 
@@ -31,6 +32,7 @@ ORCID: 0009-0002-0708-748X}
 
 \begin{document}
 \maketitle
+\linenumbers
 \tableofcontents
 \newpage
 
@@ -1419,7 +1421,7 @@ termination but is not used as the paper source because the completed run provid
 the auditable checkpoint/result pair.
 
 % ─────────────────────────────────────────────────────────────────────────────
-\bibliographystyle{abbrvnat}
+\bibliographystyle{unsrtnat}
 \bibliography{references}
 % ─────────────────────────────────────────────────────────────────────────────
 \end{document}
