@@ -1,17 +1,17 @@
 ══════════════════════════════════════════════════════════════════════════════
   UNLV Protein EC Number Prediction — Project Overview
-  Last updated: 2026-07-01 (HIT-EC reproduced, New-392/Price-149 external eval)
+  Last updated: 2026-08-09 (legacy project memo; manuscript is the authority)
 ══════════════════════════════════════════════════════════════════════════════
 
 ■ Research Question
 ──────────────────────────────────────────────────────────────────────────────
-  "Does ESM-2 (sequence) + Contact Map (structure) outperform
-   sequence-only methods like HIT-EC (SOTA, Micro F1=0.93)
-   for Enzyme Commission (EC) number prediction?"
+  "When does ESM-2 (sequence) + contact-map structure fusion improve
+   Enzyme Commission (EC) prediction under temporal, label-vocabulary,
+   and fold-level distribution shift?"
 
 ■ Key Differentiators vs Prior Work
 ──────────────────────────────────────────────────────────────────────────────
-  vs HIT-EC (Nature Commun. 2026, SOTA):
+  vs HIT-EC (Nature Commun. 2026):
     - HIT-EC uses NO structural information
     - We add Contact Map (ResNet-50) → ablation shows +9.4% gain
     - We use 4-level hierarchical multi-label BCE (L1~L4 simultaneously)
@@ -78,8 +78,8 @@
   ✅ B2  — ESM-2 650M + Hierarchical FC
            Cluster test L4 micro F1 = 0.8267
   ✅ Fusion V2 — ESM-2 + ResNet-50 + GCA   [MAIN MODEL]
-           Random  test L4 micro F1 = 0.9347  prec=0.9693  rec=0.9025  ← ABOVE HIT-EC ✅
-           Cluster test L4 micro F1 = 0.9520  prec=0.9758  rec=0.9293  ← ABOVE HIT-EC ✅
+           Random  test L4 micro F1 = 0.9347  prec=0.9693  rec=0.9025  ← legacy same-corpus result
+           Cluster test L4 micro F1 = 0.9520  prec=0.9758  rec=0.9293  ← legacy same-corpus result
            Underrepresented F1      = 0.7432 (random) / 0.8292 (cluster)
            NOTE: Previous evaluate.py reported 0.9202/0.9218 — BUG confirmed.
                  Root cause: --hierarchical_inference masked L4 logits via M34,
@@ -91,7 +91,7 @@
            Cluster test L4 micro F1 = 0.9107
            → V3 underperforms V2 (contact pair embeddings missing for many)
   ✅ Ensemble V2+V3 (val-tuned threshold=0.40)
-           Random  test L4 micro F1 = 0.9315   ← ABOVE HIT-EC 0.93 ✅
+           Random  test L4 micro F1 = 0.9315   ← legacy same-corpus result
 
   ✅ B3  — Contact Map only ResNet-50 (no sequence)
            Random  test L4 micro F1 = 0.8987  prec=0.9839  rec=0.8272
@@ -107,7 +107,7 @@
   Model                    Random Test    Cluster Test   Underrep F1  Notes
                            L4 Micro F1    L4 Micro F1    (N≤25 cls)
   ─────────────────────    ───────────    ────────────   ───────────  ──────
-  HIT-EC (SOTA, 2026)          0.9300          —              —       Nature Commun.
+  HIT-EC (2026)                0.9300          —              —       Nature Commun.
   CLEAN-Contact (2024)         0.566†          —              —       †New-392 set
   ─────────────────────    ───────────    ────────────
   B0  (1D CNN)               not run        not run       not run   평가 제외
@@ -121,9 +121,9 @@
   All results use corrected protocol: multi-label sigmoid, no L4 hier masking.
   * B2 cluster (0.8267): 구 프로토콜로 평가됨, 재평가 예정
 
-  Core finding 1: V2 comparable to HIT-EC (random F1=0.9347 vs 0.93, CI=[0.9283,0.9346])
-                  V2 EXCEEDS HIT-EC on cluster F1=0.9520 (OOD, no HIT-EC cluster result)
-                  V2 EXCEEDS CLEAN-Contact on New-392: 0.6019 vs 0.566 ✅
+  Legacy finding 1: V2 is comparable to the HIT-EC reported random-split number,
+                  but the current manuscript does not claim SOTA superiority.
+                  The current claim is benchmark decomposition under temporal/fold shift.
   Core finding 2: Contact Map 기여: B2→V2 = 0.8322→0.9347 = +10.25% (random)
                                            0.8267→0.9520 = +12.53% (cluster)
   Core finding 3: Underrepresented EC: B2=0.4045 → V2=0.7432 (+83.7% relative gain)
@@ -173,7 +173,7 @@
     □ Re-evaluate B2 cluster test with corrected protocol
     □ Re-evaluate V3 (random + cluster) with corrected protocol
     □ Collect B1 + B3 results → complete ablation table
-    □ fusion_esm_ft Phase 1+2 training (recommended — widen margin over SOTA)
+    □ fusion_esm_ft Phase 1+2 training (recommended — test temporal robustness)
     □ Begin paper draft
 
   evaluate.py bug: FIXED (2026-07-01)
@@ -187,9 +187,10 @@
 
 ■ Target Journal (priority order)
 ──────────────────────────────────────────────────────────────────────────────
-  1st: Briefings in Bioinformatics  (Oxford, IF ~9.5)
-  2nd: Communications Biology        (Nature,  IF ~5.9)  — where CLEAN-Contact published
-  3rd: Bioinformatics Advances       (Oxford,  IF ~4.0)  — where EC-Bench (2026) published
+  Current manuscript target: BMC Bioinformatics (Research article)
+  Possible higher-risk extension targets after additional experiments:
+    - Bioinformatics Advances
+    - ACM-BCB / ISMB-style computational biology venues
 
 ■ Paper Core Claims (Contributions)
 ──────────────────────────────────────────────────────────────────────────────
@@ -197,7 +198,7 @@
      → This is the central ablation, independent of threshold/fine-tuning
   2. First hierarchical multi-label (L1~L4) structure-aware EC predictor
      → CLEAN-Contact only predicts L4; HIT-EC uses no structure
-  3. Competitive with SOTA at 4.5x fewer parameters
+  3. Competitive as a lightweight analysis model, not a SOTA replacement claim
      → ESM-2 650M vs CLEAN-Contact's ESM-2 3B
   4. Rigorous cluster-based OOD evaluation
      → Cluster split (seq identity <50%) more realistic than random split

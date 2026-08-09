@@ -1,13 +1,13 @@
 # GitHub Upload Manifest
 
-Prepared on: 2026-07-30
+Prepared on: 2026-08-09
 
 Package:
 
 - Folder: `github_release/contact-ec/`
 - Zip: `github_release/contact-ec-github-upload.zip`
 - Approximate folder size before compression: 48 MB
-- Files in zip package: 352
+- Files in zip package: 408
 
 Contents:
 

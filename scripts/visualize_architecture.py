@@ -127,10 +127,10 @@ box(ax, 9.95, 3.72, 3.0, 0.5, C_FUSION,
 # ══════════════════════════════════════════════════════════════
 # ④ Hierarchical Heads
 head_xs  = [4.0, 7.5, 12.3, 16.0]
-head_cls = [7,   70,  300,  1938]
+head_cls = [6,   65,  242,  4647]
 head_lv  = ["Level 1", "Level 2", "Level 3", "Level 4"]
 head_eg  = ["1.-.-.−", "1.1.-.−", "1.1.1.−", "1.1.1.1"]
-head_w   = [7, 70, 300, 1938]
+head_w   = [6, 65, 242, 4647]
 head_col = ["#6366f1", "#8b5cf6", "#a855f7", "#c084fc"]
 
 # 부채꼴 화살표
@@ -148,10 +148,10 @@ for hx in head_xs:
 
 # Loss 박스
 for hx, lv in zip(head_xs, head_lv):
-    w_map = {7: 0.1, 70: 0.1, 300: 0.2, 1938: 0.6}
-    nc_map = {7: 7, 70: 70, 300: 300, 1938: 1938}
-    nc = nc_map[{7:7,70:70,300:300,1938:1938}[
-        [7,70,300,1938][head_lv.index(lv)]]]
+    w_map = {6: 0.1, 65: 0.1, 242: 0.2, 4647: 0.6}
+    nc_map = {6: 6, 65: 65, 242: 242, 4647: 4647}
+    nc = nc_map[{6:6,65:65,242:242,4647:4647}[
+        [6,65,242,4647][head_lv.index(lv)]]]
     wt = [0.1, 0.1, 0.2, 0.6][head_lv.index(lv)]
     box(ax, hx, 1.48, 3.1, 0.45, "#334155",
         f"CE Loss  ×{wt}", 8,
@@ -186,7 +186,7 @@ note_lines = [
     "ESM-2  (650M)  → CLS token →  1280-d",
     "ResNet-18  (in_ch=1)  →  512-d",
     "Fusion dim  =  1280 + 512  =  1792  →  1024",
-    "EC Classes: L1=7, L2=70, L3=300, L4=1938",
+    "EC Classes: L1=6, L2=65, L3=242, L4=4647",
     "AlphaFold miss  →  zeros contact map",
     "Training: Phase1 frozen / Phase2 partial unfreeze",
 ]

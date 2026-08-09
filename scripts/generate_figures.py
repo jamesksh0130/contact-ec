@@ -310,7 +310,7 @@ def fig3_ablation():
 
     # HIT-EC 기준선
     ax.axhline(0.9300, color=DARK, linestyle="--", linewidth=2, zorder=4)
-    ax.text(6.5, 0.9315, "HIT-EC SOTA (0.9300)", fontsize=9.5,
+    ax.text(6.5, 0.9315, "HIT-EC reference (0.9300)", fontsize=9.5,
             color=DARK, fontweight="bold", ha="right")
 
     # 값 레이블
@@ -319,7 +319,7 @@ def fig3_ablation():
                 f"{val:.4f}", ha="center", va="bottom",
                 fontsize=8.5, fontweight="bold", color=DARK)
 
-    # 강조: SOTA 초과 표시
+    # Highlight bars above the external HIT-EC reference line.
     for i, (bar, val) in enumerate(zip(bars, l4_f1)):
         if val > 0.9300:
             ax.text(bar.get_x() + bar.get_width()/2,

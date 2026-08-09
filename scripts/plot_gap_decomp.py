@@ -132,7 +132,7 @@ if e2e_f1 is not None:
                             hatch="xxx", label="Contact-EC-E2E (end-to-end ft)")
     patches.append(p_e2e)
 p3 = mpatches.Patch(facecolor="#C44E52", edgecolor="#8B1A1A", lw=1.2,
-                    label="HIT-EC (SOTA, temporal)")
+                    label="HIT-EC (external temporal reference)")
 patches.append(p3)
 ax.legend(handles=patches, fontsize=8.0,
           loc="upper left", framealpha=0.9, edgecolor="#cccccc")

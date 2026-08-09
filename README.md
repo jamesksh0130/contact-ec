@@ -4,7 +4,7 @@ Code and reproducibility artifacts for:
 
 **Dissecting Sequence, Structure, and Data Recency Effects in Enzyme Commission Prediction under Temporal Distribution Shift**
 
-Contact-EC is a sequence-structure fusion framework for hierarchical, multi-label Enzyme Commission (EC) prediction. The repository contains training/evaluation code, model definitions, configuration files, paper figures, audit reports, and the current Bioinformatics-style manuscript draft.
+Contact-EC is a sequence-structure fusion framework for hierarchical, multi-label Enzyme Commission (EC) prediction. The repository contains training/evaluation code, model definitions, configuration files, paper figures, audit reports, and the current BMC Bioinformatics-targeted manuscript draft.
 
 ## What is included
 
@@ -22,6 +22,12 @@ Contact-EC is a sequence-structure fusion framework for hierarchical, multi-labe
 - `paper/source/`: LaTeX source for the current manuscript draft.
 
 Large raw datasets, ESM-2 embedding caches, AlphaFold/PDB structures, contact-map arrays, and trained checkpoints are intentionally not included.
+
+The manuscript experiments primarily use the EC-Bench and temporal-audit configuration
+files (`configs/config_ecbench*.yaml`, `configs/config_expa*.yaml`, and
+`configs/config_recency_fixed_vocab_sp2026.yaml`). The top-level `configs/config.yaml`
+is retained as a legacy Swiss-Prot preprocessing/training configuration and is not the
+source of the EC-Bench class counts reported in the manuscript.
 
 ## Main reported results
 
@@ -57,12 +63,12 @@ results. The recency interpretation should also be checked against
 SP-2018 to SP-2026/ExpA gain occurs alongside higher nearest-neighbour identity
 and top-hit EC agreement.
 
-The SP-2024 evaluation (N=1,226) reveals a striking reversal: HIT-EC falls
-−38.9 pp while Contact-EC improves +5.8 pp, so Contact-EC outperforms HIT-EC on
-the longer temporal horizon. MMseqs2 improves +12.3 pp on SP-2024, confirming
-SP-2024 proteins are not intrinsically harder homology targets. A
-vocabulary-stratified analysis shows that 75% of HIT-EC's collapse reflects
-genuine temporal degradation even on vocab-covered proteins (`outputs/results/hitec_sp2024_vocab_stratified.json`).
+The SP-2024 evaluation (N=1,226) shows a reversal under our mapped evaluation:
+HIT-EC decreases −38.9 pp while Contact-EC improves +5.8 pp, so Contact-EC is
+higher on the longer temporal horizon. MMseqs2 improves +12.3 pp on SP-2024,
+indicating that SP-2024 proteins are not intrinsically harder homology targets.
+A vocabulary-stratified analysis indicates that label-vocabulary mismatch alone
+does not explain the observed HIT-EC decrease (`outputs/results/hitec_sp2024_vocab_stratified.json`).
 
 The case-wise HIT-EC comparison shows that both HIT-EC and Contact-EC recover at
 least one correct EC label for 63/124 temporal proteins, HIT-EC alone recovers 45,

@@ -287,7 +287,7 @@ T(ax_c, XC, Y_CLS + 0.45, "FC Head  +  Sigmoid",
   fontsize=21, fontweight="bold", color="#3730A3")
 T(ax_c, XC, Y_CLS - 0.18, "Multi-label binary classification",
   fontsize=16, color=MID)
-T(ax_c, XC, Y_CLS - 0.85, "1,938 EC class labels",
+T(ax_c, XC, Y_CLS - 0.85, "4,647 Level-4 EC classes",
   fontsize=16, fontweight="bold", color="#3730A3")
 
 arrow(ax_c, XC, Y_CLS - BH_H, XC, Y_OUT + BH_H, col="#555", lw=2.6)

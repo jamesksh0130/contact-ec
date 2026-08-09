@@ -337,7 +337,7 @@ T(ax_c, XC, Y_CLS + 0.45, "Flat FC Heads  +  Sigmoid  (4 independent levels)",
   fontsize=8, fontweight="bold", color="#3730A3")
 T(ax_c, XC, Y_CLS - 0.18, "Weighted BCE Loss per EC level  (masked)",
   fontsize=6, color=MID)
-T(ax_c, XC, Y_CLS - 0.82, "1,938 EC class labels",
+T(ax_c, XC, Y_CLS - 0.82, "4,647 Level-4 EC classes",
   fontsize=6.5, fontweight="bold", color="#3730A3")
 
 arr(ax_c, XC, Y_CLS - BH_H, XC, Y_OUT + BH_H, lw=1.1)

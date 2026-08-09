@@ -22,7 +22,7 @@ data:
   # EC 완전성: 'full' (L4까지 있는 것만) | 'any' (부분 포함)
   ec_completeness: "any"
   # Level4 최소 샘플 수 (HIT-EC 비교용 필터)
-  # min=10 → 1,693 클래스 (HIT-EC 1,938에 근접, Swiss-Prot 버전 차이)
+  # Legacy Swiss-Prot preprocessing setting retained for reproducibility.
   # min=1  → 5,307 클래스 (전체)
   min_class_size: 10
 

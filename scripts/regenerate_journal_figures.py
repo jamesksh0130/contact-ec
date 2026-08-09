@@ -418,7 +418,7 @@ def plot_gap_decomp(e2e_val=None):
         mpatches.Patch(color=WONG["blue"],  label="Contact-EC (ours)"),
         mpatches.Patch(color=WONG["blue"],  hatch="//", label="Contact-EC-ExpA (matched corpus)"),
         mpatches.Patch(color=WONG["sky"],   hatch="xx", label="Contact-EC-E2E (end-to-end ft)"),
-        mpatches.Patch(color=WONG["red"],   label="HIT-EC (SOTA, temporal)"),
+        mpatches.Patch(color=WONG["red"],   label="HIT-EC (external temporal reference)"),
     ]
     ax.legend(handles=legend_els, loc="upper left", fontsize=7,
               ncol=1, frameon=True)

@@ -3,9 +3,11 @@ title: "Dissecting Sequence, Structure, and Data Recency Effects in Enzyme Commi
 message: "If you use this code or results, please cite the associated manuscript."
 type: software
 authors:
-  - name: "The Authors"
-repository-code: "(withheld for double-blind review; will be updated on publication)"
-date-released: "2026-07-14"
+  - family-names: "Kim"
+    given-names: "Seunghyon"
+    orcid: "https://orcid.org/0009-0002-0708-748X"
+repository-code: "https://github.com/jamesksh0130/contact-ec"
+date-released: "2026-08-09"
 license: "MIT"
 keywords:
   - enzyme commission prediction

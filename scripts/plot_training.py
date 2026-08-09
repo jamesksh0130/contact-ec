@@ -104,7 +104,7 @@ def plot_overview_micro_f1(data: dict):
         ax.plot(epochs, vals, "-o", markersize=4, linewidth=2,
                 color=_color(key), label=f"{_label(key)}  (best={best:.4f})")
     ax.axhline(0.93, color="red", linestyle="--", linewidth=1.5,
-               alpha=0.8, label="HIT-EC SOTA (0.93)")
+               alpha=0.8, label="HIT-EC reference (0.93)")
     ax.set_title("Validation Micro F1 — All Models", fontsize=13, fontweight="bold")
     ax.set_xlabel("Epoch"); ax.set_ylabel("Micro F1")
     ax.set_ylim(0, 1.02); ax.legend(fontsize=9, loc="lower right"); ax.grid(alpha=0.3)
@@ -174,7 +174,7 @@ def plot_summary_bar(data: dict):
     bars2 = ax.bar(x + w/2, macro, w, label="Macro F1", color=colors, alpha=0.45,
                    edgecolor=colors, linewidth=1.2)
     ax.axhline(0.93, color="red", linestyle="--", linewidth=1.5,
-               alpha=0.8, label="HIT-EC SOTA (0.93)")
+               alpha=0.8, label="HIT-EC reference (0.93)")
 
     for bar, val in zip(bars1, micro):
         ax.text(bar.get_x() + bar.get_width()/2, bar.get_height() + 0.008,

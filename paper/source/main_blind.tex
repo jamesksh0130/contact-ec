@@ -1,20 +1,25 @@
-%% Bioinformatics Oxford -- submission-length manuscript
+%% Blinded submission manuscript
 \documentclass[namedate,contemporary,mediumone]{oup-authoring-template}
 
 \usepackage{booktabs}
 \usepackage{multirow}
 \usepackage{microtype}
+\usepackage{placeins}
 
 \setlength{\textfloatsep}{7pt plus 1pt minus 2pt}
 \setlength{\floatsep}{7pt plus 1pt minus 2pt}
 \setlength{\intextsep}{7pt plus 1pt minus 2pt}
 \setlength{\abovecaptionskip}{3pt}
 \setlength{\belowcaptionskip}{2pt}
+\renewcommand{\topfraction}{0.95}
+\renewcommand{\bottomfraction}{0.85}
+\renewcommand{\textfraction}{0.05}
+\renewcommand{\floatpagefraction}{0.80}
 
 \providecommand{\authormark}[1]{\markboth{#1}{}}
 \providecommand{\titlemark}[1]{\markright{#1}}
 
-\journaltitle{Bioinformatics}
+\journaltitle{BMC Bioinformatics}
 \pubyear{2026}
 \copyrightyear{2026}
 
@@ -37,24 +42,23 @@ generalisation or mainly benefits from benchmark design.\\[3pt]
 We analyze Contact-EC, a gated additive ESM-2/contact-map fusion model, as a controlled
 probe for decomposing temporal EC prediction performance. On a Swiss-Prot 2023-01 temporal holdout
 ($N$\,=\,124, three seeds), fusion reaches Level-4 micro F1 of $0.6241\pm0.0170$,
-outperforming ESM-2-only and contact-only baselines; topology perturbations confirm that
-the contact-map encoder contributes genuine structural signal. HIT-EC leads on this
+outperforming ESM-2-only and contact-only baselines; topology perturbations indicate that
+the contact-map encoder uses structural information beyond simple map-density cues. HIT-EC leads on this
 one-year horizon (0.8471 vs.\ 0.6241), indicating that structure-aware fusion alone does
 not close the short-horizon temporal gap. A larger SP-2024 temporal evaluation
-($N$\,=\,1{,}226, three seeds) reveals a striking reversal: HIT-EC falls to
+($N$\,=\,1{,}226, three seeds) reveals a reversal under our mapped evaluation: HIT-EC falls to
 $0.4578$ ($-$38.9\,pp) while Contact-EC improves to $0.6819\pm0.0026$ ($+$5.8\,pp),
-yielding a $+$22.4\,pp advantage; a vocabulary-stratified analysis confirms that 75\%
-of HIT-EC's collapse reflects genuine temporal degradation rather than
-label-vocabulary mismatch. A Foldseek/TM-score-disjoint split shows that fusion
+yielding a $+$22.4\,pp advantage; a vocabulary-stratified analysis indicates that most of
+HIT-EC's decrease is not explained by label-vocabulary mismatch. A Foldseek/TM-score-disjoint split shows that fusion
 retains the highest micro F1 under explicit fold-level shift. The contribution is a
 reproducible decomposition of when structure helps and when fold shift, benchmark
 recency, and label shift dominate.\\[3pt]
 \textbf{Availability and Implementation:}
-Code and reproducibility artifacts are available at \url{https://anonymous.4open.science/r/contact-ec-8432}.\\[3pt]
+Code and reproducibility artifacts are available at \url{https://github.com/jamesksh0130/contact-ec}.\\[3pt]
 \textbf{Contact:}
 Blinded for review.\\[3pt]
 \textbf{Supplementary information:}
-Supplementary data are available at \textit{Bioinformatics} online.%
+Supplementary information is included as a separate file.%
 }
 
 \keywords[Key words]{enzyme commission number; contact map; protein language model;
@@ -95,7 +99,7 @@ We study these factors using Contact-EC, a gated sequence--structure fusion mode
 combining ESM-2 650M embeddings with ResNet-50 contact-map features. The goal is
 not to claim a new state-of-the-art EC predictor: HIT-EC remains stronger in
 absolute temporal F1. Instead, Contact-EC is used as an instrument for benchmark
-decomposition. We ask three questions that are central for Bioinformatics-scale
+decomposition. We ask three questions that are central for journal-scale
 model assessment. First, how different are same-distribution, sequence-disjoint,
 and temporal EC evaluations? Second, do contact maps contribute signal
 complementary to ESM-2 after controlling for topology-destroying perturbations?
@@ -106,12 +110,13 @@ Our analysis makes seven contributions. We provide a temporal label-shift audit 
 Swiss-Prot 2023-01, separating 124 complete known-EC proteins from 344 partial or
 novel-label cases. We show that contact maps alone match ESM-2 on hard
 sequence-disjoint validation, while fusion improves temporal micro F1 over either
-single modality. We verify that the contact branch uses fold topology rather than
+single modality. We test whether the contact branch uses fold topology rather than
 contact-map density through shuffled, diagonal-only, and density-matched controls.
 We add a Foldseek/TM-score-disjoint split to test structural generalisation beyond
 sequence-disjoint evaluation. We extend temporal evaluation to SP-2024
-($N$\,=\,1{,}226), revealing a HIT-EC reversal: HIT-EC falls $-$38.9\,pp while
-Contact-EC improves $+$5.8\,pp, so Contact-EC outperforms HIT-EC by $+$22.4\,pp
+($N$\,=\,1{,}226), observing a HIT-EC reversal under the mapped evaluation:
+HIT-EC falls $-$38.9\,pp while
+Contact-EC improves $+$5.8\,pp, and is higher than HIT-EC by $+$22.4\,pp
 on the longer horizon, widening the modality gap from 17\,pp to 29\,pp. We decompose data recency and fine-tuning, finding that newer Swiss-Prot data helps
 whereas end-to-end fine-tuning over-adapts. Finally, we translate these results
 into reporting requirements for EC prediction studies: temporal cutoff, sequence
@@ -119,9 +124,9 @@ overlap, fold-level relatedness, label-vocabulary coverage, partial-label freque
 availability, and whether each result is measured on a closed-set or label-shifted
 benchmark.
 
-\begin{figure}[t]
+\begin{figure}[!htbp]
 \centering
-\includegraphics[width=\linewidth]{fig1_overview_print.pdf}
+\includegraphics[width=\linewidth,height=0.58\textheight,keepaspectratio]{fig1_overview_print.pdf}
 \caption{Contact-EC overview.
 \textbf{(A)} EC number four-level hierarchy illustrated with glucose oxidase
 (EC~1.1.3.4).
@@ -131,11 +136,12 @@ encode tertiary fold topology.
 \textbf{(C)} Contact-EC pipeline: ESM-2 (1280-d) and a ResNet-50 contact-map
 encoder with attention pooling (512-d) are combined by structure-gated
 additive fusion into a 1,024-d fused representation, then a flat FC $+$ sigmoid head
-predicts all 1,938 Level-4 EC classes simultaneously (Contact-EC-Hier
+predicts all 4,647 Level-4 EC-Bench classes simultaneously (Contact-EC-Hier
 replaces this head with a two-layer Transformer over four EC-level
 tokens; Section~2.2).}
 \label{fig:pipeline}
 \end{figure}
+\FloatBarrier
 
 \section{System and Methods}
 
@@ -226,7 +232,7 @@ even without sequence embeddings. Fusion improves substantially: Contact-EC reac
 Fig.~S1 show that B3 converges within about 10 epochs and that fusion continues to
 improve during partial unfreezing.
 
-\begin{table}[htbp]
+\begin{table}[!htbp]
 \centering
 \caption{EC-Bench hard validation results (\texttt{val\_hard}, 6{,}247 proteins,
 $\leq$30\% identity), used for validation/checkpoint selection.}
@@ -262,7 +268,7 @@ Supplementary hierarchical-prefix evaluation further shows that partial
 annotations retain useful lower-level supervision and should not be counted as
 Level-4 failures.
 
-\begin{table}[htbp]
+\begin{table}[!htbp]
 \centering
 \caption{Swiss-Prot 2023-01 label-shift audit. Partial annotations lack complete
 Level-4 ground truth and are not assigned Level-4 F1.}
@@ -301,7 +307,7 @@ Trainable fusion controls remain below Contact-EC: concatenation reaches
 0.5922$\pm$0.0150 micro F1, summation 0.5505$\pm$0.0230, and a gated MLP
 0.5543$\pm$0.0525 (Supplementary architecture-baseline table).
 
-\begin{table}[htbp]
+\begin{table}[!htbp]
 \centering
 \caption{Temporal and external benchmark results. Swiss-Prot 2023-01 uses the
 complete known-EC subset ($N$\,=\,124). B1, B3, and Contact-EC flat FC temporal
@@ -336,7 +342,7 @@ Contact-EC-E2E (fine-tuned)   & 0.6703 & 0.6382 & 0.5091 & 0.2522 \\
 \end{tabular}
 \end{table}
 
-\begin{figure}[t]
+\begin{figure}[!htbp]
 \centering
 \includegraphics[width=\linewidth]{fig2_temporal_bars.pdf}
 \caption{Level-4 micro F1 on two temporal holdouts.
@@ -348,6 +354,7 @@ that improves from Panel~A to Panel~B ($+$5.8\,pp), while HIT-EC regresses
 $-$38.9\,pp.}
 \label{fig:temporal_bars}
 \end{figure}
+\FloatBarrier
 
 Bootstrap confidence intervals (1{,}000 resamples) confirm the main differences:
 Contact-EC-3B [0.547, 0.711], Contact-EC [0.511, 0.686], Contact-EC-Hier
@@ -369,7 +376,7 @@ EC labels inside the SP-2018 vocabulary---yields 1{,}226 evaluable proteins from
 3{,}137 total new reviewed entries (39.1\% pass rate; the remaining 60.9\% carry
 partial or novel EC labels, a label-shift fraction similar to SP-2023-01).
 
-On SP-2024 ($N$\,=\,1{,}226, three seeds), the ESM-2-only baseline degrades:
+On SP-2024 ($N$\,=\,1{,}226, three seeds), the ESM-2-only baseline decreases:
 B1 falls from $0.4508\pm0.0203$ to $0.3892\pm0.0121$ ($-$6.2\,pp). Contact-only
 B3 is essentially stable ($0.4388\pm0.0166$, $+$1.4\,pp within seed variance),
 while Contact-EC flat FC improves to $0.6819\pm0.0026$ ($+$5.8\,pp) and
@@ -381,9 +388,9 @@ A MMseqs2 top-hit homology transfer baseline on SP-2024 achieves 0.7080
 micro F1, a $+$12.3\,pp \emph{increase} over SP-2023-01 (0.5852), indicating
 that SP-2024 proteins have sufficient homolog coverage in the SP-2018 training
 set and are not intrinsically harder retrieval targets. Against this backdrop,
-HIT-EC falls to 0.4578 on SP-2024 ($-$38.9\,pp), a collapse
-substantially larger than any Contact-EC change. Contact-EC flat FC consequently
-\emph{outperforms} HIT-EC on SP-2024 by $+$22.4\,pp, reversing the $-$22.3\,pp
+HIT-EC falls to 0.4578 on SP-2024 ($-$38.9\,pp), a decrease
+substantially larger than any Contact-EC change. Contact-EC flat FC is consequently
+higher than HIT-EC on SP-2024 by $+$22.4\,pp under this mapped evaluation, reversing the $-$22.3\,pp
 deficit on SP-2023-01. This reversal is consistent with HIT-EC's sequence-only
 architecture being sensitive to temporal distribution shift as the evaluation
 horizon extends: structural topology in Contact-EC provides complementary
@@ -393,7 +400,7 @@ non-overlapping CIs between Contact-EC [0.6403, 0.6914] and both B1 [0.3520,
 0.4117] and B3 [0.3051, 0.3643]; McNemar protein-level tests give
 $\chi^2\!=\!327.6$ (CE vs B1) and $\chi^2\!=\!339.6$ (CE vs B3), both $p<0.0001$.
 
-To verify that the HIT-EC collapse is not an artefact of vocabulary
+To test whether the HIT-EC decrease is explained by vocabulary
 mismatch, we stratified SP-2024 proteins by whether their true Level-4
 EC labels are covered by HIT-EC's 4{,}255-class vocabulary. Of 1{,}226
 proteins, 1{,}000 (81.6\,\%) have \emph{all} true labels inside HIT-EC's
@@ -403,17 +410,17 @@ On the all\_in\_vocab subset---where HIT-EC can in principle assign the
 correct EC---HIT-EC achieves only 0.5496 micro F1, a $-$29.7\,pp drop
 from its SP-2023-01 level of 0.8471. The vocabulary gap accounts for
 roughly 9.2\,pp of the total $-$38.9\,pp decline; the remaining
-$-$29.7\,pp (75\,\% of the total drop) reflects genuine temporal
-distribution shift. Contact-EC is robust across all strata: 0.6965 on
+$-$29.7\,pp (75\,\% of the total drop) remains after restricting to vocabulary-covered proteins.
+Contact-EC is stable across all strata: 0.6965 on
 all\_in\_vocab, 0.5000 on partial, and 0.5396 on all\_out\_vocab (Table~\ref{tab:vocab_strat}).
 
-\begin{table}[htbp]
+\begin{table}[!htbp]
 \centering
 \caption{SP-2024 temporal evaluation ($N$\,=\,1{,}226 complete known-EC
 proteins from 3{,}137 new Swiss-Prot entries after 2023-01-25). B1, B3, and
 Contact-EC (flat FC) values are mean\,$\pm$\,std across three seeds;
-Contact-EC-Hier and HIT-EC are single-seed. HIT-EC collapses by $-$38.9\,pp
-while Contact-EC improves, reversing the ranking seen on SP-2023-01.}
+Contact-EC-Hier and HIT-EC are single-seed. HIT-EC decreases by $-$38.9\,pp
+while Contact-EC improves, reversing the ranking seen on SP-2023-01 under this mapped evaluation.}
 \label{tab:sp2024}
 \setlength{\tabcolsep}{4pt}
 \begin{tabular}{lccc}
@@ -431,7 +438,7 @@ HIT-EC (mapped)       & 0.8471 & 0.4578 & $-$38.9\,pp \\
 \end{tabular}
 \end{table}
 
-\begin{figure}[t]
+\begin{figure}[!htbp]
 \centering
 \includegraphics[width=0.78\linewidth]{fig3_reversal_slope.pdf}
 \caption{Model trajectories across the two temporal horizons. Each endpoint
@@ -442,14 +449,14 @@ lines: our model and HIT-EC; thin dashed lines: single-modality baselines.}
 \label{fig:reversal}
 \end{figure}
 
-\begin{table}[htbp]
+\begin{table}[!htbp]
 \centering
 \caption{HIT-EC vocabulary-stratified evaluation on SP-2024. Proteins are
 grouped by whether their true Level-4 EC labels fall inside HIT-EC's
 4{,}255-class vocabulary. Even among all\_in\_vocab proteins (where HIT-EC
 can in principle succeed), HIT-EC drops $-$29.7\,pp from its SP-2023-01
-level (0.8471), confirming that 75\,\% of the collapse reflects genuine
-temporal degradation rather than vocabulary mismatch.}
+level (0.8471), indicating that vocabulary mismatch alone does not explain the
+observed HIT-EC decrease.}
 \label{tab:vocab_strat}
 \setlength{\tabcolsep}{4pt}
 \begin{tabular}{lrcc}
@@ -464,6 +471,7 @@ All             & 1{,}226           & 0.4578 & \textbf{0.6661} \\
 \bottomrule
 \end{tabular}
 \end{table}
+\FloatBarrier
 
 \subsection{Foldseek-Disjoint Generalisation}
 
@@ -502,12 +510,12 @@ destroyed), diagonal-only (constant band $|i-j|<12$, no protein-specific
 long-range contacts), density-matched random, and all-zero
 (Table~\ref{tab:perturb}).
 
-\begin{table}[htbp]
+\begin{table}[!htbp]
 \centering
 \caption{Contact-map perturbation controls (temporal test, Swiss-Prot 2023-01,
-$N=124$). B3 collapses under all perturbations.
-Contact-EC flat FC degrades sharply ($-$54\,pp shuffled, $-$50\,pp random density),
-confirming reliance on genuine fold topology.
+$N=124$). B3 drops to zero under all perturbations.
+Contact-EC flat FC decreases sharply ($-$54\,pp shuffled, $-$50\,pp random density),
+consistent with reliance on fold topology rather than contact density alone.
 Contact-EC-Hier shows negligible change: the structure gate routes to the ESM-2
 branch when contact topology is destroyed, explaining why flat FC outperforms Hier.}
 \label{tab:perturb}
@@ -524,13 +532,13 @@ Density-matched random  & 0.0000 & 0.0982           & 0.5641 \\
 \end{tabular}
 \end{table}
 
-\begin{figure}[t]
+\begin{figure}[!htbp]
 \centering
 \includegraphics[width=\linewidth]{fig4_perturbation.pdf}
 \caption{Contact-map perturbation controls (SP-2023-01, $N$=124), shown
 separately per model.
-\textbf{(A)} B3 (contact-map only) collapses to zero under all three
-perturbations, confirming reliance on genuine fold topology.
+\textbf{(A)} B3 (contact-map only) drops to zero under all three
+perturbations, consistent with strong sensitivity to contact-map topology and distribution.
 \textbf{(B)} Contact-EC flat FC drops sharply under shuffling ($-$54.1\,pp)
 and density-matched random ($-$50.5\,pp) but retains most performance under
 diagonal-only ($-$7.9\,pp), indicating short-range secondary-structure
@@ -540,6 +548,7 @@ revealing that its structure gate routes to the ESM-2 branch when
 topology is destroyed.}
 \label{fig:perturbation}
 \end{figure}
+\FloatBarrier
 
 Two findings emerge. First, the flat FC model exhibits massive degradation under
 shuffling ($-$54.1\,pp) and random density matching ($-$50.5\,pp), confirming that
@@ -594,20 +603,20 @@ system trained with a more recent label vocabulary.
 
 Notably, the SP-2024 evaluation ($N$\,=\,1{,}226) complicates this picture in a
 significant way. HIT-EC, which led by $+$22.3\,pp on SP-2023-01, falls to 0.4578
-on SP-2024 ($-$38.9\,pp)---a collapse substantially larger than any Contact-EC
+on SP-2024 ($-$38.9\,pp)---a decrease substantially larger than any Contact-EC
 change. Contact-EC flat FC (0.6819\,$\pm$\,0.0026) consequently overtakes HIT-EC
 by $+$22.4\,pp on SP-2024. A MMseqs2 top-hit transfer baseline achieves 0.7080 on SP-2024
 ($+$12.3\,pp over SP-2023-01), showing that SP-2024 proteins are not
 intrinsically harder homology targets---the training corpus provides
-adequate coverage. This makes HIT-EC's collapse more striking.
+adequate coverage. This makes HIT-EC's decrease more notable.
 Vocabulary-stratified analysis (Table~\ref{tab:vocab_strat})
-confirms that this collapse is not primarily an artefact of HIT-EC's smaller label
+indicates that this decrease is not primarily an artefact of HIT-EC's smaller label
 vocabulary: even among the 1{,}000 SP-2024 proteins (81.6\,\%) whose true EC labels
 are fully inside HIT-EC's 4{,}255-class vocabulary, HIT-EC achieves only
 0.5496---a $-$29.7\,pp drop from SP-2023-01. The vocabulary gap accounts
 for only $\sim$9\,pp ($\sim$25\,\%) of the total $-$38.9\,pp decline; the
-remaining $\sim$30\,pp reflects genuine temporal distribution shift in
-sequences that HIT-EC's vocabulary nominally covers. Contact-EC maintains
+remaining $\sim$30\,pp persists in sequences that HIT-EC's vocabulary nominally covers.
+Contact-EC maintains
 strong performance across all vocabulary strata (0.6965, 0.5000, 0.5396 for
 all\_in, partial, and all\_out proteins, respectively), consistent with structural
 topology providing robustness that is complementary to sequence-derived features
@@ -629,7 +638,7 @@ classes versus robustness to newly curated or incomplete annotations.
 There are limitations. Contact-EC relies on AlphaFold or predicted structures, so
 performance can degrade when external structures or predicted contact maps come
 from a shifted distribution. On Price-149~\citep{price2018}, supplementary audit results show that
-input coverage is available but exact Level-4 specificity collapses despite
+input coverage is available but exact Level-4 specificity drops sharply despite
 stronger coarse-level EC recovery, indicating an OOD calibration and specificity
 failure rather than a simple missing-input problem. A calibration audit supports
 this interpretation: on Price-149, Contact-EC emits nonempty predictions for
@@ -658,14 +667,14 @@ discovery without retrieval, abstention, or label-expansion mechanisms.
 This study reframes structure-aware EC prediction as a benchmark decomposition
 problem. Contact maps alone can match ESM-2 650M on hard sequence-disjoint
 validation, and sequence--structure fusion substantially improves temporal F1 over
-either modality alone. Perturbation controls confirm that the structure branch uses
+either modality alone. Perturbation controls indicate that the structure branch uses
 fold topology, and Foldseek-disjoint evaluation shows that fusion retains a
 measurable advantage under fold-level shift even though absolute closed-set
 Level-4 performance remains low. Data-recency and fine-tuning controls show that annotation
 cutoff and backbone adaptation strongly affect temporal performance. Critically,
-an extended SP-2024 evaluation ($N$\,=\,1{,}226) shows that the sequence-only
-SOTA (HIT-EC) degrades by $-$38.9\,pp over two-plus years while Contact-EC
-holds and eventually \emph{outperforms} it, suggesting that structural topology
+an extended SP-2024 evaluation ($N$\,=\,1{,}226) shows that the published
+sequence-only HIT-EC model decreases by $-$38.9\,pp over two-plus years while Contact-EC
+holds and overtakes it under the mapped evaluation, suggesting that structural topology
 confers increasing robustness as the temporal horizon grows. These findings
 argue for EC prediction benchmarks that explicitly separate representation
 generalisation from fold shift, label shift, data recency, backbone scale,
@@ -679,7 +688,7 @@ AlphaFold Protein Structure Database (\url{https://alphafold.ebi.ac.uk}).
 New-392 and Price-149 benchmark files are available from the CLEAN-Contact
 repository~\citep{ayres2024}. EC-Bench training and test data can be obtained from the EC-Bench
 GitHub repository~\citep{davoudi2026}. Code and reproducibility artifacts for reproducing tables
-and figures are available at \url{https://anonymous.4open.science/r/contact-ec-8432}.
+and figures are available at \url{https://github.com/jamesksh0130/contact-ec}.
 
 \section*{Funding}
 This research received no specific grant from any funding agency in the public,
@@ -697,7 +706,7 @@ The author declares no competing interests.
 In accordance with ISCB policy, we disclose that AI tools were used for grammar
 checking, LaTeX formatting assistance, and code refactoring during manuscript
 preparation. All scientific content, experimental design, analysis, and
-interpretation were performed by the authors.
+interpretation were performed by the author.
 
 \section*{Author Contributions}
 CRediT author statement: Author: Conceptualization, Methodology,
