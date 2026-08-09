@@ -102,8 +102,8 @@ it generalises to newly annotated enzymes.
 
 We study these factors using Contact-EC, a gated sequence--structure fusion model
 combining ESM-2 650M embeddings with ResNet-50 contact-map features. The goal is
-not to claim a new state-of-the-art EC predictor: HIT-EC remains stronger in
-absolute temporal F1. Instead, Contact-EC is used as an instrument for benchmark
+not to claim a new state-of-the-art EC predictor: HIT-EC remains stronger on the
+shorter SP-2023-01 temporal holdout. Instead, Contact-EC is used as an instrument for benchmark
 decomposition. We ask three questions that are central for journal-scale
 model assessment. First, how different are same-distribution, sequence-disjoint,
 and temporal EC evaluations? Second, do contact maps contribute signal
@@ -219,7 +219,7 @@ Models are trained with weighted binary cross-entropy across EC levels, with
 weights $(0.1,0.1,0.2,0.6)$ for Levels 1--4 and masks for partial annotations.
 Phase 1 trains downstream modules for 30 epochs with frozen ESM-2; Phase 2
 partially unfreezes the final two ESM-2 blocks for 20 epochs at a lower learning
-rate. AdamW~\citep{loshchilov2019} with cosine annealing is used throughout, and checkpoints are selected
+rate for Contact-EC-Hier. AdamW~\citep{loshchilov2019} with cosine annealing is used throughout, and checkpoints are selected
 only on validation data. The main training recipe uses batch size 64, Phase-1
 learning rate $10^{-3}$, Phase-2 learning rate $10^{-4}$, weight decay
 $5\times10^{-4}$, dropout 0.3--0.4 depending on the split, 8\,\AA contact
@@ -295,7 +295,7 @@ Level-4 ground truth and are not assigned Level-4 F1.}
 \toprule
 Subset & $N$ & Interpretation & Closed-set L4 status \\
 \midrule
-Complete known EC labels & 124 & Main evaluable subset & Scored: 0.6032 \\
+Complete known EC labels & 124 & Main evaluable subset & Scored at L4 \\
 Partial EC annotations   & 309 & Incomplete Level-4 labels & Not scored at L4 \\
 Novel EC labels          & 35  & Outside SP-2018 vocabulary & Out of vocabulary \\
 All temporal proteins    & 468 & Label-shift audit & Coverage audit \\
@@ -410,8 +410,8 @@ substantially larger than any Contact-EC change. Contact-EC flat FC is consequen
 higher than HIT-EC on SP-2024 by $+$22.4\,pp under this mapped evaluation, reversing the $-$22.3\,pp
 deficit on SP-2023-01. This reversal is consistent with HIT-EC's sequence-only
 architecture being sensitive to temporal distribution shift as the evaluation
-horizon extends: structural topology in Contact-EC provides complementary
-robustness not captured by sequence context alone. Bootstrap 95\,\% confidence
+horizon extends, while structural topology in Contact-EC may provide
+complementary evidence not captured by sequence context alone. Bootstrap 95\,\% confidence
 intervals (1{,}000 resamples, single-seed ecbench checkpoint) confirm
 non-overlapping CIs between Contact-EC [0.6403, 0.6914] and both B1 [0.3520,
 0.4117] and B3 [0.3051, 0.3643]; McNemar protein-level tests give
@@ -642,9 +642,9 @@ remaining $\sim$30\,pp persists in
 sequences that HIT-EC's vocabulary nominally covers. Contact-EC maintains
 strong performance across all vocabulary strata (0.6965, 0.5000, 0.5396 for
 all\_in, partial, and all\_out proteins, respectively), consistent with structural
-topology providing a signal that may be complementary to sequence-derived features
+topology in Contact-EC providing evidence that may be complementary to sequence-derived features
 and relatively stable across annual Swiss-Prot release cycles. These findings
-suggest that structure-aware models carry a temporal advantage at longer horizons
+suggest that structure-aware models may carry a temporal advantage at longer horizons
 even when sequence-only models lead on shorter ones, and reinforce the case for
 reporting evaluation horizon alongside headline benchmark scores.
 

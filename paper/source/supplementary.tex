@@ -17,6 +17,8 @@
 \usepackage{pgfplots}
 \pgfplotsset{compat=1.18}
 \doublespacing
+\renewcommand{\thefigure}{S\arabic{figure}}
+\renewcommand{\thetable}{S\arabic{table}}
 
 \hypersetup{colorlinks=true,linkcolor=blue,citecolor=blue,urlcolor=blue}
 
@@ -152,7 +154,7 @@ Fusion dimension & 1{,}024 dimensions \\
 Dropout & 0.3 for EC-Bench; 0.4 for full/fold-disjoint splits \\
 Batch size & 64 \\
 Phase 1 & 30 epochs, frozen ESM-2, learning rate $1.0\times10^{-3}$ \\
-Phase 2 & 20 epochs, final two ESM-2 blocks unfrozen, learning rate $1.0\times10^{-4}$ \\
+Phase 2 & Contact-EC-Hier only: 20 epochs, final two ESM-2 blocks unfrozen, learning rate $1.0\times10^{-4}$ \\
 Optimizer & AdamW \\
 Weight decay & $5.0\times10^{-4}$ \\
 Scheduler & CosineAnnealingLR \\
@@ -212,7 +214,7 @@ Contact-EC-Hier             & 0.8698 & 0.2141 & 20 (Phase~2) \\
 \addcontentsline{toc}{section}{S4\quad Full EC-Bench Leaderboard Comparison}
 % ─────────────────────────────────────────────────────────────────────────────
 
-Table~S\ref{tab:full468} reports results on all 468 EC-Bench test proteins,
+Table~\ref{tab:full468} reports results on all 468 EC-Bench test proteins,
 including 309 with partial annotations and 35 with novel EC classes outside
 the training vocabulary. The all-468 score is reported as an operational
 closed-set coverage audit, not as a fully defined Level-4 evaluation for partial
@@ -311,7 +313,7 @@ All & 63 & 45 & 2 & 14 & 124 \\
 \end{table}
 
 The case-wise comparison confirms that HIT-EC is the stronger temporal predictor
-in absolute terms. Contact-EC uniquely recovers two cases: A0A3G9HRC2, a
+on the SP-2023-01 complete known-EC holdout. Contact-EC uniquely recovers two cases: A0A3G9HRC2, a
 multi-label oxidoreductase with EC\,1.14.14.1 and EC\,1.6.2.4, and A0A6C0WW38,
 where HIT-EC predicts the neighbouring methyltransferase class EC\,2.1.1.159
 instead of EC\,2.1.1.160. Conversely, many HIT-EC-only successes are near misses
@@ -319,7 +321,7 @@ for Contact-EC: for C0HLB8 (EC\,3.1.1.4), Contact-EC assigns EC\,3.1.1.4 the
 highest probability but below the fixed 0.5 threshold (0.4931). These cases
 support the main text's interpretation that Contact-EC is useful for decomposing
 structure and calibration effects, whereas HIT-EC remains the stronger
-closed-set temporal classifier.
+closed-set classifier on this shorter temporal holdout.
 
 \paragraph{EC Level-1 family analysis.}
 To add biological granularity, we recomputed temporal predictions for the
