@@ -9,6 +9,7 @@ import matplotlib.patches as mpatches
 import matplotlib.gridspec as gridspec
 from matplotlib.patches import FancyBboxPatch, Rectangle
 import numpy as np
+from Bio import PDB as _BIO_PDB
 
 OUT = "/home/user/Desktop/unlv/paper"
 
@@ -142,14 +143,23 @@ ax_b.annotate("Long-range\ncontacts",
                               connectionstyle="arc3,rad=-0.25"))
 
 # ── Panel C ───────────────────────────────────────────────────────────────
+# Pre-load protein backbone for structure inset
+_pdb_parser = _BIO_PDB.PDBParser(QUIET=True)
+_pdb_struct = _pdb_parser.get_structure("p", "/home/user/Desktop/unlv/data/raw/pdb/P63999.pdb")
+_ca_list = [r["CA"] for r in _pdb_struct.get_residues() if r.has_id("CA")]
+_ca_coords = np.array([a.get_vector().get_array() for a in _ca_list])
+_ca_c = _ca_coords - _ca_coords.mean(0)
+_, _, _Vt = np.linalg.svd(_ca_c)
+_ca_proj = _ca_c @ _Vt[:2].T  # (N, 2) — PCA best-view projection
+
 ax_c.set_xlim(0, 18); ax_c.set_ylim(0, 30); ax_c.axis("off")
 ax_c.text(-0.02, 1.03, "C", transform=ax_c.transAxes,
           fontsize=11, fontweight="bold", va="top")
 ax_c.text(9, 29.3, "Contact-EC: Sequence–Structure Fusion Pipeline",
           ha="center", fontsize=9, fontweight="bold")
 
-BH_H = 1.7; BH_H_PRE = 2.2; BH_SEC = BH_H * 2; BW_FULL = 17.0; BW_CTR = 12.0
-Y_IN = 26.0; Y_PRE = 20.8; Y_ENC = 15.7
+BH_H = 1.7; BH_H_PRE = 2.2; BH_H_IN = 2.2; BH_SEC = BH_H * 2; BW_FULL = 17.0; BW_CTR = 12.0
+Y_IN = 26.4; Y_PRE = 20.8; Y_ENC = 15.7
 Y_FUS = 10.8; Y_CLS = 6.3; Y_OUT = 2.1
 XL = 4.5; XR = 13.5; XC = 9.0
 
@@ -167,30 +177,69 @@ def sec_box(cy, bw=BW_FULL, cx=XC, fc="white", ec=ECBOX, label=None, bh=None):
                   fontweight="bold", color=ECBOX, fontstyle="italic")
 
 # ── INPUTS ────────────────────────────────────────────────────────────────
-sec_box(Y_IN, label="INPUTS")
+sec_box(Y_IN, label="INPUTS", bh=BH_H_IN)
 
-T(ax_c, XL, Y_IN + 0.72, "Protein Sequence", fontsize=8, fontweight="bold", color=DARK)
-seq = "MKTAYIAKQR"; bw_aa = 0.60
+T(ax_c, XL, Y_IN + 1.52, "Protein Sequence", fontsize=8, fontweight="bold", color=DARK)
+seq = "MKTAYIAKQR"; bw_aa = 0.65
 x0_aa = XL - len(seq) * bw_aa / 2
 for idx, aa in enumerate(seq):
     xb = x0_aa + idx * bw_aa
-    ax_c.add_patch(Rectangle((xb, Y_IN - 0.30), bw_aa - 0.04, 0.80,
+    ax_c.add_patch(Rectangle((xb, Y_IN - 0.40), bw_aa - 0.10, 0.80,
                               fc=AA_COL.get(aa, "#CCC"), ec="white", lw=0.6, zorder=3))
-    ax_c.text(xb + (bw_aa - 0.04)/2, Y_IN + 0.10, aa,
+    ax_c.text(xb + (bw_aa - 0.10)/2, Y_IN + 0.00, aa,
               ha="center", va="center", fontsize=5, fontweight="bold",
               color="#111", zorder=4)
-ax_c.text(x0_aa + len(seq)*bw_aa + 0.05, Y_IN + 0.10, "…",
+ax_c.text(x0_aa + len(seq)*bw_aa + 0.05, Y_IN + 0.00, "…",
           ha="left", va="center", fontsize=8, color="#888")
-T(ax_c, XL, Y_IN - 0.88, "1,438 amino acid residues", fontsize=6, color=MID)
+T(ax_c, XL, Y_IN - 0.98, "1,438 amino acid residues", fontsize=6, color=MID)
 
-T(ax_c, XR, Y_IN + 0.55, "Protein 3D Structure", fontsize=8, fontweight="bold", color=DARK)
-T(ax_c, XR, Y_IN - 0.12, "UniProt ID → AlphaFold Database", fontsize=6, color=MID)
-T(ax_c, XR, Y_IN - 0.75, "Cα atomic coordinates (PDB)", fontsize=5.5, color=LIGHT)
+# Right side also shifted +0.8; image space is now much larger
+T(ax_c, XR, Y_IN + 1.52, "Protein 3D Structure", fontsize=8, fontweight="bold", color=DARK)
+T(ax_c, XR, Y_IN + 1.15, "UniProt ID → AlphaFold DB  ·  Cα (PDB)", fontsize=5.5, color=MID)
 
 SEQ_COL = "#4878CF"   # sequence pathway — blue
 STR_COL = "#E8812A"   # structure pathway — orange
-arr(ax_c, XL, Y_IN - BH_H, XL, Y_PRE + BH_H_PRE, col=SEQ_COL)
-arr(ax_c, XR, Y_IN - BH_H, XR, Y_PRE + BH_H_PRE, col=STR_COL)
+
+# ── Protein 3D backbone render (INPUTS right) — matplotlib 3D → PNG embed ──
+# New display space ~1.37:1 → render at matching ratio for no distortion
+_fig3d = plt.figure(figsize=(1.4, 1.4), dpi=400)
+_ax3d = _fig3d.add_subplot(111, projection="3d")
+_N3d = len(_ca_coords)
+for _i in range(_N3d - 1):
+    _t = _i / (_N3d - 1)
+    _ax3d.plot(_ca_coords[_i:_i+2, 0],
+               _ca_coords[_i:_i+2, 1],
+               _ca_coords[_i:_i+2, 2],
+               color=plt.cm.coolwarm(_t), lw=2.5, solid_capstyle="round")
+_ax3d.scatter([_ca_coords[0, 0]], [_ca_coords[0, 1]], [_ca_coords[0, 2]],
+              color=SEQ_COL, s=32, zorder=5)
+_ax3d.scatter([_ca_coords[-1, 0]], [_ca_coords[-1, 1]], [_ca_coords[-1, 2]],
+              color=STR_COL, s=32, zorder=5)
+_ax3d.view_init(elev=30, azim=45)
+# hide all 3D pane walls and grid lines
+_ax3d.xaxis.pane.fill = False; _ax3d.yaxis.pane.fill = False; _ax3d.zaxis.pane.fill = False
+_ax3d.xaxis.pane.set_edgecolor("none"); _ax3d.yaxis.pane.set_edgecolor("none"); _ax3d.zaxis.pane.set_edgecolor("none")
+_ax3d.grid(False)
+# zoom tight on the backbone
+_pad3d = 4
+_ax3d.set_xlim(_ca_coords[:,0].min()-_pad3d, _ca_coords[:,0].max()+_pad3d)
+_ax3d.set_ylim(_ca_coords[:,1].min()-_pad3d, _ca_coords[:,1].max()+_pad3d)
+_ax3d.set_zlim(_ca_coords[:,2].min()-_pad3d, _ca_coords[:,2].max()+_pad3d)
+_ax3d.set_axis_off()
+_ax3d.set_facecolor("none")
+_fig3d.patch.set_alpha(0)
+_fig3d.subplots_adjust(left=0, right=1, top=1, bottom=0)
+_tmp3d = "/tmp/claude-1000/-home-user-Desktop-unlv/5fb6376e-624c-476a-ad1f-2f077ddca787/scratchpad/prot3d.png"
+_fig3d.savefig(_tmp3d, dpi=280, bbox_inches="tight", transparent=True)
+plt.close(_fig3d)
+
+# square: pw=3.0→28.3mm, ph=4.0→28.0mm, raised to align with AA sequence row on the left
+_px0, _py0, _pw, _ph = 12.0/18, 24.35/30, 3.0/18, 4.0/30
+ax_prot = ax_c.inset_axes([_px0, _py0, _pw, _ph])
+ax_prot.imshow(plt.imread(_tmp3d), aspect="auto")
+ax_prot.axis("off")
+arr(ax_c, XL, Y_IN - BH_H_IN, XL, Y_PRE + BH_H_PRE, col=SEQ_COL)
+arr(ax_c, XR, Y_IN - BH_H_IN, XR, Y_PRE + BH_H_PRE, col=STR_COL)
 
 # ── PREPROCESSING ─────────────────────────────────────────────────────────
 sec_box(Y_PRE, label="PREPROCESSING", bh=BH_H_PRE)
@@ -199,13 +248,35 @@ T(ax_c, XL, Y_PRE + 1.35, "Tokenization", fontsize=8, fontweight="bold", color=D
 T(ax_c, XL, Y_PRE + 0.75, "BPE encoding", fontsize=6, color=MID)
 T(ax_c, XL, Y_PRE + 0.15, "Max length: 1,024 tokens", fontsize=5.5, color=LIGHT)
 
+# ── Tokenization visualization (PREPROCESSING left inset) ─────────────────
+_tx0, _ty0, _tw, _th = 0.90/18, 18.82/30, 7.20/18, 1.85/30
+ax_tok = ax_c.inset_axes([_tx0, _ty0, _tw, _th])
+ax_tok.set_xlim(0, 1); ax_tok.set_ylim(0, 1); ax_tok.axis("off")
+ax_tok.set_facecolor("#F8F9FC")
+_tok_seq = "MKTAYIAKQR"
+_tok_ids = [20, 11, 16, 6, 19, 12, 6, 11, 13, 15]   # ESM-2 token IDs
+_NT = len(_tok_seq); _bwt = 1.0 / _NT
+for _k, (_aa, _tid) in enumerate(zip(_tok_seq, _tok_ids)):
+    _xb = _k * _bwt
+    # Top row: amino acid colored box
+    ax_tok.add_patch(Rectangle((_xb + 0.002, 0.54), _bwt - 0.004, 0.42,
+                                facecolor=AA_COL.get(_aa, "#CCC"),
+                                edgecolor="white", lw=0.5, zorder=3))
+    ax_tok.text(_xb + _bwt/2, 0.755, _aa, ha="center", va="center",
+                fontsize=4.0, fontweight="bold", color="#111", zorder=4)
+    # Bottom row: token ID gray box
+    ax_tok.add_patch(Rectangle((_xb + 0.002, 0.06), _bwt - 0.004, 0.42,
+                                facecolor="#D8DCE4", edgecolor="white", lw=0.5, zorder=3))
+    ax_tok.text(_xb + _bwt/2, 0.27, str(_tid), ha="center", va="center",
+                fontsize=3.5, color="#333", zorder=4)
+
 # Contact Map Extraction: title + subtitle at top, large square grid below
 T(ax_c, XR, Y_PRE + 1.35, "Contact Map Extraction", fontsize=8, fontweight="bold", color=DARK)
-T(ax_c, XR, Y_PRE + 0.45, "8 Å threshold  ·  256 × 256", fontsize=6, color=MID)
+T(ax_c, XR, Y_PRE + 0.75, "8 Å threshold  ·  256 × 256", fontsize=6, color=MID)
 
 # GSZ_X/GSZ_Y chosen so cells are physically square (x-scale 8.51 mm/unit, y-scale 6.26 mm/unit)
 NM_CM = 8
-GSZ_X = 1.47; GSZ_Y = 2.00   # 1.47×8.51 ≈ 12.5 mm  ≈  2.00×6.26 mm
+GSZ_X = 1.67; GSZ_Y = 2.25   # cells physically square: 1.67×9.44≈15.8mm ≈ 2.25×7.01mm
 CS_X = GSZ_X / NM_CM; CS_Y = GSZ_Y / NM_CM
 mini_cm = np.zeros((NM_CM, NM_CM))
 for ri in range(NM_CM):
@@ -219,7 +290,7 @@ mini_cm[0][7] = mini_cm[7][0] = 0.82
 mini_cm[1][6] = mini_cm[6][1] = 0.68
 mini_cm[2][5] = mini_cm[5][2] = 0.52
 mini_cm[1][5] = mini_cm[5][1] = 0.40
-cm_x0 = XR - GSZ_X / 2; cm_y0 = Y_PRE - BH_H_PRE + 0.40
+cm_x0 = XR - GSZ_X / 2; cm_y0 = Y_PRE - BH_H_PRE + 0.48
 for ri in range(NM_CM):
     for ci in range(NM_CM):
         v = mini_cm[ri, ci]
@@ -227,13 +298,6 @@ for ri in range(NM_CM):
             (cm_x0 + ci * CS_X, cm_y0 + (NM_CM - 1 - ri) * CS_Y),
             CS_X - 0.012, CS_Y - 0.016,
             fc=plt.cm.Blues(v * 0.85 + 0.08), ec="white", lw=0.5, zorder=4))
-# i / j axis labels
-cm_cx = cm_x0 + GSZ_X / 2
-cm_cy = cm_y0 + GSZ_Y / 2
-ax_c.text(cm_cx, cm_y0 - 0.12, "j", ha="center", va="top",
-          fontsize=5.5, color="#444", zorder=5)
-ax_c.text(cm_x0 - 0.09, cm_cy, "i", ha="right", va="center",
-          fontsize=5.5, color="#444", zorder=5)
 
 arr(ax_c, XL, Y_PRE - BH_H_PRE, XL, Y_ENC + BH_H, col=SEQ_COL)
 arr(ax_c, XR, Y_PRE - BH_H_PRE, XR, Y_ENC + BH_H, col=STR_COL)
@@ -247,21 +311,21 @@ T(ax_c, XL, Y_ENC - 0.75, "→  1,280-d sequence embedding",
   fontsize=6.5, fontweight="bold", color=SEQ_COL)
 
 T(ax_c, XR, Y_ENC + 0.55, "ResNet-50", fontsize=8, fontweight="bold", color=DARK)
-T(ax_c, XR, Y_ENC - 0.10, "Convolutional encoder  (trainable)", fontsize=6, color=MID)
+T(ax_c, XR, Y_ENC - 0.10, "Attention pooling  (trainable)", fontsize=6, color=MID)
 T(ax_c, XR, Y_ENC - 0.75, "→  512-d structural feature",
   fontsize=6.5, fontweight="bold", color=STR_COL)
 
-arr(ax_c, XL, Y_ENC - BH_H, 7.0, Y_FUS + BH_H, rad=-0.18, col=SEQ_COL)
-arr(ax_c, XR, Y_ENC - BH_H, 11.0, Y_FUS + BH_H, rad=0.18, col=STR_COL)
+arr(ax_c, XL, Y_ENC - BH_H - 0.1, 7.0, Y_FUS + BH_H + 0.1, rad=0.0, col=SEQ_COL)
+arr(ax_c, XR, Y_ENC - BH_H - 0.1, 11.0, Y_FUS + BH_H + 0.1, rad=0.0, col=STR_COL)
 
 # ── FUSION ────────────────────────────────────────────────────────────────
 sec_box(Y_FUS, bw=BW_CTR, label="FUSION")
 
-T(ax_c, XC, Y_FUS + 0.45, "Gated Cross-Attention Fusion",
+T(ax_c, XC, Y_FUS + 0.45, "Structure-Gated Additive Fusion",
   fontsize=8, fontweight="bold", color="#065F46")
-T(ax_c, XC, Y_FUS - 0.18, "Structure features gate sequence attention",
+T(ax_c, XC, Y_FUS - 0.18, "Linear(Contact)  +  Sigmoid Gate(Contact)  +  ESM-2",
   fontsize=6, color=MID)
-T(ax_c, XC, Y_FUS - 0.82, "1,792-d  →  512-d fused representation",
+T(ax_c, XC, Y_FUS - 0.82, "1,024-d fused representation",
   fontsize=6.5, fontweight="bold", color="#065F46")
 
 arr(ax_c, XC, Y_FUS - BH_H, XC, Y_CLS + BH_H)
@@ -269,9 +333,9 @@ arr(ax_c, XC, Y_FUS - BH_H, XC, Y_CLS + BH_H)
 # ── CLASSIFICATION HEAD ───────────────────────────────────────────────────
 sec_box(Y_CLS, bw=BW_CTR, label="CLASSIFICATION HEAD")
 
-T(ax_c, XC, Y_CLS + 0.45, "FC Head  +  Sigmoid",
+T(ax_c, XC, Y_CLS + 0.45, "Flat FC Heads  +  Sigmoid  (4 independent levels)",
   fontsize=8, fontweight="bold", color="#3730A3")
-T(ax_c, XC, Y_CLS - 0.18, "Multi-label binary classification",
+T(ax_c, XC, Y_CLS - 0.18, "Weighted BCE Loss per EC level  (masked)",
   fontsize=6, color=MID)
 T(ax_c, XC, Y_CLS - 0.82, "1,938 EC class labels",
   fontsize=6.5, fontweight="bold", color="#3730A3")
@@ -372,6 +436,15 @@ for (lbl, v23, v24, col, lw, ls, mk) in traces:
             markeredgecolor="white", markeredgewidth=0.8, zorder=4,
             solid_capstyle="round")
 
+# Shade the SP-2024 reversal: region between the HIT-EC and Contact-EC
+# trajectories from their crossover point to x=1 (the "+22.4 pp reversal").
+ce_v23, ce_v24 = 0.6241, 0.6819
+hit_v23, hit_v24 = 0.8471, 0.4578
+x_cross = (hit_v23 - ce_v23) / ((ce_v24 - ce_v23) - (hit_v24 - hit_v23))
+y_cross = ce_v23 + (ce_v24 - ce_v23) * x_cross
+ax.fill_between([x_cross, 1], [y_cross, ce_v24], [y_cross, hit_v24],
+                 color=MC["CE"], alpha=0.12, zorder=1, linewidth=0)
+
 def spread(vals, gap=0.034):
     p = list(vals)
     for _ in range(500):
@@ -433,9 +506,9 @@ print("fig3 print done")
 cond_labels = ["Original", "Permuted", "Secondary\nstructure", "Random"]
 cond_cols = [CC["Original"], CC["Permuted"], CC["Secondary"], CC["Random"]]
 panels = [
-    ("A   Structure-only",      [0.3646, 0.0000, 0.0000, 0.0000]),
-    ("B   Contact-EC",          [0.6032, 0.0625, 0.5242, 0.0982]),
-    ("C   Contact-EC  (gated)", [0.5690, 0.5702, 0.5776, 0.5641]),
+    ("A   Structure-only",       [0.3646, 0.0000, 0.0000, 0.0000]),
+    ("B   Contact-EC (flat FC)", [0.6032, 0.0625, 0.5242, 0.0982]),
+    ("C   Contact-EC-Hier",      [0.5690, 0.5702, 0.5776, 0.5641]),
 ]
 
 fig, axes = plt.subplots(1, 3, figsize=(6.7, 2.6), sharey=True)

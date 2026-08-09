@@ -121,16 +121,19 @@ benchmark.
 
 \begin{figure}[t]
 \centering
-\includegraphics[width=\linewidth]{fig1_overview.pdf}
+\includegraphics[width=\linewidth]{fig1_overview_print.pdf}
 \caption{Contact-EC overview.
 \textbf{(A)} EC number four-level hierarchy illustrated with glucose oxidase
 (EC~1.1.3.4).
 \textbf{(B)} Example protein contact map (8\,\AA{} threshold); short-range
 backbone contacts form the diagonal band; long-range contacts (blue arrows)
 encode tertiary fold topology.
-\textbf{(C)} Contact-EC pipeline: ESM-2 (1280-d) and ResNet-50 contact-map
-encoder (512-d) are fused via gated cross-attention before a flat FC
-sigmoid head predicts all 1,938 Level-4 EC classes simultaneously.}
+\textbf{(C)} Contact-EC pipeline: ESM-2 (1280-d) and a ResNet-50 contact-map
+encoder with attention pooling (512-d) are combined by structure-gated
+additive fusion into a 1,024-d fused representation, then a flat FC $+$ sigmoid head
+predicts all 1,938 Level-4 EC classes simultaneously (Contact-EC-Hier
+replaces this head with a two-layer Transformer over four EC-level
+tokens; Section~2.2).}
 \label{fig:pipeline}
 \end{figure}
 
@@ -174,18 +177,24 @@ The sequence branch uses ESM-2 650M~\citep{lin2023}
 \texttt{[CLS]} embedding. The structure branch applies a ResNet-50 encoder~\citep{he2016} with
 attention pooling to the three-channel contact map and projects the output to 512
 dimensions. The two representations are projected to a shared 1024-dimensional
-space and combined by gated sequence--structure fusion:
+space and combined by structure-gated additive fusion:
 \[
 \tilde{\mathbf{e}} = \phi(W_e\mathbf{e}), \qquad
 \tilde{\mathbf{s}} = W_s\mathbf{s},
 \]
 \[
-\mathbf{g} = \sigma(W_g[\tilde{\mathbf{e}};\tilde{\mathbf{s}}]),
+\mathbf{g} = \sigma(W_g\mathbf{s}),
 \qquad
 \mathbf{f} = \tilde{\mathbf{e}} + \mathbf{g}\odot W_a\tilde{\mathbf{s}}.
 \]
-This gated additive fusion modulates a projected structure vector by sequence
-context and allows fallback when the contact map is missing or uninformative.
+The gate $\mathbf{g}$ is a function of the raw structure feature
+$\mathbf{s}$ alone and is not conditioned on the sequence branch; $W_a$ is
+implemented as a single-head attention layer applied to a single
+structure token, which is mathematically equivalent to a learned linear
+map, since softmax over one key is identically~1 regardless of the
+query. This lets the gate learn to suppress an uninformative or missing
+contact map without needing sequence context to detect it, giving
+fallback behaviour to ESM-2-only performance.
 Contact-EC-Hier passes the fused vector through a two-layer Transformer over four
 EC-level tokens; the flat variant uses fully connected sigmoid outputs.
 To audit whether this learned fusion block is necessary, we also train three
@@ -499,8 +508,8 @@ long-range contacts), density-matched random, and all-zero
 $N=124$). B3 collapses under all perturbations.
 Contact-EC flat FC degrades sharply ($-$54\,pp shuffled, $-$50\,pp random density),
 confirming reliance on genuine fold topology.
-Contact-EC-Hier shows negligible change: the GCA gate routes to the ESM-2 branch
-when contact topology is destroyed, explaining why flat FC outperforms Hier.}
+Contact-EC-Hier shows negligible change: the structure gate routes to the ESM-2
+branch when contact topology is destroyed, explaining why flat FC outperforms Hier.}
 \label{tab:perturb}
 \setlength{\tabcolsep}{5pt}
 \begin{tabular}{lccc}
@@ -527,7 +536,7 @@ and density-matched random ($-$50.5\,pp) but retains most performance under
 diagonal-only ($-$7.9\,pp), indicating short-range secondary-structure
 contacts remain informative.
 \textbf{(C)} Contact-EC-Hier is invariant across all conditions ($\pm$1.0\,pp),
-revealing that its gated cross-attention routes to the ESM-2 branch when
+revealing that its structure gate routes to the ESM-2 branch when
 topology is destroyed.}
 \label{fig:perturbation}
 \end{figure}
@@ -540,8 +549,8 @@ diagonal-only maps (0.5242, $-$7.9\,pp) indicates that short-range contacts
 ($|i{-}j|<12$, encoding secondary structure propensity) contribute substantially,
 with long-range contacts providing an additional $+$7.9\,pp.
 Second, Contact-EC-Hier is essentially invariant to perturbation ($\pm$0.9\,pp),
-revealing that its GCA gate has learned to route contact information to zero when
-topology is disrupted---graceful degradation to ESM-2 performance.
+revealing that its structure gate has learned to route contact information to
+zero when topology is disrupted---graceful degradation to ESM-2 performance.
 This gate behaviour simultaneously explains why Contact-EC flat FC
 \emph{outperforms} Contact-EC-Hier by 3.4\,pp on the temporal test: the
 hierarchical Transformer head induces cross-level attention dynamics that

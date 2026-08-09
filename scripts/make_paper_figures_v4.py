@@ -242,6 +242,12 @@ for ri in range(NM_CM):
             (cm_x0 + ci * CS_CM, cm_y0 + (NM_CM - 1 - ri) * CS_CM),
             CS_CM - 0.015, CS_CM - 0.015,
             fc=plt.cm.Blues(v * 0.85 + 0.08), ec="white", lw=0.7, zorder=4))
+# i / j axis labels
+cm_cx = cm_x0 + GSZ / 2; cm_cy = cm_y0 + GSZ / 2
+ax_c.text(cm_cx, cm_y0 - 0.18, "j", ha="center", va="top",
+          fontsize=12, color="#555", zorder=5)
+ax_c.text(cm_x0 - 0.18, cm_cy, "i", ha="right", va="center",
+          fontsize=12, color="#555", rotation=90, zorder=5)
 
 arrow(ax_c, XL, Y_PRE - BH_H, XL, Y_ENC + BH_H, col="#555")
 arrow(ax_c, XR, Y_PRE - BH_H, XR, Y_ENC + BH_H, col="#555")
@@ -265,9 +271,9 @@ arrow(ax_c, XR, Y_ENC - BH_H, 11.0, Y_FUS + BH_H, col="#555", rad=0.18)
 # ── FUSION ────────────────────────────────────────────────────────────────
 sec_box(Y_FUS, bw=BW_CTR, label="FUSION")
 
-T(ax_c, XC, Y_FUS + 0.45, "Gated Cross-Attention Fusion",
+T(ax_c, XC, Y_FUS + 0.45, "Structure-Gated Additive Fusion",
   fontsize=21, fontweight="bold", color="#065F46")
-T(ax_c, XC, Y_FUS - 0.18, "Structure features gate sequence attention",
+T(ax_c, XC, Y_FUS - 0.18, "Structure feature gates its own contribution",
   fontsize=16, color=MID)
 T(ax_c, XC, Y_FUS - 0.85, "1,792-d  →  512-d fused representation",
   fontsize=16, fontweight="bold", color="#065F46")
@@ -383,6 +389,17 @@ for (lbl, v23, v24, col, lw, ls, mk) in traces:
             markeredgecolor="white", markeredgewidth=1.5, zorder=4,
             solid_capstyle="round")
 
+# Shade the SP-2024 reversal: region between the HIT-EC and Contact-EC
+# trajectories from their crossover point to x=1, where Contact-EC overtakes
+# HIT-EC (the "+22.4 pp reversal" referenced in the caption).
+ce_v23, ce_v24 = 0.6241, 0.6819
+hit_v23, hit_v24 = 0.8471, 0.4578
+# crossover x where the two linear segments meet: ce_v23 + (ce_v24-ce_v23)*x == hit_v23 + (hit_v24-hit_v23)*x
+x_cross = (hit_v23 - ce_v23) / ((ce_v24 - ce_v23) - (hit_v24 - hit_v23))
+y_cross = ce_v23 + (ce_v24 - ce_v23) * x_cross
+ax.fill_between([x_cross, 1], [y_cross, ce_v24], [y_cross, hit_v24],
+                 color=MC["CE"], alpha=0.12, zorder=1, linewidth=0)
+
 
 def spread(vals, gap=0.034):
     p = list(vals)
@@ -447,9 +464,9 @@ cond_labels = ["Original", "Permuted", "Secondary\nstructure", "Random"]
 cond_cols = [CC["Original"], CC["Permuted"], CC["Secondary"], CC["Random"]]
 
 panels = [
-    ("A   Structure-only",      [0.3646, 0.0000, 0.0000, 0.0000]),
-    ("B   Contact-EC",          [0.6032, 0.0625, 0.5242, 0.0982]),
-    ("C   Contact-EC  (gated)", [0.5690, 0.5702, 0.5776, 0.5641]),
+    ("A   Structure-only",       [0.3646, 0.0000, 0.0000, 0.0000]),
+    ("B   Contact-EC (flat FC)", [0.6032, 0.0625, 0.5242, 0.0982]),
+    ("C   Contact-EC-Hier",      [0.5690, 0.5702, 0.5776, 0.5641]),
 ]
 
 fig, axes = plt.subplots(1, 3, figsize=(14, 5.5), sharey=True)
