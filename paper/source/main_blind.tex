@@ -215,7 +215,12 @@ weights $(0.1,0.1,0.2,0.6)$ for Levels 1--4 and masks for partial annotations.
 Phase 1 trains downstream modules for 30 epochs with frozen ESM-2; Phase 2
 partially unfreezes the final two ESM-2 blocks for 20 epochs at a lower learning
 rate. AdamW~\citep{loshchilov2019} with cosine annealing is used throughout, and checkpoints are selected
-only on validation data. Level-4 micro F1 is the primary metric, with macro F1,
+only on validation data. The main training recipe uses batch size 64, Phase-1
+learning rate $10^{-3}$, Phase-2 learning rate $10^{-4}$, weight decay
+$5\times10^{-4}$, dropout 0.3--0.4 depending on the split, 8\,\AA contact
+thresholds, 256$\times$256 contact maps, and seeds 42/43/44 for repeated
+temporal and Foldseek-disjoint comparisons (Supplementary training
+hyper-parameter table). Level-4 micro F1 is the primary metric, with macro F1,
 weighted F1, rare-EC F1, precision, and recall reported for interpretation.
 Hyper-parameters were fixed before temporal testing.
 
@@ -393,8 +398,8 @@ substantially larger than any Contact-EC change. Contact-EC flat FC is consequen
 higher than HIT-EC on SP-2024 by $+$22.4\,pp under this mapped evaluation, reversing the $-$22.3\,pp
 deficit on SP-2023-01. This reversal is consistent with HIT-EC's sequence-only
 architecture being sensitive to temporal distribution shift as the evaluation
-horizon extends: structural topology in Contact-EC provides complementary
-robustness not captured by sequence context alone. Bootstrap 95\,\% confidence
+horizon extends: structural topology in Contact-EC may provide complementary
+evidence not captured by sequence context alone. Bootstrap 95\,\% confidence
 intervals (1{,}000 resamples, single-seed ecbench checkpoint) confirm
 non-overlapping CIs between Contact-EC [0.6403, 0.6914] and both B1 [0.3520,
 0.4117] and B3 [0.3051, 0.3643]; McNemar protein-level tests give
@@ -456,7 +461,9 @@ grouped by whether their true Level-4 EC labels fall inside HIT-EC's
 4{,}255-class vocabulary. Even among all\_in\_vocab proteins (where HIT-EC
 can in principle succeed), HIT-EC drops $-$29.7\,pp from its SP-2023-01
 level (0.8471), indicating that vocabulary mismatch alone does not explain the
-observed HIT-EC decrease.}
+observed HIT-EC decrease. Stratified Contact-EC values use the canonical
+seed-42 checkpoint; therefore the aggregate score (0.6661) differs from the
+three-seed mean in Table~\ref{tab:sp2024} (0.6819$\pm$0.0026).}
 \label{tab:vocab_strat}
 \setlength{\tabcolsep}{4pt}
 \begin{tabular}{lrcc}
@@ -499,7 +506,11 @@ fold-disjoint performance reflects both structural shift and label-frequency
 shift. A three-seed failure-mode audit further shows that fusion rescues 17.3\%
 of Foldseek-test proteins missed by B1 and 12.5\% missed by B3; 11.0\% are
 fusion-only rescues, whereas 41.9\% of all-model failures contain an unseen true
-Level-4 label.
+Level-4 label. When unseen positive labels are excluded from the same
+Foldseek-disjoint prediction outputs, aggregate seen-label Level-4 micro F1
+increases to 0.2159 for fusion versus 0.0863 for B1 and 0.0859 for B3
+(Supplementary seen-label aggregate table), showing that the fusion advantage is
+not solely a consequence of unseen-label composition.
 
 \subsection{Topology Controls and Data Recency}
 
@@ -674,8 +685,8 @@ Level-4 performance remains low. Data-recency and fine-tuning controls show that
 cutoff and backbone adaptation strongly affect temporal performance. Critically,
 an extended SP-2024 evaluation ($N$\,=\,1{,}226) shows that the published
 sequence-only HIT-EC model decreases by $-$38.9\,pp over two-plus years while Contact-EC
-holds and overtakes it under the mapped evaluation, suggesting that structural topology
-confers increasing robustness as the temporal horizon grows. These findings
+holds and overtakes it under the mapped evaluation, suggesting that structure-aware
+representations may provide complementary robustness as the temporal horizon grows. These findings
 argue for EC prediction benchmarks that explicitly separate representation
 generalisation from fold shift, label shift, data recency, backbone scale,
 structure availability, and evaluation horizon.

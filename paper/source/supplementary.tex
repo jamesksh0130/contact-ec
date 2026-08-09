@@ -128,6 +128,39 @@ rather than a single-label softmax classifier.
 \addcontentsline{toc}{section}{S3\quad Training Dynamics}
 % ─────────────────────────────────────────────────────────────────────────────
 
+\begin{table}[htbp]
+\centering
+\caption{Training hyper-parameters used for the main Contact-EC experiments.
+Values were fixed before temporal testing unless a split-specific validation
+threshold is explicitly reported. The 3B and end-to-end variants follow the same
+evaluation protocol but are single-run analyses due to compute cost.}
+\label{tab:training_hyperparams}
+\small
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{ll}
+\toprule
+Parameter & Value \\
+\midrule
+ESM-2 backbone & \texttt{facebook/esm2\_t33\_650M\_UR50D} unless noted \\
+ESM-2 dimension & 1{,}280 \\
+Contact threshold & 8\,\AA\ C$\alpha$--C$\alpha$ distance \\
+Contact-map size & 256$\times$256 \\
+Contact encoder output & 512 dimensions \\
+Fusion dimension & 1{,}024 dimensions \\
+Dropout & 0.3 for EC-Bench; 0.4 for full/fold-disjoint splits \\
+Batch size & 64 \\
+Phase 1 & 30 epochs, frozen ESM-2, learning rate $1.0\times10^{-3}$ \\
+Phase 2 & 20 epochs, final two ESM-2 blocks unfrozen, learning rate $1.0\times10^{-4}$ \\
+Optimizer & AdamW \\
+Weight decay & $5.0\times10^{-4}$ \\
+Scheduler & CosineAnnealingLR \\
+EC-level loss weights & $(0.1, 0.1, 0.2, 0.6)$ for Levels 1--4 \\
+Repeated seeds & 42, 43, 44 \\
+Checkpoint selection & Validation Level-4 micro F1 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
 Figure~\ref{fig:training-curves} and Table~\ref{tab:dynamics} summarize
 best-checkpoint training dynamics for the main ablation models. All models were
 trained for up to 30 Phase-1 epochs with frozen ESM-2 representations;
@@ -1238,7 +1271,10 @@ fold-level generalization.
 \centering
 \caption{Foldseek-disjoint label-frequency decomposition. Values are Level-4
 micro F1 at model-specific validation-selected thresholds, stratified by the
-number of Foldseek-train proteins carrying each true Level-4 label.}
+number of Foldseek-train proteins carrying each true Level-4 label. These values
+come from the canonical checkpoint outputs used for the label-frequency audit,
+whereas Table~\ref{tab:foldseek_seed_repeats} reports three-seed means for the
+primary all-label metric.}
 \label{tab:foldseek_label_frequency}
 \small
 \setlength{\tabcolsep}{4pt}
@@ -1249,6 +1285,27 @@ Model & unseen & 1--5 & 6--25 & 26--100 & $>$100 \\
 B1 (ESM-2, flat FC) & 0.0000 & 0.0000 & 0.0000 & 0.0847 & 0.1242 \\
 B3 (contact only) & 0.0000 & 0.0055 & 0.0448 & 0.1081 & 0.1825 \\
 Contact-EC (fusion) & 0.0000 & 0.0038 & \textbf{0.2484} & \textbf{0.3278} & \textbf{0.2167} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[htbp]
+\centering
+\caption{Foldseek-disjoint aggregate performance after excluding unseen positive
+Level-4 labels from the same canonical prediction outputs used in
+Table~\ref{tab:foldseek_label_frequency}. Seen-label-only aggregation removes
+the impossible closed-set positives from the denominator and shows that fusion
+retains a larger gain over both single-modality baselines.}
+\label{tab:foldseek_seen_label_aggregate}
+\small
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{lrrrrr}
+\toprule
+Model & Positive labels & Predictions & Precision & Recall & Micro F1 \\
+\midrule
+B1 (ESM-2, flat FC) & 11{,}622 & 13{,}866 & 0.0793 & 0.0946 & 0.0863 \\
+B3 (contact only) & 11{,}622 & 10{,}511 & 0.0905 & 0.0818 & 0.0859 \\
+Contact-EC (fusion) & 11{,}622 & 13{,}370 & 0.2018 & 0.2321 & \textbf{0.2159} \\
 \bottomrule
 \end{tabular}
 \end{table}
