@@ -32,7 +32,7 @@ Handong Global University, Pohang, 37554, Republic of Korea}
 \corresp[$\ast$]{Corresponding author. \href{mailto:jamesksh0130@gmail.com}{jamesksh0130@gmail.com}}
 
 \abstract{%
-\textbf{Motivation:}
+\textbf{Background:}
 Enzyme Commission (EC) prediction is increasingly evaluated with large protein
 language models and structure-derived features, but headline benchmark scores
 often conflate model architecture, training-set recency, sequence overlap,
@@ -52,15 +52,13 @@ $0.4578$ ($-$38.9\,pp) while Contact-EC improves to $0.6819\pm0.0026$ ($+$5.8\,p
 yielding a $+$22.4\,pp advantage; a vocabulary-stratified analysis indicates that most
 of HIT-EC's decrease is not explained by
 label-vocabulary mismatch. A Foldseek/TM-score-disjoint split shows that fusion
-retains the highest micro F1 under explicit fold-level shift. The contribution is a
-reproducible decomposition of when structure helps and when fold shift, benchmark
-recency, and label shift dominate.\\[3pt]
-\textbf{Availability and Implementation:}
-Code and reproducibility artifacts are available at \url{https://github.com/jamesksh0130/contact-ec}.\\[3pt]
-\textbf{Contact:}
-\texttt{jamesksh0130@gmail.com}\\[3pt]
-\textbf{Supplementary information:}
-Supplementary information is included as a separate file.%
+retains the highest micro F1 under explicit fold-level shift.\\[3pt]
+\textbf{Conclusions:}
+Contact-EC is best interpreted as a reproducible benchmark-decomposition
+instrument rather than a replacement for curated homology transfer. The results
+show that EC prediction benchmarks should explicitly report temporal cutoff,
+sequence and fold relatedness, label-vocabulary coverage, data recency, and
+whether the evaluation is closed-set or label-shifted.%
 }
 
 \keywords[Key words]{enzyme commission number; contact map; protein language model;
@@ -69,7 +67,7 @@ temporal evaluation; sequence--structure fusion; out-of-distribution generalisat
 \begin{document}
 \maketitle
 
-\section{Introduction}
+\section{Background}
 
 Enzyme Commission (EC) numbers~\citep{mcdonald2023} provide a four-level hierarchy
 for classifying enzyme-catalysed reactions, from broad reaction class to
@@ -145,7 +143,7 @@ tokens; Section~2.2).}
 \end{figure}
 \FloatBarrier
 
-\section{System and Methods}
+\section{Methods}
 
 \subsection{Data and Splits}
 
@@ -227,7 +225,7 @@ micro F1 is the primary metric, with macro F1, weighted F1, rare-EC F1,
 precision, and recall reported for interpretation. Hyper-parameters were fixed
 before temporal testing.
 
-\section{Experiments and Results}
+\section{Results}
 
 \subsection{EC-Bench-Style Validation}
 
@@ -495,7 +493,7 @@ $0.1685\pm0.0334$ micro F1 versus $0.0607\pm0.0009$ for B1 and
 $0.0654\pm0.0016$ for B3. A single-seed TM-score sweep at 0.40/0.50/0.60 also
 preserves the fusion advantage (0.2981/0.0998/0.4403 micro F1), although the
 0.50 split has lower label coverage and a different cluster-assignment mode
-(Supplementary Section~S13). In contrast, MMseqs2 top-hit EC transfer is much
+(Supplementary Section~S9). In contrast, MMseqs2 top-hit EC transfer is much
 stronger on the same split (Level-4 micro F1\,=\,0.5393), showing that this audit
 tests complementary neural generalisation rather than replacement of curated
 homology transfer.
@@ -518,10 +516,10 @@ consequence of unseen-label composition.
 \subsection{Topology Controls and Data Recency}
 
 To test whether the contact branch uses topology rather than contact-map density or
-length proxies, we evaluated three models under four contact-map variants on the
+length proxies, we evaluated three models under three perturbed contact-map variants on the
 temporal test set ($N=124$): shuffled (symmetric row/column permutation, topology
 destroyed), diagonal-only (constant band $|i-j|<12$, no protein-specific
-long-range contacts), density-matched random, and all-zero
+long-range contacts), and density-matched random
 (Table~\ref{tab:perturb}).
 
 \begin{table}[!htbp]
@@ -676,7 +674,7 @@ rankings. Finally, supplementary open-vocabulary audits show that fusion confide
 can partially flag unseen-label cases, but closed-set models cannot solve novel EC
 discovery without retrieval, abstention, or label-expansion mechanisms.
 
-\section{Conclusion}
+\section{Conclusions}
 
 This study reframes structure-aware EC prediction as a benchmark decomposition
 problem. Contact maps alone can match ESM-2 650M on hard sequence-disjoint
@@ -694,7 +692,17 @@ argue for EC prediction benchmarks that explicitly separate representation
 generalisation from fold shift, label shift, data recency, backbone scale,
 structure availability, and evaluation horizon.
 
-\section*{Data Availability}
+\section*{Declarations}
+
+\subsection*{Ethics approval and consent to participate}
+Not applicable. This study uses publicly available protein sequence,
+annotation, benchmark, and predicted-structure resources and does not involve
+human participants, human data, human tissue, animals, or clinical intervention.
+
+\subsection*{Consent for publication}
+Not applicable.
+
+\subsection*{Availability of data and materials}
 
 Swiss-Prot sequences and EC annotations were downloaded from
 UniProt~\citep{uniprot2023} (\url{https://www.uniprot.org}). AlphaFold structures were retrieved from the
@@ -704,43 +712,36 @@ repository~\citep{ayres2024}. EC-Bench training and test data can be obtained fr
 GitHub repository~\citep{davoudi2026}. Code and reproducibility artifacts for reproducing tables
 and figures are available at \url{https://github.com/jamesksh0130/contact-ec}.
 Project name: Contact-EC. Project home page:
-\url{https://github.com/jamesksh0130/contact-ec}. Operating system:
+\url{https://github.com/jamesksh0130/contact-ec}. Archived version:
+Git commit \texttt{08b953d10bbf31962848866f697530044ffedae7}. Operating system:
 Linux. Programming language: Python. License: MIT. There are no restrictions
 on non-academic use beyond the terms of the repository license and the licenses
 of the underlying third-party datasets and models. At submission, the public
 GitHub repository is the primary code and reproducibility archive.
 
-\section*{Ethics Approval and Consent to Participate}
-Not applicable. This study uses publicly available protein sequence,
-annotation, benchmark, and predicted-structure resources and does not involve
-human participants, human data, human tissue, animals, or clinical intervention.
+\subsection*{Competing interests}
+The author declares no competing interests.
 
-\section*{Consent for Publication}
-Not applicable.
-
-\section*{Funding}
+\subsection*{Funding}
 This research received no specific grant from any funding agency in the public,
 commercial, or not-for-profit sectors.
 
-\section*{Acknowledgements}
+\subsection*{Authors' contributions}
+CRediT author statement: Seunghyon Kim: Conceptualization, Methodology,
+Software, Validation, Formal Analysis, Investigation, Data Curation,
+Visualization, Writing -- Original Draft, Writing -- Review \& Editing.
+The author has read and approved the final manuscript.
+
+\subsection*{Acknowledgements}
 The author acknowledges the developers and curators of UniProt, AlphaFold DB,
 ESM, EC-Bench, CLEAN, CLEAN-Contact, and HIT-EC for making their resources
 available to the research community.
-
-\section*{Conflict of Interest}
-The author declares no competing interests.
 
 \noindent\textbf{AI/LLM disclosure.}
 In accordance with ISCB policy, we disclose that AI tools were used for grammar
 checking, LaTeX formatting assistance, and code refactoring during manuscript
 preparation. All scientific content, experimental design, analysis, and
 interpretation were performed by the author.
-
-\section*{Author Contributions}
-CRediT author statement: Seunghyon Kim: Conceptualization, Methodology,
-Software, Validation, Formal Analysis, Investigation, Data Curation,
-Visualization, Writing -- Original Draft, Writing -- Review \& Editing.
-The author has read and approved the final manuscript.
 
 \bibliographystyle{plainnat}
 \bibliography{references}
