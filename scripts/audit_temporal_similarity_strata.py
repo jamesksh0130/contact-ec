@@ -161,8 +161,6 @@ def main() -> None:
             ax.set_xlabel("Maximum recorded train sequence identity")
             ax.legend(frameon=False, ncol=2, loc="upper left")
             ax.grid(axis="y", alpha=0.25, linewidth=0.8)
-            for i, row in summary.iterrows():
-                ax.text(i, 1.005, f"n={int(row['n'])}", ha="center", va="bottom", fontsize=8)
             fig.tight_layout()
             fig.subplots_adjust(bottom=0.18)
             fig.savefig(fig_out, dpi=300)
