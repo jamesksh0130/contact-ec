@@ -127,7 +127,7 @@ ax_b.tick_params(labelsize=6)
 
 ax_b.text(-0.06, 1.15, "B", transform=ax_b.transAxes,
           fontsize=11, fontweight="bold", va="top")
-ax_b.text(0.5, 1.02, "Residue–residue contact map  (8 Å threshold)",
+ax_b.text(0.5, 1.02, "Residue-residue contact map  (8 Å threshold)",
           transform=ax_b.transAxes, ha="center", va="bottom",
           fontsize=9, fontweight="bold")
 
