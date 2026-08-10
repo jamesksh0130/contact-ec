@@ -352,8 +352,8 @@ T(ax_c, XC, Y_OUT - 0.18, "Oxidoreductase  ·  CH–OH donors  ·  O₂ as accep
 T(ax_c, XC, Y_OUT - 0.82, "Confidence: p = 0.94   (Aspergillus niger,  UniProt P13006)",
   fontsize=5.5, color=MID, fontstyle="italic")
 
-fig.savefig(f"{OUT}/fig1_overview_print.pdf", dpi=300, bbox_inches="tight")
-fig.savefig(f"{OUT}/fig1_overview_print.png", dpi=300, bbox_inches="tight")
+fig.savefig(f"{OUT}/fig1_overview_print.pdf", dpi=300, bbox_inches="tight", pad_inches=0.01)
+fig.savefig(f"{OUT}/fig1_overview_print.png", dpi=300, bbox_inches="tight", pad_inches=0.01)
 plt.close()
 print("fig1 print done")
 

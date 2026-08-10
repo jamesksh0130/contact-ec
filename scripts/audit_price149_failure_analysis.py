@@ -165,13 +165,16 @@ def main() -> None:
     l1_summary.to_csv(OUT_DIR / "price149_failure_l1_distribution.csv", index=False)
 
     # Figure: coarse hierarchy survives, exact Level-4 specificity collapses.
-    fig, axes = plt.subplots(1, 2, figsize=(10.5, 4.2))
+    fig, axes = plt.subplots(1, 2, figsize=(10.5, 4.3))
     canonical = metrics[metrics["setting"].eq("canonical flat Level-4")]
     axes[0].bar(canonical["model"], canonical["micro_f1"], color=["#7a8ca1", "#b87f5a", "#32746d"])
     axes[0].set_ylim(0, 1.0)
     axes[0].set_ylabel("Micro F1")
     axes[0].set_title("Canonical Price-149 Level-4")
-    axes[0].tick_params(axis="x", rotation=28, labelsize=8)
+    axes[0].tick_params(axis="x", labelsize=8, pad=4)
+    for label in axes[0].get_xticklabels():
+        label.set_rotation(0)
+        label.set_ha("center")
 
     hier_plot = metrics[(metrics["model"].eq("Contact-EC hierarchical")) & (metrics["level"].isin(["L1", "L2", "L3", "L4"]))]
     axes[1].plot(hier_plot["level"], hier_plot["micro_f1"], marker="o", color="#32746d", linewidth=2)
@@ -180,6 +183,7 @@ def main() -> None:
     axes[1].set_title("Hierarchy Diagnostic")
     axes[1].grid(axis="y", alpha=0.25)
     fig.tight_layout()
+    fig.subplots_adjust(bottom=0.16)
     fig.savefig(FIG_DIR / "price149_failure_breakdown.png", dpi=300)
     plt.close(fig)
 

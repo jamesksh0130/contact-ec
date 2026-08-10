@@ -242,18 +242,30 @@ def main() -> None:
     summary = pd.DataFrame(rows)
     summary.to_csv(out_dir / "contactec_calibration_audit.csv", index=False)
 
-    fig, axes = plt.subplots(1, 2, figsize=(10.5, 4.2))
+    fig, axes = plt.subplots(1, 2, figsize=(11.2, 4.6))
     order = summary["dataset"].tolist()
+    label_map = {
+        "temporal_known_complete": "Temporal\nknown",
+        "temporal_partial": "Temporal\npartial",
+        "temporal_novel_complete": "Temporal\nnovel",
+        "Price-149": "Price-149",
+    }
+    xlabels = [label_map.get(label, label.replace("_", "\n")) for label in order]
     axes[0].bar(order, summary["top1_prob_mean"], color="#5f7f95")
     axes[0].set_ylabel("Mean top-1 sigmoid probability")
     axes[0].set_ylim(0, 1.0)
-    axes[0].tick_params(axis="x", rotation=25, labelsize=8)
+    axes[0].set_xticks(range(len(order)))
+    axes[0].set_xticklabels(xlabels, rotation=0, ha="center", fontsize=8)
+    axes[0].tick_params(axis="x", pad=5)
     axes[0].grid(axis="y", alpha=0.25)
     axes[1].bar(order, summary["avg_pred_labels"], color="#9a7b4f")
     axes[1].set_ylabel("Average Level-4 predictions at threshold 0.5")
-    axes[1].tick_params(axis="x", rotation=25, labelsize=8)
+    axes[1].set_xticks(range(len(order)))
+    axes[1].set_xticklabels(xlabels, rotation=0, ha="center", fontsize=8)
+    axes[1].tick_params(axis="x", pad=5)
     axes[1].grid(axis="y", alpha=0.25)
     fig.tight_layout()
+    fig.subplots_adjust(bottom=0.18)
     fig.savefig(fig_dir / "contactec_calibration_diagnostics.png", dpi=300)
     plt.close(fig)
 

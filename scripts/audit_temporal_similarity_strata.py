@@ -138,7 +138,7 @@ def main() -> None:
         if not summary.empty:
             x = range(len(summary))
             width = 0.36
-            fig, ax = plt.subplots(figsize=(7.0, 3.6))
+            fig, ax = plt.subplots(figsize=(7.4, 3.9))
             ax.bar(
                 [i - width / 2 for i in x],
                 summary["contactec_micro_f1"],
@@ -154,7 +154,8 @@ def main() -> None:
                 color="#ef4444",
             )
             ax.set_xticks(list(x))
-            ax.set_xticklabels(summary["similarity_bin"], rotation=20, ha="right")
+            ax.set_xticklabels(summary["similarity_bin"], rotation=0, ha="center")
+            ax.tick_params(axis="x", pad=5)
             ax.set_ylim(0, 1.02)
             ax.set_ylabel("Level-4 micro F1")
             ax.set_xlabel("Maximum recorded train sequence identity")
@@ -163,6 +164,7 @@ def main() -> None:
             for i, row in summary.iterrows():
                 ax.text(i, 1.005, f"n={int(row['n'])}", ha="center", va="bottom", fontsize=8)
             fig.tight_layout()
+            fig.subplots_adjust(bottom=0.18)
             fig.savefig(fig_out, dpi=300)
             plt.close(fig)
     except Exception as exc:  # pragma: no cover - figure is a convenience output
