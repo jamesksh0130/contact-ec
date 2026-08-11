@@ -1,0 +1,55 @@
+{
+  "reference_database": "clean_contact/clean-contact-main/data/split100_reduced.fasta",
+  "reference_database_size": 224741,
+  "coverage_filter": "qcov>=0.8 and tcov>=0.8 (near-full-length alignments only)",
+  "sp2023_01_known124": {
+    "n": 124,
+    "no_full_length_covered_hit": 5,
+    "no_full_length_covered_hit_pct": 4.0,
+    "identity_ge_99pct": {
+      "count": 119,
+      "pct": 96.0
+    },
+    "identity_ge_95pct": {
+      "count": 119,
+      "pct": 96.0
+    },
+    "identity_ge_90pct": {
+      "count": 119,
+      "pct": 96.0
+    },
+    "identity_ge_70pct": {
+      "count": 119,
+      "pct": 96.0
+    },
+    "identity_ge_30pct": {
+      "count": 119,
+      "pct": 96.0
+    }
+  },
+  "sp2024_n1226": {
+    "n": 1226,
+    "no_full_length_covered_hit": 391,
+    "no_full_length_covered_hit_pct": 31.9,
+    "identity_ge_99pct": {
+      "count": 835,
+      "pct": 68.1
+    },
+    "identity_ge_95pct": {
+      "count": 835,
+      "pct": 68.1
+    },
+    "identity_ge_90pct": {
+      "count": 835,
+      "pct": 68.1
+    },
+    "identity_ge_70pct": {
+      "count": 835,
+      "pct": 68.1
+    },
+    "identity_ge_30pct": {
+      "count": 835,
+      "pct": 68.1
+    }
+  }
+}

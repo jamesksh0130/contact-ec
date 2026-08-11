@@ -38,6 +38,10 @@ Contents:
   `scripts/audit_contactec_calibration.py`,
   `outputs/audit/contactec_calibration_audit.*`, and
   `outputs/figures/contactec_calibration_diagnostics.png`
+- CLEAN-Contact reference-database (retrieval) leakage audit, checking why
+  CLEAN-Contact was not run head-to-head on our temporal splits:
+  `scripts/audit_clean_contact_reference_leakage.py` and
+  `outputs/audit/clean_contact_reference_leakage.*`
 - Foldseek/TM-score-disjoint split and robustness audit:
   `scripts/foldseek_structure_split.py`,
   `scripts/build_foldseek_tmscore_sweep_splits.sh`,

@@ -432,6 +432,29 @@ but below CLEAN (0.504) and CLEAN-Contact (0.566). The gap has two causes:
 Contact-EC-ExpA (SP-2026) achieves 0.7680 but cannot be treated as a fair comparison
 since New-392 proteins pre-date 2026 and likely appear in the training corpus.
 
+\paragraph{Why CLEAN-Contact is not run directly on our temporal splits.}
+We considered evaluating CLEAN-Contact's released checkpoints directly on our
+SP-2023-01 and SP-2024 temporal test sets rather than relying on the authors'
+self-reported New-392/Price-149 numbers, but first audited its public
+retrieval reference database (\texttt{split100\_reduced.fasta}, 224{,}741
+sequences) for overlap with our test proteins, since CLEAN-Contact predicts
+via contrastive-embedding $k$NN search against this database and a
+near-duplicate reference entry lets it recover the label by retrieving
+itself rather than by generalizing. An exact-accession check alone is
+insufficient: SP-2024 shows 0\% accession overlap, but an
+MMseqs2~\citep{steinegger2017} sequence-identity search (near-full-length
+alignments, query and target coverage $\geq0.8$) finds that 68.1\% of the
+1{,}226 SP-2024 proteins have a $\geq99\%$-identity match in the reference
+database under a \emph{different} accession (isoform re-registration or
+cross-database duplication), and 96.0\% of the 124 SP-2023-01 proteins do so
+directly. A head-to-head evaluation on either split would therefore mostly
+measure self-retrieval rather than generalization. We report this audit
+(scripts/audit\_clean\_contact\_reference\_leakage.py,
+outputs/audit/clean\_contact\_reference\_leakage.md) instead of a confounded
+comparison, consistent with this manuscript's broader argument that
+reference/training-set overlap must be audited before benchmark numbers are
+compared.
+
 \paragraph{Price-149.}
 Contact-EC (0.2500 micro F1) achieves the highest score among SP-2018 models,
 but the external Price-149 benchmark remains a major failure mode relative to
@@ -715,9 +738,10 @@ positive assignments.
 
 \paragraph{3B backbone scaling.}
 Contact-EC-3B (ESM-2 3B backbone, flat FC head, Phase~1 only) achieves micro
-F1\,=\,0.6316 on the temporal test, +2.8\,pp over the 650M model. The modest gain
-for a 4.5$\times$ parameter increase suggests the model is data-constrained rather
-than backbone-constrained at the current training scale.
+F1\,=\,0.6316 on the temporal test, +0.8\,pp over the 650M three-seed mean
+(0.6241$\pm$0.0170). The modest gain for a 4.5$\times$ parameter increase
+suggests the model is data-constrained rather than backbone-constrained at
+the current training scale.
 
 % ─────────────────────────────────────────────────────────────────────────────
 \section*{S9\quad Reproducibility and Audit Checks}

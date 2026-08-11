@@ -46,7 +46,7 @@ Seunghyon Kim: Conceptualization, Methodology, Software, Validation, Formal Anal
 
 ## Acknowledgements
 
-The author acknowledges the developers and curators of UniProt, AlphaFold DB, ESM, EC-Bench, CLEAN, CLEAN-Contact, and HIT-EC for making their resources available to the research community.
+The author acknowledges Handong Global University for providing the GPU compute resources used in this study, and the developers and curators of UniProt, AlphaFold DB, ESM, EC-Bench, CLEAN, CLEAN-Contact, and HIT-EC for making their resources available to the research community.
 
 ## AI/LLM Disclosure
 

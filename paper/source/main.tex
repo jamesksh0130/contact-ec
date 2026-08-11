@@ -240,6 +240,12 @@ micro F1 is the primary metric, with macro F1, weighted F1, rare-EC F1,
 precision, and recall reported for interpretation. Hyper-parameters were fixed
 before temporal testing.
 
+HIT-EC predictions were obtained from the publicly released pretrained
+checkpoint (\texttt{model.ckpt}) in the official HIT-EC repository, using the
+authors' released inference configuration (vocabulary size 23, two attention
+heads, output dimensions [7,\,72,\,268,\,4255], sigmoid threshold 0.4),
+without any retraining or fine-tuning on our data.
+
 \subsection{AI-assisted tools}
 
 AI tools were used for grammar checking, LaTeX formatting assistance, and code
@@ -618,7 +624,7 @@ end-to-end ESM-2 fine-tuning reaches similar in-distribution validation performa
 but drops to 0.6703 temporally. This suggests over-adaptation of the PLM backbone
 under limited supervised data and supports frozen or lightly tuned representations
 for temporal robustness. The matched +9.5\,pp recent-corpus gain remains larger
-than the +2.8\,pp gain from replacing ESM-2 650M with the 3B backbone,
+than the +0.8\,pp gain from replacing ESM-2 650M with the 3B backbone,
 reinforcing that benchmark date, data volume, homolog coverage, and label
 coverage can matter as much as or more than backbone scale.
 
@@ -685,7 +691,14 @@ shift: in the primary 0.50 split, 31.5\% of Foldseek-test positive labels are
 unseen in the corresponding training partition, compared with 15.9\% and 10.3\%
 in the 0.40 and 0.60 sweep splits. MMseqs2 top-hit transfer remains
 substantially stronger than all closed-set neural models, reinforcing that
-Contact-EC is a decomposition probe rather than a homology replacement. Macro F1 remains low due to the long-tailed Level-4 label
+Contact-EC is a decomposition probe rather than a homology replacement. We also
+audited whether CLEAN-Contact~\citep{ayres2024}, a retrieval-based external
+baseline, could be run directly on our temporal splits, but found that its
+public reference database has near-full-length $\geq99\%$-identity matches
+for 96.0\% of SP-2023-01 and 68.1\% of SP-2024 proteins (Supplementary
+Section~S5), so a head-to-head comparison would largely measure self-retrieval
+rather than generalization; we report the self-reported New-392/Price-149
+numbers instead. Macro F1 remains low due to the long-tailed Level-4 label
 space. The temporal test is small; although the main temporal B1/B3/Contact-EC
 comparison, the matched recent-data audit, and the Foldseek audit now include
 three-seed repeats, 3B and end-to-end variants are still single-run analyses due
@@ -754,9 +767,10 @@ Visualization, Writing -- Original Draft, Writing -- Review \& Editing.
 The author has read and approved the final manuscript.
 
 \subsection*{Acknowledgements}
-The author acknowledges the developers and curators of UniProt, AlphaFold DB,
-ESM, EC-Bench, CLEAN, CLEAN-Contact, and HIT-EC for making their resources
-available to the research community.
+The author acknowledges Handong Global University for providing the GPU
+compute resources used in this study, and the developers and curators of
+UniProt, AlphaFold DB, ESM, EC-Bench, CLEAN, CLEAN-Contact, and HIT-EC for
+making their resources available to the research community.
 
 \bibliographystyle{unsrtnat}
 \bibliography{references}
